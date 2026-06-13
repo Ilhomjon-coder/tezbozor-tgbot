@@ -1,0 +1,58 @@
+name: deploy
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-tgbot
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Mini App (static)
+        env:
+          # Baked into the static build at compile time (Vite).
+          VITE_API_BASE_URL: https://api.tezbozor.uz/api
+        run: pnpm --filter @tezbozor/miniapp build
+
+      - name: Build bot (bundle)
+        run: pnpm --filter @tezbozor/bot build
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "${{ secrets.DEPLOY_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+
+      - name: Deploy
+        env:
+          HOST: ${{ secrets.DEPLOY_HOST }}
+          USER: ${{ secrets.DEPLOY_USER }}
+          SSH: ssh -i ~/.ssh/id_ed25519
+        run: |
+          set -e
+          # Mini App: static files served by Caddy (no restart needed)
+          rsync -az --delete -e "$SSH" miniapp/dist/ "$USER@$HOST:/srv/tezbozor/www/miniapp/"
+          # Bot: bundled artifact; restart only if it's already running (needs
+          # TELEGRAM_BOT_TOKEN in the server .env to start the first time).
+          rsync -az --delete -e "$SSH" bot/dist/ "$USER@$HOST:/srv/tezbozor/bot/dist/"
+          $SSH "$USER@$HOST" 'cd /srv/tezbozor && if docker compose ps --status running --services | grep -qx bot; then docker compose restart bot && echo "bot restarted"; else echo "bot not running — set TELEGRAM_BOT_TOKEN in /srv/tezbozor/.env then: docker compose up -d bot"; fi'

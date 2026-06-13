@@ -1,0 +1,21 @@
+/* Tezbozor spacing — airy, mobile-first. 4px base grid.
+   Large touch targets (min 48px) for low-tech-literacy users. */
+
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;   /* default gutter */
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ---- Layout ---- */
+  --page-gutter: 16px;        /* side padding on 390px mobile */
+  --content-max: 420px;       /* single-column max width */
+  --touch-min: 48px;          /* minimum interactive target */
+  --stack-gap: 12px;          /* default gap between stacked cards */
+}

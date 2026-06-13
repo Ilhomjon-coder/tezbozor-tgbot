@@ -1,0 +1,44 @@
+/* Tezbozor typography tokens.
+   Headings & logo: Montserrat. Body & interface: Inter.
+   Test phrase every new face against: "Gʻoʻzal oʻrikzorda choʻpon ashula aytdi".
+   Mobile-first scale — UI text never below 13px; CTA labels 16px. */
+
+:root {
+  /* ---- Families ---- */
+  --font-heading: 'Montserrat', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* ---- Weights ---- */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+  --weight-black: 900;
+
+  /* ---- Type scale (px-based, mobile 390px) ---- */
+  --text-h1: 28px;        /* Montserrat 800 — page titles */
+  --text-h2: 20px;        /* Montserrat 700 — section heads */
+  --text-h3: 18px;        /* Montserrat 700 — card titles */
+  --text-lg: 17px;        /* Inter — prominent body / prices */
+  --text-base: 16px;      /* Inter 400 — body, CTA labels (600) */
+  --text-sm: 15px;        /* Inter — dense body */
+  --text-xs: 13px;        /* Inter — captions, "narx yangilanadi" notes */
+
+  /* ---- Line heights ---- */
+  --leading-tight: 1.15;  /* headings */
+  --leading-snug: 1.35;   /* sub-heads */
+  --leading-normal: 1.55; /* body copy */
+
+  /* ---- Letter spacing ---- */
+  --tracking-tight: -0.02em;  /* large Montserrat headings */
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;    /* small uppercase labels */
+
+  /* ---- Semantic roles ---- */
+  --heading-font: var(--font-heading);
+  --heading-weight: var(--weight-extrabold);
+  --body-font: var(--font-body);
+  --body-weight: var(--weight-regular);
+  --label-weight: var(--weight-semibold);
+}

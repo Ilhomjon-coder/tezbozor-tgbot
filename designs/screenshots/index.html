@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tezbozor — Ekranlar (App Screens)</title>
+<style>
+  :root{
+    --paper:#FAF7F2; --ink:#1E2A32; --ink-600:#52606A; --ink-400:#8A949B;
+    --green:#1FA055; --green-700:#157A40; --green-050:#E6F4EC; --orange:#FF7A00;
+    --line:rgba(30,42,50,.10);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:#EBE3D7;
+    color:var(--ink);
+    font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding:56px 40px 96px;
+  }
+  .wrap{max-width:1280px;margin:0 auto;}
+  header.page{margin-bottom:8px;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-mark{
+    width:40px;height:40px;border-radius:12px;background:var(--green);
+    display:flex;align-items:center;justify-content:center;font-size:22px;
+  }
+  h1{
+    font-family:"Montserrat",system-ui,sans-serif;font-weight:800;
+    font-size:30px;letter-spacing:-.01em;margin:0;
+  }
+  .sub{color:var(--ink-600);font-size:14.5px;line-height:1.5;max-width:680px;margin:10px 0 0;}
+  .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;}
+  .pill{
+    font-size:12.5px;font-weight:600;color:var(--green-700);
+    background:var(--green-050);border:1px solid rgba(31,160,85,.18);
+    padding:6px 12px;border-radius:999px;
+  }
+  .pill.o{color:#B85700;background:#FFF1E0;border-color:rgba(255,122,0,.22);}
+
+  section{margin-top:44px;}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin:0 0 18px;padding-bottom:12px;border-bottom:1px solid var(--line);}
+  .sec-head h2{
+    font-family:"Montserrat",system-ui,sans-serif;font-weight:700;font-size:18px;margin:0;
+  }
+  .sec-head .count{font-size:13px;color:var(--ink-400);font-weight:600;}
+  .sec-head .desc{margin-left:auto;font-size:13px;color:var(--ink-600);max-width:440px;text-align:right;line-height:1.45;}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(248px,1fr));
+    gap:30px 26px;
+    align-items:start;
+  }
+  figure{margin:0;display:flex;flex-direction:column;gap:12px;}
+  .shot{
+    background:#fff;border-radius:22px;overflow:hidden;
+    box-shadow:0 18px 40px -18px rgba(30,42,50,.45),0 0 0 1px rgba(30,42,50,.05);
+    line-height:0;
+  }
+  .shot a{display:block;}
+  .shot img{width:100%;height:auto;display:block;}
+  figcaption{display:flex;flex-direction:column;gap:3px;padding:0 2px;}
+  .num{font-size:11.5px;font-weight:700;color:var(--ink-400);letter-spacing:.06em;}
+  .name{font-size:14px;font-weight:600;color:var(--ink);line-height:1.3;}
+  .file{font-size:11.5px;color:var(--ink-400);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;}
+  footer{margin-top:64px;color:var(--ink-400);font-size:12.5px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="page">
+    <div class="brand">
+      <span class="brand-mark">🛒</span>
+      <h1>Tezbozor — Ekranlar</h1>
+    </div>
+    <p class="sub">Telegram Mini App'ning har bir ekrani to'liq uzunlikda (butun skroll balandligi) suratga olindi. Har bir fayl <b>390px</b> mobil viewport kengligida, alohida ekran sifatida saqlangan.</p>
+    <div class="meta">
+      <span class="pill">24 ta ekran</span>
+      <span class="pill">390px mobil</span>
+      <span class="pill o">To'liq uzunlik</span>
+      <span class="pill">PNG</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-head"><h2>Onboarding</h2><span class="count">6</span><span class="desc">Bot → splash → 4 ekranli intro — yangi foydalanuvchi yo'li.</span></div>
+    <div class="grid" id="g-onboarding"></div>
+  </section>
+  <section>
+    <div class="sec-head"><h2>Bosh sahifa</h2><span class="count">3</span><span class="desc">Kunlik badge tizimining 3 holati: bozor arafasi, oddiy kun, bozor kuni.</span></div>
+    <div class="grid" id="g-home"></div>
+  </section>
+  <section>
+    <div class="sec-head"><h2>Qidiruv</h2><span class="count">2</span><span class="desc">Jonli qidiruv (fokus) va natijalar oynasi.</span></div>
+    <div class="grid" id="g-search"></div>
+  </section>
+  <section>
+    <div class="sec-head"><h2>Savat</h2><span class="count">2</span><span class="desc">B-variant protokoli bilan to'la savat va bo'sh holat.</span></div>
+    <div class="grid" id="g-cart"></div>
+  </section>
+  <section>
+    <div class="sec-head"><h2>Rasmiylashtirish</h2><span class="count">3</span><span class="desc">Checkout → to'lov kutilmoqda → muvaffaqiyat.</span></div>
+    <div class="grid" id="g-checkout"></div>
+  </section>
+  <section>
+    <div class="sec-head"><h2>Buyurtma holati</h2><span class="count">1</span><span class="desc">Timeline + go'sht video tasdig'i hero bloki.</span></div>
+    <div class="grid" id="g-status"></div>
+  </section>
+  <section>
+    <div class="sec-head"><h2>Profil</h2><span class="count">7</span><span class="desc">Hub va alohida oynalar: buyurtmalar, manzillar, doimiy ro'yxat, shaxsiy ma'lumot.</span></div>
+    <div class="grid" id="g-profile"></div>
+  </section>
+
+  <footer>Tezbozor · Kattaqo'rg'on · mini bozor — ekran suratlari to'plami</footer>
+</div>
+
+<script>
+  const SCREENS = {
+    onboarding: [
+      ["01-telegram-bot-launch","Telegram bot — ishga tushirish"],
+      ["02-splash-screen","Splash ekrani"],
+      ["03-onboarding-intro-1-market-speed","Intro 1 — bozor tezligi"],
+      ["04-onboarding-intro-2-next-day-delivery","Intro 2 — ertaga yetkazish"],
+      ["05-onboarding-intro-3-daily-prices","Intro 3 — bugungi narx"],
+      ["06-onboarding-intro-4-get-started","Intro 4 — boshlash"],
+    ],
+    home: [
+      ["07-home-market-day-eve","Bosh sahifa — bozor arafasi"],
+      ["08-home-regular-day","Bosh sahifa — oddiy kun"],
+      ["09-home-market-day","Bosh sahifa — bozor kuni"],
+    ],
+    search: [
+      ["10-search-focus-live","Qidiruv — jonli (fokus)"],
+      ["11-search-results","Qidiruv — natijalar"],
+    ],
+    cart: [
+      ["12-cart-with-items","Savat — mahsulotlar bilan"],
+      ["13-cart-empty","Savat — bo'sh holat"],
+    ],
+    checkout: [
+      ["14-checkout","Rasmiylashtirish"],
+      ["15-payment-pending","To'lov kutilmoqda"],
+      ["16-order-success","Buyurtma qabul qilindi"],
+    ],
+    status: [
+      ["17-order-status-meat-video","Buyurtma holati — go'sht video"],
+    ],
+    profile: [
+      ["18-profile-hub","Profil — hub"],
+      ["19-profile-orders-history","Profil — buyurtmalar tarixi"],
+      ["20-profile-order-detail","Profil — buyurtma tafsiloti"],
+      ["21-profile-addresses","Profil — manzillarim"],
+      ["22-profile-add-address-map","Profil — yangi manzil (xarita)"],
+      ["23-profile-weekly-list","Profil — doimiy ro'yxat"],
+      ["24-profile-personal-info","Profil — shaxsiy ma'lumot"],
+    ],
+  };
+  for (const [group, items] of Object.entries(SCREENS)) {
+    const host = document.getElementById("g-"+group);
+    for (const [file, name] of items) {
+      const fig = document.createElement("figure");
+      const num = file.slice(0,2);
+      fig.innerHTML =
+        '<div class="shot"><a href="'+file+'.png" target="_blank" rel="noopener">'+
+        '<img loading="lazy" src="'+file+'.png" alt="'+name+'"></a></div>'+
+        '<figcaption><span class="num">'+num+'</span><span class="name">'+name+'</span>'+
+        '<span class="file">'+file+'.png</span></figcaption>';
+      host.appendChild(fig);
+    }
+  }
+</script>
+</body>
+</html>

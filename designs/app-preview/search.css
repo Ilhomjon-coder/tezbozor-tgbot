@@ -1,0 +1,230 @@
+/* ============ Tezbozor — Qidiruv stillari ============
+   Ikki holat: (1) fokus — orqaga tugma + jonli qidiruv (so'nggi/mashhur,
+   yozganda filtrlanadi), (2) natijalar oynasi. app.css'dagi mavjud
+   .pgrid / ProductCard / .mainbtn / .today-strip qayta ishlatiladi. */
+
+.srch {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(circle at 82% -4%, rgba(31,160,85,.05), transparent 36%),
+    var(--paper);
+  animation: srchIn .22s ease;
+}
+@keyframes srchIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+/* standalone (telefon ramkasida to'g'ridan-to'g'ri ko'rsatilganda) */
+.srch.is-static { position: relative; flex: 1; animation: none; }
+
+/* ===== tepa: orqaga + qidiruv maydoni ===== */
+.srch-bar {
+  flex: 0 0 auto;
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px;
+  background: #fff;
+  border-bottom: 1px solid var(--ink-100);
+}
+.srch-back {
+  flex: 0 0 auto;
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: none; background: transparent; color: var(--ink-900);
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.srch-back:active { transform: scale(.92); }
+.srch-field {
+  flex: 1; min-width: 0;
+  display: flex; align-items: center; gap: 9px;
+  height: 46px; padding: 0 12px 0 14px;
+  border-radius: var(--radius-pill);
+  background: var(--ink-100);
+  border: 1.5px solid transparent;
+  transition: border-color .15s, background .15s;
+}
+.srch-field.is-focus { background: #fff; border-color: var(--green-500); }
+.srch-field .sf-ic { font-size: 17px; color: var(--ink-400); flex: 0 0 auto; }
+.srch-field input {
+  flex: 1; min-width: 0;
+  border: none; outline: none; background: transparent;
+  font-family: var(--font-body); font-size: 15.5px; color: var(--ink-900);
+}
+.srch-field input::placeholder { color: var(--ink-400); }
+.srch-field .sf-clear {
+  flex: 0 0 auto;
+  width: 26px; height: 26px; border-radius: 50%;
+  border: none; background: var(--ink-200); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; cursor: pointer; line-height: 1;
+  -webkit-tap-highlight-color: transparent;
+}
+.srch-field .sf-clear:active { transform: scale(.9); }
+
+/* tugma sifatidagi maydon (natijalar holatida — bosib tahrirlash) */
+.srch-fieldbtn {
+  flex: 1; min-width: 0; text-align: left; cursor: text;
+}
+.srch-fieldbtn .sf-q {
+  flex: 1; min-width: 0;
+  font-family: var(--font-body); font-size: 15.5px; color: var(--ink-900);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* ===== scroll body ===== */
+.srch-body {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.srch-body::-webkit-scrollbar { width: 0; }
+
+.srch-block { padding: 16px 16px 0; }
+.srch-block-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  margin-bottom: 11px;
+}
+.srch-block-label {
+  font-family: var(--font-body); font-weight: 700; font-size: 12.5px;
+  letter-spacing: .04em; text-transform: uppercase; color: var(--ink-400);
+}
+.srch-clearall {
+  border: none; background: transparent; cursor: pointer;
+  color: var(--green-700); font-family: var(--font-body); font-weight: 600; font-size: 12.5px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* so'nggi / mashhur qidiruv chiplari */
+.srch-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.srch-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  min-height: 38px; padding: 6px 13px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--ink-200); background: #fff;
+  color: var(--ink-900);
+  font-family: var(--font-body); font-weight: 600; font-size: 14px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: border-color .14s, background .14s, color .14s;
+}
+.srch-chip:hover { border-color: var(--green-500); background: var(--green-050); color: var(--green-700); }
+.srch-chip:active { transform: scale(.97); }
+.srch-chip .sc-ic { font-size: 14px; color: var(--ink-400); }
+.srch-chip.pop .sc-ic { font-size: 16px; color: inherit; }
+
+/* "{query}"ni qidirish — amal satri */
+.srch-action {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; text-align: left;
+  padding: 14px 16px;
+  border: none; background: transparent; cursor: pointer;
+  border-bottom: 1px solid var(--ink-100);
+  -webkit-tap-highlight-color: transparent;
+}
+.srch-action:active { background: var(--green-050); }
+.srch-action .sa-ic {
+  flex: 0 0 auto; width: 38px; height: 38px; border-radius: 50%;
+  background: var(--green-050); color: var(--green-700);
+  display: flex; align-items: center; justify-content: center; font-size: 17px;
+}
+.srch-action .sa-txt { flex: 1; min-width: 0; font-family: var(--font-body); font-size: 15px; color: var(--ink-600); }
+.srch-action .sa-txt b { color: var(--ink-900); font-weight: 700; }
+.srch-action .sa-go { flex: 0 0 auto; color: var(--ink-400); font-size: 20px; }
+
+/* jonli taklif / mashhur mahsulot satri */
+.srch-list { padding: 4px 0 0; }
+.srch-row {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; text-align: left;
+  padding: 11px 16px;
+  border: none; background: transparent; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .12s;
+}
+.srch-row:active { background: var(--ink-100); }
+.srch-row + .srch-row { border-top: 1px solid var(--ink-100); }
+.srch-row-thumb {
+  flex: 0 0 auto; width: 48px; height: 48px; border-radius: var(--radius-md);
+  background: #F6F1E8; display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+}
+.srch-row-main { flex: 1; min-width: 0; }
+.srch-row-name {
+  font-family: var(--font-body); font-weight: 600; font-size: 15px; color: var(--ink-900);
+  line-height: 1.25;
+}
+.srch-row-name mark { background: transparent; color: var(--green-700); font-weight: 800; }
+.srch-row-cat {
+  font-size: 12.5px; color: var(--ink-400); margin-top: 2px;
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.srch-row-cat .srch-row-price { color: var(--ink-600); font-weight: 600; font-variant-numeric: tabular-nums; }
+.srch-row-add {
+  flex: 0 0 auto;
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1.5px solid var(--green-500); background: #fff; color: var(--green-700);
+  font-size: 22px; font-weight: 500; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: background .14s, color .14s, transform .08s;
+}
+.srch-row-add:hover { background: var(--green-050); }
+.srch-row-add:active { transform: scale(.9); }
+.srch-row-add.added { background: var(--green-500); color: #fff; border-color: var(--green-500); }
+
+/* ===== natijalar oynasi ===== */
+.srch-rhead {
+  padding: 16px 16px 2px;
+}
+.srch-rhead-title {
+  font-family: var(--font-heading); font-weight: 800; font-size: 18px; color: var(--ink-900);
+  line-height: 1.25;
+}
+.srch-rhead-title b { color: var(--green-700); }
+.srch-rhead-count { font-size: 13px; color: var(--ink-400); margin-top: 3px; }
+
+/* filtr/saralash chiplari */
+.srch-filters {
+  display: flex; gap: 8px; overflow-x: auto;
+  padding: 12px 16px 4px;
+  scrollbar-width: none;
+}
+.srch-filters::-webkit-scrollbar { height: 0; }
+.srch-filter {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; gap: 6px;
+  min-height: 36px; padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--ink-200); background: #fff;
+  color: var(--ink-600);
+  font-family: var(--font-body); font-weight: 600; font-size: 13.5px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+  transition: border-color .14s, background .14s, color .14s;
+}
+.srch-filter.is-on { border-color: var(--green-500); background: var(--green-050); color: var(--green-700); }
+.srch-filter:active { transform: scale(.97); }
+
+.srch-similar-label {
+  padding: 22px 16px 0;
+  font-family: var(--font-heading); font-weight: 800; font-size: 16px; color: var(--ink-900);
+}
+.srch-similar-sub { padding: 2px 16px 0; font-size: 12.5px; color: var(--ink-400); }
+
+/* bo'sh / topilmadi holati */
+.srch-empty {
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: 46px 36px 30px; gap: 12px;
+}
+.srch-empty-ill {
+  width: 96px; height: 96px; border-radius: 50%;
+  background: var(--ink-100); display: flex; align-items: center; justify-content: center;
+  font-size: 46px;
+}
+.srch-empty-title { font-family: var(--font-heading); font-weight: 800; font-size: 19px; color: var(--ink-900); }
+.srch-empty-title b { color: var(--green-700); }
+.srch-empty-sub { font-size: 14px; color: var(--ink-600); line-height: 1.5; max-width: 250px; }
+
+.srch-pad-bottom { height: 96px; }

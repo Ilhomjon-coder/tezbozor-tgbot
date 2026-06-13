@@ -1,0 +1,60 @@
+/* Tezbozor color system.
+   Name meaning drives the palette: orange = "tez" (speed/energy),
+   green = "bozor" (freshness/trust). Blue is FORBIDDEN — it reads as
+   Click/Payme and creates payment confusion.
+   60-30-10: 60% warm-white surface, 30% green, 10% orange.
+   Orange ONLY on CTAs and promo badges — never large fills. */
+
+:root {
+  /* ---- Brand greens ---- */
+  --green-500: #1FA055;   /* "Bozor yashili" — logo, headings, brand */
+  --green-700: #157A40;   /* dark green — hover/press, on-green text */
+  --green-050: #E6F4EC;   /* light green tint — card bg, success */
+
+  /* ---- Accent orange ---- */
+  --orange-500: #FF7A00;  /* "Tez apelsin" — CTAs, promo, "new" badges */
+  --orange-600: #E66E00;  /* orange hover/press */
+  --orange-050: #FFF1E0;  /* light orange tint — promo blocks, warnings */
+
+  /* ---- Neutrals / ink ---- */
+  --ink-900: #1E2A32;     /* "To'q kulrang" — primary text, softer than black */
+  --ink-600: #51616B;     /* secondary text */
+  --ink-400: #8A98A0;     /* muted / placeholder text */
+  --ink-200: #D8DEE2;     /* hairline borders, dividers */
+  --ink-100: #ECEFF1;     /* subtle fills, track backgrounds */
+
+  /* ---- Surfaces ---- */
+  --paper: #FAF7F2;       /* "Iliq oq" — page background */
+  --card: #FFFFFF;        /* card / sheet surface */
+
+  /* ---- Status ---- */
+  --success-500: #1FA055;
+  --success-050: #E6F4EC;
+  --warning-500: #FF7A00;
+  --warning-050: #FFF1E0;
+  --danger-500: #D64545;  /* errors / destructive — warm red, never blue */
+  --danger-050: #FBEAEA;
+
+  /* ================= Semantic aliases ================= */
+  --surface-page: var(--paper);
+  --surface-card: var(--card);
+  --surface-sunken: var(--ink-100);
+
+  --text-primary: var(--ink-900);
+  --text-secondary: var(--ink-600);
+  --text-muted: var(--ink-400);
+  --text-on-green: #FFFFFF;
+  --text-on-orange: #FFFFFF;
+  --text-brand: var(--green-500);
+
+  --border-default: var(--ink-200);
+  --border-strong: var(--ink-400);
+  --border-brand: var(--green-500);
+
+  --action-primary: var(--orange-500);          /* primary CTA */
+  --action-primary-hover: var(--orange-600);
+  --action-secondary: var(--green-500);          /* secondary / brand action */
+  --action-secondary-hover: var(--green-700);
+
+  --focus-ring: var(--green-500);
+}

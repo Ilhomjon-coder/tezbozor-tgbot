@@ -1,0 +1,49 @@
+/* Tezbozor base layer — element defaults built on the tokens.
+   Not a reset; a light, opinionated foundation. */
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  font-family: var(--body-font);
+  font-weight: var(--body-weight);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+  background: var(--surface-page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--heading-font);
+  color: var(--text-primary);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  margin: 0;
+}
+
+h1 { font-size: var(--text-h1); font-weight: var(--weight-extrabold); }
+h2 { font-size: var(--text-h2); font-weight: var(--weight-bold); }
+h3 { font-size: var(--text-h3); font-weight: var(--weight-bold); }
+
+p { margin: 0; }
+
+a {
+  color: var(--green-700);
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--body-font);
+  cursor: pointer;
+}
+
+/* Utility: warm-white page frame used by cards & kits */
+.tz-page {
+  background: var(--surface-page);
+  color: var(--text-primary);
+  font-family: var(--body-font);
+}

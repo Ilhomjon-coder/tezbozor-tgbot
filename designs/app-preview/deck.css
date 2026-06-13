@@ -1,0 +1,182 @@
+/* ============ Tezbozor — Prezentatsiya (deck) stillari ============ */
+deck-stage:not(:defined) { visibility: hidden; }
+deck-stage { background: #0E1A12; }
+
+/* har bir slayd to'liq seksiyani to'ldiradi */
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  background: var(--paper);
+  overflow: hidden;
+  font-family: var(--font-body);
+}
+
+/* ---- chap panel: matn ---- */
+.slide-info {
+  flex: 1 1 54%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 110px 80px 110px 120px;
+  gap: 28px;
+}
+.slide-kicker {
+  display: inline-flex; align-items: center; gap: 16px;
+  font-family: var(--font-body); font-weight: 700;
+  font-size: 22px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--green-700);
+}
+.slide-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 60px; height: 60px; padding: 0 16px;
+  border-radius: 18px; background: var(--green-500); color: #fff;
+  font-family: var(--font-heading); font-weight: 800; font-size: 28px;
+  letter-spacing: 0; box-shadow: 0 10px 24px -10px rgba(31,160,85,.6);
+}
+.slide-title {
+  font-family: var(--font-heading); font-weight: 800;
+  font-size: 66px; line-height: 1.04; letter-spacing: -.02em;
+  color: var(--ink-900); max-width: 740px; text-wrap: balance;
+}
+.slide-title .o { color: var(--orange-500); }
+.slide-desc {
+  font-size: 27px; line-height: 1.5; color: var(--ink-600);
+  max-width: 640px; text-wrap: pretty;
+}
+.slide-points {
+  list-style: none; margin: 6px 0 0; padding: 0;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.slide-points li {
+  display: flex; align-items: center; gap: 16px;
+  font-size: 24px; font-weight: 600; color: var(--ink-900);
+}
+.slide-points li .pt-ic {
+  flex: 0 0 auto; width: 36px; height: 36px; border-radius: 50%;
+  background: var(--green-050); color: var(--green-700);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 800;
+}
+
+/* ---- o'ng panel: telefon sahnasi ---- */
+.slide-stage {
+  flex: 0 0 46%;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  background:
+    radial-gradient(circle at 50% 42%, #EAF5EE 0%, #E2EFE6 46%, #DDE7DD 100%);
+  overflow: hidden;
+}
+/* nozik fon belgisi-naqshi */
+.slide-stage::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(31,160,85,.10) 2px, transparent 2.2px);
+  background-size: 40px 40px;
+  opacity: .5;
+}
+.slide-stage::after {
+  content: "";
+  position: absolute;
+  width: 560px; height: 560px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.7), transparent 64%);
+  filter: blur(8px);
+}
+.deck-phone {
+  position: relative; z-index: 1;
+  transform: scale(1.12);
+  filter: drop-shadow(0 40px 70px rgba(14,40,24,.34));
+}
+
+/* slayd kirish animatsiyasi */
+@media (prefers-reduced-motion: no-preference) {
+  [data-deck-active] .slide-info > * {
+    opacity: 0; animation: deckRise .6s cubic-bezier(.22,1,.36,1) forwards;
+  }
+  [data-deck-active] .slide-info > *:nth-child(1) { animation-delay: .08s; }
+  [data-deck-active] .slide-info > *:nth-child(2) { animation-delay: .16s; }
+  [data-deck-active] .slide-info > *:nth-child(3) { animation-delay: .24s; }
+  [data-deck-active] .slide-info > *:nth-child(4) { animation-delay: .32s; }
+  [data-deck-active] .deck-phone {
+    opacity: 0; animation: deckPhone .7s cubic-bezier(.22,1,.36,1) .18s forwards;
+  }
+  @keyframes deckRise { to { opacity: 1; transform: translateY(0); } }
+  @keyframes deckPhone {
+    from { opacity: 0; transform: scale(1.04) translateY(24px); }
+    to { opacity: 1; transform: scale(1.12) translateY(0); }
+  }
+}
+
+/* ===================================================================
+   Sarlavha / yakun slaydlari — brend yashili fon
+   =================================================================== */
+.slide.cover {
+  flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; gap: 0;
+  background: radial-gradient(circle at 50% 36%, #25B061 0%, var(--green-500) 40%, var(--green-700) 100%);
+  color: #fff;
+}
+.slide.cover::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,.08) 2px, transparent 2.2px);
+  background-size: 46px 46px; opacity: .6;
+}
+.cover-mark { position: relative; z-index: 1; width: 150px; height: 150px; margin-bottom: 36px;
+  filter: drop-shadow(0 16px 30px rgba(7,40,22,.4)); }
+.cover-mark svg { width: 100%; height: 100%; }
+.cover-word {
+  position: relative; z-index: 1;
+  font-family: var(--font-heading); font-weight: 800; font-size: 96px;
+  letter-spacing: -.03em; line-height: 1;
+}
+.cover-title {
+  position: relative; z-index: 1;
+  font-family: var(--font-heading); font-weight: 800; font-size: 52px;
+  letter-spacing: -.02em; margin-top: 8px; text-wrap: balance; max-width: 1100px;
+}
+.cover-sub {
+  position: relative; z-index: 1;
+  font-size: 30px; color: rgba(255,255,255,.9); margin-top: 22px;
+  line-height: 1.45; max-width: 900px; text-wrap: pretty;
+}
+.cover-foot {
+  position: absolute; bottom: 56px; left: 0; right: 0;
+  z-index: 1;
+  font-size: 22px; font-weight: 600; color: rgba(255,255,255,.7);
+  letter-spacing: .04em;
+}
+
+/* sarlavhadagi yo'l-xaritasi (journey strip) */
+.cover-flow {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; flex-wrap: wrap; justify-content: center;
+  gap: 14px; margin-top: 46px; max-width: 1180px;
+}
+.cover-flow .cf-step {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.28);
+  border-radius: 999px; padding: 12px 22px;
+  font-size: 25px; font-weight: 600; color: #fff;
+  backdrop-filter: blur(2px);
+}
+.cover-flow .cf-step .cf-ic { font-size: 26px; }
+.cover-flow .cf-arrow { color: rgba(255,255,255,.55); font-size: 26px; }
+
+/* yakun slayd ro'yxati */
+.cover-list {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px 56px;
+  margin-top: 40px; text-align: left;
+}
+.cover-list .cl-item {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 24px; font-weight: 600; color: rgba(255,255,255,.95);
+}
+.cover-list .cl-num {
+  flex: 0 0 auto; width: 38px; height: 38px; border-radius: 50%;
+  background: rgba(255,255,255,.18); display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-heading); font-weight: 800; font-size: 18px;
+}

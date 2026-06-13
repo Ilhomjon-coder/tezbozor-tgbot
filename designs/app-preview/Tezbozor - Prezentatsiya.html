@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tezbozor — Mahsulot oqimi (prezentatsiya)</title>
+
+<!-- Tezbozor design tokens -->
+<link rel="stylesheet" href="../_ds/tezbozor-design-system-77795a67-19a0-4c67-a3e6-0dc240e885dd/tokens/fonts.css">
+<link rel="stylesheet" href="../_ds/tezbozor-design-system-77795a67-19a0-4c67-a3e6-0dc240e885dd/tokens/colors.css">
+<link rel="stylesheet" href="../_ds/tezbozor-design-system-77795a67-19a0-4c67-a3e6-0dc240e885dd/tokens/typography.css">
+<link rel="stylesheet" href="../_ds/tezbozor-design-system-77795a67-19a0-4c67-a3e6-0dc240e885dd/tokens/spacing.css">
+<link rel="stylesheet" href="../_ds/tezbozor-design-system-77795a67-19a0-4c67-a3e6-0dc240e885dd/tokens/radius.css">
+<link rel="stylesheet" href="../_ds/tezbozor-design-system-77795a67-19a0-4c67-a3e6-0dc240e885dd/tokens/base.css">
+
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="onboarding.css">
+<link rel="stylesheet" href="search.css">
+<link rel="stylesheet" href="deck.css">
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body style="margin:0">
+
+<deck-stage width="1920" height="1080">
+
+  <!-- 00 — Sarlavha -->
+  <section data-label="Sarlavha">
+    <div class="slide cover">
+      <div class="cover-mark" data-mark="dark"></div>
+      <div class="cover-word">Tezbozor</div>
+      <div class="cover-title">Mahsulot oqimi — ekranlar ketma-ketligi</div>
+      <div class="cover-sub">Yangi foydalanuvchidan birinchi buyurtmagacha. Har bir ekran jonli prototip.</div>
+      <div class="cover-flow">
+        <span class="cf-step"><span class="cf-ic">🤖</span> Bot</span>
+        <span class="cf-arrow">→</span>
+        <span class="cf-step"><span class="cf-ic">✨</span> Splash</span>
+        <span class="cf-arrow">→</span>
+        <span class="cf-step"><span class="cf-ic">👋</span> Tanishuv</span>
+        <span class="cf-arrow">→</span>
+        <span class="cf-step"><span class="cf-ic">🏠</span> Bosh sahifa</span>
+        <span class="cf-arrow">→</span>
+        <span class="cf-step"><span class="cf-ic">🔍</span> Qidiruv</span>
+        <span class="cf-arrow">→</span>
+        <span class="cf-step"><span class="cf-ic">🛒</span> Buyurtma</span>
+      </div>
+      <div class="cover-foot">Kattaqo‘rg‘on · Telegram Mini App</div>
+    </div>
+  </section>
+
+  <!-- 01 — Telegram bot -->
+  <section data-label="Telegram bot">
+    <div class="slide">
+      <div class="slide-info">
+        <div class="slide-kicker"><span class="slide-num">01</span> Kirish</div>
+        <h2 class="slide-title">Botdan <span class="o">bir tugma</span> bilan kirish</h2>
+        <p class="slide-desc">Foydalanuvchi Telegram botda «Ilovani ochish» tugmasini bosib mini app’ni ishga tushiradi — ro‘yxatdan o‘tishsiz.</p>
+        <ul class="slide-points">
+          <li><span class="pt-ic">✓</span> Chatdagi inline tugma</li>
+          <li><span class="pt-ic">✓</span> Pastdagi doimiy menyu tugmasi</li>
+          <li><span class="pt-ic">✓</span> Ko‘k yo‘q — brend yashili</li>
+        </ul>
+      </div>
+      <div class="slide-stage">
+        <div class="deck-phone"><div class="phone" data-screen="telegram"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 — Splash -->
+  <section data-label="Splash">
+    <div class="slide">
+      <div class="slide-info">
+        <div class="slide-kicker"><span class="slide-num">02</span> Ochilish</div>
+        <h2 class="slide-title">Brend belgisi <span class="o">yig‘ilib chiqadi</span></h2>
+        <p class="slide-desc">Tezlik chiziqlari uchadi, xarid xaltasi sakraydi, sabzi poyalari o‘sadi — qisqa, esda qoladigan “wow” taassurot.</p>
+        <ul class="slide-points">
+          <li><span class="pt-ic">✓</span> ~1.5 soniya davomiylik</li>
+          <li><span class="pt-ic">✓</span> Brend shiori bilan yakun</li>
+        </ul>
+      </div>
+      <div class="slide-stage">
+        <div class="deck-phone"><div class="phone" data-screen="splash"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 — Onboarding -->
+  <section data-label="Tanishuv">
+    <div class="slide">
+      <div class="slide-info">
+        <div class="slide-kicker"><span class="slide-num">03</span> Tanishuv</div>
+        <h2 class="slide-title">4 ekranli qisqa <span class="o">onboarding</span></h2>
+        <p class="slide-desc">Asosiy qiymatlarni tushuntiramiz, so‘ng to‘g‘ridan-to‘g‘ri xaridga. «Keyingi» yoki «O‘tkazib yuborish».</p>
+        <ul class="slide-points">
+          <li><span class="pt-ic">✓</span> Bozorni 2 daqiqada</li>
+          <li><span class="pt-ic">✓</span> Bugun buyurtma → ertaga yetkazish</li>
+          <li><span class="pt-ic">✓</span> Har kuni yangi, bugungi narx</li>
+        </ul>
+      </div>
+      <div class="slide-stage">
+        <div class="deck-phone"><div class="phone" data-screen="onboarding"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 — Bosh sahifa -->
+  <section data-label="Bosh sahifa">
+    <div class="slide">
+      <div class="slide-info">
+        <div class="slide-kicker"><span class="slide-num">04</span> Bosh sahifa</div>
+        <h2 class="slide-title">Kun mantig‘i va <span class="o">bugungi narxlar</span></h2>
+        <p class="slide-desc">Kunlik banner, «21:00 gacha» deadline, kategoriyalar va kunning mahsuloti. Pastda yopishqoq savat tugmasi.</p>
+        <ul class="slide-points">
+          <li><span class="pt-ic">✓</span> Kunlik badge tizimi</li>
+          <li><span class="pt-ic">✓</span> Bozor kuni belgilari</li>
+          <li><span class="pt-ic">✓</span> Yopishqoq savat</li>
+        </ul>
+      </div>
+      <div class="slide-stage">
+        <div class="deck-phone"><div class="phone" data-screen="home"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — Qidiruv (jonli) -->
+  <section data-label="Qidiruv — jonli">
+    <div class="slide">
+      <div class="slide-info">
+        <div class="slide-kicker"><span class="slide-num">05</span> Qidiruv</div>
+        <h2 class="slide-title">Jonli qidiruv — <span class="o">darhol natija</span></h2>
+        <p class="slide-desc">Maydon bosilganda so‘nggi va mashhur qidiruvlar chiqadi; yozganda mahsulotlar real vaqtda filtrlanadi.</p>
+        <ul class="slide-points">
+          <li><span class="pt-ic">✓</span> So‘nggi + mashhur mahsulotlar</li>
+          <li><span class="pt-ic">✓</span> Real vaqtli takliflar</li>
+          <li><span class="pt-ic">✓</span> Tezkor savatga qo‘shish</li>
+        </ul>
+      </div>
+      <div class="slide-stage">
+        <div class="deck-phone"><div class="phone" data-screen="search"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 — Qidiruv natijalari -->
+  <section data-label="Qidiruv — natijalar">
+    <div class="slide">
+      <div class="slide-info">
+        <div class="slide-kicker"><span class="slide-num">06</span> Qidiruv</div>
+        <h2 class="slide-title">Natijalar oynasi va <span class="o">filtrlar</span></h2>
+        <p class="slide-desc">Topilgan mahsulotlar grid ko‘rinishida, filtrlar bilan. Pastida shu turkumdan «o‘xshash mahsulotlar».</p>
+        <ul class="slide-points">
+          <li><span class="pt-ic">✓</span> Filtr: arzonlashgan / bozor kuni</li>
+          <li><span class="pt-ic">✓</span> O‘xshash mahsulotlar tavsiyasi</li>
+          <li><span class="pt-ic">✓</span> Topilmasa — tavsiyalar</li>
+        </ul>
+      </div>
+      <div class="slide-stage">
+        <div class="deck-phone"><div class="phone" data-screen="results"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 — Savat -->
+  <section data-label="Savat">
+    <div class="slide">
+      <div class="slide-info">
+        <div class="slide-kicker"><span class="slide-num">07</span> Savat</div>
+        <h2 class="slide-title">Savat va <span class="o">«B variant»</span> protokoli</h2>
+        <p class="slide-desc">Har mahsulot uchun «topilmasa nima qilamiz?» tanlovi — ishonchni mustahkamlaydi. Bepul yetkazishgacha progress.</p>
+        <ul class="slide-points">
+          <li><span class="pt-ic">✓</span> Almashtirish / o‘tkazish / qo‘ng‘iroq</li>
+          <li><span class="pt-ic">✓</span> Bepul yetkazish progressi</li>
+          <li><span class="pt-ic">✓</span> Miqdor stepperlari</li>
+        </ul>
+      </div>
+      <div class="slide-stage">
+        <div class="deck-phone"><div class="phone" data-screen="cart"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 — Rasmiylashtirish -->
+  <section data-label="Rasmiylashtirish">
+    <div class="slide">
+      <div class="slide-info">
+        <div class="slide-kicker"><span class="slide-num">08</span> Rasmiylashtirish</div>
+        <h2 class="slide-title">Manzil, vaqt va <span class="o">to‘lov</span> — bitta ekranda</h2>
+        <p class="slide-desc">Yetkazish vaqtini slotlardan tanlash, to‘lov usuli va buyurtma xulosasi. Katta tugmalar, kam yozish.</p>
+        <ul class="slide-points">
+          <li><span class="pt-ic">✓</span> Vaqt sloti tanlash</li>
+          <li><span class="pt-ic">✓</span> Click / Payme / Naqd</li>
+          <li><span class="pt-ic">✓</span> Buyurtma xulosasi</li>
+        </ul>
+      </div>
+      <div class="slide-stage">
+        <div class="deck-phone"><div class="phone" data-screen="checkout"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 — To'lov kutilmoqda -->
+  <section data-label="To‘lov kutilmoqda">
+    <div class="slide">
+      <div class="slide-info">
+        <div class="slide-kicker"><span class="slide-num">09</span> To‘lov</div>
+        <h2 class="slide-title">To‘lov <span class="o">kutilmoqda</span></h2>
+        <p class="slide-desc">Click/Payme tanlanganda tasdiq kutiladi. Naqd to‘lovda bu bosqich o‘tkazib yuboriladi.</p>
+        <ul class="slide-points">
+          <li><span class="pt-ic">✓</span> Yashil spinner + summa</li>
+          <li><span class="pt-ic">✓</span> «Bu oynani yopmang»</li>
+        </ul>
+      </div>
+      <div class="slide-stage">
+        <div class="deck-phone"><div class="phone" data-screen="pending"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 — Muvaffaqiyat -->
+  <section data-label="Tasdiqlandi">
+    <div class="slide">
+      <div class="slide-info">
+        <div class="slide-kicker"><span class="slide-num">10</span> Tasdiq</div>
+        <h2 class="slide-title">Buyurtma <span class="o">qabul qilindi</span></h2>
+        <p class="slide-desc">Tanlangan yetkazish vaqti va buyurtma raqami ko‘rsatiladi — mijoz xotirjam bo‘ladi.</p>
+        <ul class="slide-points">
+          <li><span class="pt-ic">✓</span> Buyurtma raqami (TB-…)</li>
+          <li><span class="pt-ic">✓</span> Yetkazish vaqti</li>
+        </ul>
+      </div>
+      <div class="slide-stage">
+        <div class="deck-phone"><div class="phone" data-screen="success"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 — Buyurtma holati -->
+  <section data-label="Buyurtma holati">
+    <div class="slide">
+      <div class="slide-info">
+        <div class="slide-kicker"><span class="slide-num">11</span> Holat</div>
+        <h2 class="slide-title">Timeline va <span class="o">go‘sht video</span> tasdig‘i</h2>
+        <p class="slide-desc">Buyurtma bosqichlari jonli timeline’da. Bozorda xarid bosqichida go‘shtdan video variantlar yuboriladi — mijoz tanlaydi.</p>
+        <ul class="slide-points">
+          <li><span class="pt-ic">✓</span> 4 bosqichli timeline</li>
+          <li><span class="pt-ic">✓</span> Go‘sht video tasdig‘i</li>
+          <li><span class="pt-ic">✓</span> Kuryer bilan aloqa</li>
+        </ul>
+      </div>
+      <div class="slide-stage">
+        <div class="deck-phone"><div class="phone" data-screen="status"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 — Profil -->
+  <section data-label="Profil">
+    <div class="slide">
+      <div class="slide-info">
+        <div class="slide-kicker"><span class="slide-num">12</span> Profil</div>
+        <h2 class="slide-title">Foydalanuvchi <span class="o">markazi</span></h2>
+        <p class="slide-desc">Joriy buyurtma, buyurtmalar tarixi, manzillar, doimiy ro‘yxat va shaxsiy ma’lumotlar — bitta hub’da.</p>
+        <ul class="slide-points">
+          <li><span class="pt-ic">✓</span> Buyurtmalar tarixi · qayta buyurtma</li>
+          <li><span class="pt-ic">✓</span> Manzillar (xaritadan)</li>
+          <li><span class="pt-ic">✓</span> Doimiy ro‘yxat</li>
+        </ul>
+      </div>
+      <div class="slide-stage">
+        <div class="deck-phone"><div class="phone" data-screen="profile"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 — Yakun -->
+  <section data-label="Yakun">
+    <div class="slide cover">
+      <div class="cover-mark" data-mark="dark"></div>
+      <div class="cover-title">Yangi userdan birinchi buyurtmagacha</div>
+      <div class="cover-sub">To‘liq jonli prototip — barcha ekranlar bitta oqimda.</div>
+      <div class="cover-list">
+        <div class="cl-item"><span class="cl-num">01</span> Telegram bot</div>
+        <div class="cl-item"><span class="cl-num">07</span> Savat + B-variant</div>
+        <div class="cl-item"><span class="cl-num">02</span> Splash</div>
+        <div class="cl-item"><span class="cl-num">08</span> Rasmiylashtirish</div>
+        <div class="cl-item"><span class="cl-num">03</span> Tanishuv</div>
+        <div class="cl-item"><span class="cl-num">09–10</span> To‘lov · Tasdiq</div>
+        <div class="cl-item"><span class="cl-num">04</span> Bosh sahifa</div>
+        <div class="cl-item"><span class="cl-num">11</span> Buyurtma holati</div>
+        <div class="cl-item"><span class="cl-num">05–06</span> Qidiruv</div>
+        <div class="cl-item"><span class="cl-num">12</span> Profil</div>
+      </div>
+      <div class="cover-foot">Tezbozor · Kattaqo‘rg‘on</div>
+    </div>
+  </section>
+
+</deck-stage>
+
+<!-- ekran komponentlari -->
+<script type="text/babel" src="data.jsx"></script>
+<script type="text/babel" src="ds.jsx"></script>
+<script type="text/babel" src="components.jsx"></script>
+<script type="text/babel" src="home.jsx"></script>
+<script type="text/babel" src="cart.jsx"></script>
+<script type="text/babel" src="checkout.jsx"></script>
+<script type="text/babel" src="status.jsx"></script>
+<script type="text/babel" src="profile.jsx"></script>
+<script type="text/babel" src="onboarding.jsx"></script>
+<script type="text/babel" src="search.jsx"></script>
+<script type="text/babel" src="deck-mount.jsx"></script>
+
+<!-- deck shell (slaydlar yig'iladi) -->
+<script src="deck-stage.js"></script>
+
+</body>
+</html>

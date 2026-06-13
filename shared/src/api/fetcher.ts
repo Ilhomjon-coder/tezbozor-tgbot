@@ -1,0 +1,29 @@
+// Custom fetch mutator used by the orval-generated client (see orval.config.ts).
+//
+// orval's fetch client expects the mutator to resolve to a { status, data,
+// headers } envelope (that is the generated `*Response` type), NOT the bare
+// body. It prepends the API base URL (from the mini app's Vite env) and parses
+// the response. Only ever runs in the browser (mini app); the bot never imports
+// the generated client.
+
+const getBaseUrl = (): string => import.meta.env.VITE_API_BASE_URL ?? '';
+
+async function parseBody(response: Response): Promise<unknown> {
+  const contentType = response.headers.get('content-type') ?? '';
+  if (contentType.includes('application/json')) {
+    const text = await response.text();
+    return text ? JSON.parse(text) : undefined;
+  }
+  return response.text();
+}
+
+export const customFetch = async <T>(url: string, options?: RequestInit): Promise<T> => {
+  const response = await fetch(`${getBaseUrl()}${url}`, options);
+  const data = await parseBody(response);
+
+  return {
+    status: response.status,
+    data,
+    headers: response.headers,
+  } as T;
+};

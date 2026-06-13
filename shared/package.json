@@ -1,0 +1,22 @@
+{
+  "name": "@tezbozor/shared",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./texts": "./src/texts.ts",
+    "./deeplinks": "./src/deeplinks.ts",
+    "./api": "./src/api/index.ts"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.62.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}

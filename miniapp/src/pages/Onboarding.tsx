@@ -53,7 +53,10 @@ export function Onboarding() {
   });
 
   return (
-    <div className="flex min-h-screen flex-col px-gutter pb-8 pt-10">
+    <div
+      className="flex min-h-screen flex-col px-gutter pb-8"
+      style={{ paddingTop: 'calc(var(--safe-top) + 32px)' }}
+    >
       <div className="mb-6 flex flex-col items-center text-center">
         <img src="/tezbozor-mark.svg" alt={texts.appName} className="mb-3 h-16 w-16" />
         <h1 className="font-heading text-h2 text-ink-900">{texts.onboarding.welcomeTitle}</h1>

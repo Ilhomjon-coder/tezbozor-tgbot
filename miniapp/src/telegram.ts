@@ -44,9 +44,19 @@ interface TelegramWebApp {
   ready?: () => void;
   expand?: () => void;
   disableVerticalSwipes?: () => void;
+  isVersionAtLeast?: (version: string) => boolean;
+  requestFullscreen?: () => void;
 }
 
-/** Full-height expand via the official global bridge (most reliable). */
+/**
+ * Open full-screen via the official global bridge (most reliable across
+ * clients). `expand()` gives full height; `requestFullscreen()` (Bot API 8.0+)
+ * gives true fullscreen from EVERY entry point — the BotFather fullscreen toggle
+ * is only honoured when launched from the bot profile "Open App", not from the
+ * menu/inline button, so the app must request it itself. The safe-area CSS vars
+ * the bridge sets (--tg-*-safe-area-inset-*) keep content clear of the notch and
+ * the floating fullscreen controls (see index.css).
+ */
 function expandViewport(): void {
   const wa = (window as unknown as { Telegram?: { WebApp?: TelegramWebApp } }).Telegram?.WebApp;
   if (!wa) return;
@@ -59,6 +69,9 @@ function expandViewport(): void {
   try {
     wa.disableVerticalSwipes?.();
   } catch { /* noop */ }
+  try {
+    if (wa.isVersionAtLeast?.('8.0')) wa.requestFullscreen?.();
+  } catch { /* noop — e.g. already fullscreen / unsupported */ }
 }
 
 /**

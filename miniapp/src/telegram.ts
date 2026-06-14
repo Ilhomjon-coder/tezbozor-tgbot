@@ -40,6 +40,27 @@ function safe<T>(fn: () => T): T | undefined {
 
 let started = false;
 
+interface TelegramWebApp {
+  ready?: () => void;
+  expand?: () => void;
+  disableVerticalSwipes?: () => void;
+}
+
+/** Full-height expand via the official global bridge (most reliable). */
+function expandViewport(): void {
+  const wa = (window as unknown as { Telegram?: { WebApp?: TelegramWebApp } }).Telegram?.WebApp;
+  if (!wa) return;
+  try {
+    wa.ready?.();
+  } catch { /* noop */ }
+  try {
+    wa.expand?.();
+  } catch { /* noop */ }
+  try {
+    wa.disableVerticalSwipes?.();
+  } catch { /* noop */ }
+}
+
 /**
  * Initialize the SDK once at startup: capture initData for the API auth header,
  * mount the mini-app/theme/viewport scopes, expand the viewport, and bind the
@@ -50,6 +71,12 @@ export function initTelegram(): void {
   started = true;
 
   safe(() => sdkInit());
+
+  // Expand to full height immediately via the global WebApp bridge
+  // (telegram-web-app.js in index.html) — the most reliable path across client
+  // versions, so the app opens full-screen instead of a half sheet. Also keep
+  // it from collapsing on a downward swipe.
+  expandViewport();
 
   // Capture the raw initData string so the API fetcher can send it as the
   // `x-telegram-init-data` header (docs/contracts.md -> Auth).

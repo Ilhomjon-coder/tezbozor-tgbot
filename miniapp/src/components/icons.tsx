@@ -135,6 +135,13 @@ export const ChevronDown = (p: IconProps) => (
   </svg>
 );
 
+export const EditIcon = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M4 20h4L18.5 9.5a2 2 0 0 0-2.8-2.8L5 17.2V20Z" />
+    <path d="M14.5 6.5 17.5 9.5" />
+  </svg>
+);
+
 export const HeartIcon = (p: IconProps) => (
   <svg {...base(p)}>
     <path d="M12 20s-7-4.4-7-9.5A3.8 3.8 0 0 1 12 7a3.8 3.8 0 0 1 7 3.5C19 15.6 12 20 12 20Z" />

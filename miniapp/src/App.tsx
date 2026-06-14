@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   BrowserRouter,
   Navigate,
@@ -12,7 +12,7 @@ import { parseStartParam } from '@tezbozor/shared';
 import { initTelegram, getStartParam, IN_TELEGRAM } from './telegram';
 import { ToastProvider } from './components/Toast';
 import { AppLayout } from './components/AppLayout';
-import { LoadingScreen } from './components/states';
+import { Splash } from './components/Splash';
 import { useProfile } from './api/hooks';
 import { Onboarding } from './pages/Onboarding';
 import { Home } from './pages/Home';
@@ -60,7 +60,7 @@ function OnboardingGate() {
   const { data: profile, isLoading: profileLoading } = useProfile();
 
   if (!IN_TELEGRAM) return <Outlet />;
-  if (profileLoading) return <LoadingScreen />;
+  if (profileLoading) return <Splash />;
 
   const onboarded = !!profile?.name && !!profile?.phone;
   if (!onboarded) return <Navigate to="/onboarding" replace />;
@@ -69,9 +69,16 @@ function OnboardingGate() {
 }
 
 export default function App() {
+  // Show the brand splash on launch (design screen 02) for a short beat while
+  // the SDK initializes, then: splash → onboarding (if new) → app.
+  const [booting, setBooting] = useState(true);
   useEffect(() => {
     initTelegram();
+    const t = setTimeout(() => setBooting(false), 1600);
+    return () => clearTimeout(t);
   }, []);
+
+  if (booting) return <Splash />;
 
   return (
     <QueryClientProvider client={queryClient}>

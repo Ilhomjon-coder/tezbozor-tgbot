@@ -183,15 +183,48 @@ export function onMainButtonClick(cb: () => void): () => void {
 
 // ---- Contact / haptics -----------------------------------------------------
 
-/** Ask Telegram for the user's phone via the contact-sharing dialog. */
+/** Pull the phone number out of whatever shape the SDK/client returns. */
+function extractPhone(res: unknown): string | null {
+  const r = res as {
+    parsed?: { contact?: { phone_number?: string } };
+    contact?: { phone_number?: string };
+    phone_number?: string;
+    raw?: string;
+  } | string | undefined;
+  if (!r) return null;
+  if (typeof r !== 'string') {
+    const direct =
+      r.parsed?.contact?.phone_number ?? r.contact?.phone_number ?? r.phone_number;
+    if (direct) return direct;
+  }
+  // Fallback: parse the raw `contact=...&auth_date=...&hash=...` query string.
+  const raw = typeof r === 'string' ? r : r.raw;
+  if (raw) {
+    try {
+      const contact = new URLSearchParams(raw).get('contact');
+      if (contact) {
+        const parsed = JSON.parse(contact) as { phone_number?: string };
+        if (parsed.phone_number) return parsed.phone_number;
+      }
+    } catch {
+      /* ignore */
+    }
+  }
+  return null;
+}
+
+/**
+ * Ask Telegram for the user's phone via the contact-sharing dialog and return
+ * it. We call `requestContact()` directly (some clients report it as
+ * unavailable yet still resolve) and parse defensively across SDK/client
+ * result shapes. Returns null if the user declines or it isn't supported.
+ */
 export async function requestContactPhone(): Promise<string | null> {
   try {
-    if (!requestContact.isAvailable()) return null;
-    const res = (await requestContact()) as {
-      parsed?: { contact?: { phone_number?: string } };
-    };
-    return res?.parsed?.contact?.phone_number ?? null;
-  } catch {
+    const res = await requestContact();
+    return extractPhone(res);
+  } catch (error) {
+    console.warn('[telegram] requestContact failed:', error);
     return null;
   }
 }

@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { texts } from '@tezbozor/shared';
 import { useProfile, useUpdateProfile } from '../api/hooks';
 import { usePrimaryCta } from '../lib/telegramButtons';
-import { requestContactPhone, getTelegramUser, haptic, IN_TELEGRAM } from '../telegram';
+import { getTelegramUser, haptic } from '../telegram';
 import { Button, Field, TextInput } from '../components/ui';
+import { PhoneField } from '../components/PhoneField';
 import { useToast } from '../components/Toast';
 
 // First-launch onboarding (PRD §6): name + phone only. Name is prefilled from
@@ -29,14 +30,6 @@ export function Onboarding() {
   }, [profile?.name, profile?.phone]);
 
   const valid = name.trim().length > 0 && phone.trim().length > 0;
-
-  const shareContact = async () => {
-    const num = await requestContactPhone();
-    if (num) {
-      setPhone(num.startsWith('+') ? num : `+${num}`);
-      haptic.success();
-    }
-  };
 
   const finish = async () => {
     if (!valid || saving) return;
@@ -79,19 +72,8 @@ export function Onboarding() {
           />
         </Field>
         <Field label={texts.onboarding.phoneLabel} hint={texts.onboarding.contactHint}>
-          <TextInput
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder={texts.onboarding.phonePlaceholder}
-            inputMode="tel"
-            autoComplete="tel"
-          />
+          <PhoneField value={phone} onChange={setPhone} />
         </Field>
-        {IN_TELEGRAM ? (
-          <Button variant="secondary" full onClick={shareContact}>
-            {phone ? texts.onboarding.contactShared : texts.onboarding.shareContact}
-          </Button>
-        ) : null}
       </div>
 
       {showInAppCta ? (

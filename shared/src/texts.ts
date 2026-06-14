@@ -15,6 +15,11 @@ export const texts = {
   appName: 'Tezbozor',
   tagline: "Bozorga bormasdan — eshigingizgacha 🚪",
 
+  splash: {
+    tagline: 'Bozoringiz — cho‘ntagingizda',
+    city: 'Kattaqo‘rg‘on · mini bozor',
+  },
+
   common: {
     loading: 'Yuklanmoqda…',
     retry: 'Qayta urinish',
@@ -52,9 +57,13 @@ export const texts = {
     namePlaceholder: 'Masalan: Dilnoza Karimova',
     phoneLabel: 'Telefon raqami',
     phonePlaceholder: '+998 90 123 45 67',
-    shareContact: 'Telegram orqali ulashish 📲',
-    contactShared: 'Raqam olindi ✓',
-    contactHint: "Telegram raqamingizni ulashasiz — qo'lda ham yozishingiz mumkin.",
+    phoneShare: 'Telegram raqamini ulashish 📲',
+    phoneSharing: 'Olinmoqda…',
+    phoneShared: 'Raqam olindi ✓',
+    phoneManual: 'Raqamni qo‘lda kiritish',
+    phoneShareToggle: 'Telegram orqali ulashish 📲',
+    phoneShareFailed: 'Raqam olinmadi — qo‘lda kiriting',
+    contactHint: 'Telegram raqamingizni ulashing — yoki qo‘lda yozing.',
     step2Title: 'Yetkazish manzili',
     mahallaLabel: 'Mahalla',
     mahallaPlaceholder: 'Mahallani tanlang',

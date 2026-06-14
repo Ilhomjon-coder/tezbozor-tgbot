@@ -28,7 +28,7 @@ jobs:
       - name: Build Mini App (static)
         env:
           # Baked into the static build at compile time (Vite).
-          VITE_API_BASE_URL: https://api.tezbozor.uz/api
+          VITE_API_BASE_URL: https://tezbozor-api.kesha.uz/api
         run: pnpm --filter @tezbozor/miniapp build
 
       - name: Build bot (bundle)

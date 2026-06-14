@@ -25,6 +25,7 @@ export default {
         paper: '#FAF7F2',
         card: '#FFFFFF',
         danger: '#D64545',
+        'danger-light': '#FBEAEA',
       },
       fontFamily: {
         heading: ['Montserrat', 'system-ui', '-apple-system', 'sans-serif'],
@@ -35,6 +36,8 @@ export default {
         h2: ['20px', { lineHeight: '1.15', letterSpacing: '-0.02em', fontWeight: '700' }],
         h3: ['18px', { lineHeight: '1.15', fontWeight: '700' }],
         lg: ['17px', { lineHeight: '1.55' }],
+        base: ['16px', { lineHeight: '1.55' }],
+        sm: ['15px', { lineHeight: '1.5' }],
         xs: ['13px', { lineHeight: '1.35' }],
       },
       borderRadius: {

@@ -1,5 +1,5 @@
 /* Brand webfonts: Montserrat (headings) + Inter (body/UI) per the design system. */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,6 +7,16 @@
 
 :root {
   color-scheme: light;
+  /* Telegram safe-area insets (bound by the SDK on real devices; 0 elsewhere). */
+  --tg-content-safe-area-inset-top: 0px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html,
+body,
+#root {
+  height: 100%;
 }
 
 body {
@@ -15,4 +25,31 @@ body {
   background: #faf7f2; /* --paper */
   color: #1e2a32; /* --ink-900 */
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* Avoid the iOS rubber-band white flash above the sticky header. */
+  overscroll-behavior-y: none;
+}
+
+@layer components {
+  /* Hide scrollbars on horizontal chip/category strips. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Subtle press feedback used on tappable cards / buttons. */
+  .press {
+    transition: transform 0.08s ease, opacity 0.08s ease;
+  }
+  .press:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Top padding that clears the Telegram header/safe area on real devices. */
+.safe-top {
+  padding-top: calc(var(--safe-top) + var(--tg-content-safe-area-inset-top, 0px));
 }

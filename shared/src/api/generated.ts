@@ -6,11 +6,15 @@
  * OpenAPI spec version: 0.0.1
  */
 import {
+  useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
+  MutationFunction,
   QueryFunction,
   QueryKey,
+  UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
@@ -23,6 +27,1194 @@ export interface HealthResponseDto {
   /** Server time (UTC, ISO 8601) */
   timestamp: string;
 }
+
+export interface ProfileDto {
+  id: number;
+  tgId: number;
+  /** @nullable */
+  name: string | null;
+  /** @nullable */
+  phone: string | null;
+}
+
+export interface UpdateProfileDto {
+  /**
+   * @minLength 1
+   * @maxLength 80
+   */
+  name?: string;
+  /**
+   * @minLength 3
+   * @maxLength 32
+   */
+  phone?: string;
+}
+
+export interface AddressDto {
+  id: number;
+  mahalla: string;
+  house: string;
+  /** @nullable */
+  landmark: string | null;
+  isDefault: boolean;
+}
+
+export interface CreateAddressDto {
+  /**
+   * @minLength 1
+   * @maxLength 120
+   */
+  mahalla: string;
+  /**
+   * @minLength 1
+   * @maxLength 120
+   */
+  house: string;
+  /** @maxLength 200 */
+  landmark?: string;
+  isDefault?: boolean;
+}
+
+export interface UpdateAddressDto {
+  /**
+   * @minLength 1
+   * @maxLength 120
+   */
+  mahalla?: string;
+  /**
+   * @minLength 1
+   * @maxLength 120
+   */
+  house?: string;
+  /** @maxLength 200 */
+  landmark?: string;
+  isDefault?: boolean;
+}
+
+export type FavoriteDtoUnit = typeof FavoriteDtoUnit[keyof typeof FavoriteDtoUnit];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FavoriteDtoUnit = {
+  kg: 'kg',
+  dona: 'dona',
+} as const;
+
+export interface FavoriteDto {
+  productId: number;
+  nameUz: string;
+  unit: FavoriteDtoUnit;
+  /** @nullable */
+  imageUrl: string | null;
+  isActive: boolean;
+  /** @nullable */
+  todayPriceUzs: number | null;
+  addedAt: string;
+}
+
+export interface AddFavoriteDto {
+  /**
+   * @minimum 0
+   * @exclusiveMinimum
+   */
+  productId: number;
+}
+
+export interface AdminLoginDto {
+  /**
+   * @minLength 1
+   * @maxLength 64
+   */
+  username: string;
+  /**
+   * @minLength 1
+   * @maxLength 200
+   */
+  password: string;
+}
+
+export interface AccessTokenDto {
+  accessToken: string;
+}
+
+export interface AdminMeDto {
+  id: number;
+  username: string;
+}
+
+export interface CategoryDto {
+  id: number;
+  slug: string;
+  nameUz: string;
+  sortOrder: number;
+}
+
+export type ProductDtoUnit = typeof ProductDtoUnit[keyof typeof ProductDtoUnit];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ProductDtoUnit = {
+  kg: 'kg',
+  dona: 'dona',
+} as const;
+
+/**
+ * @nullable
+ */
+export type ProductDtoBadge = typeof ProductDtoBadge[keyof typeof ProductDtoBadge] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ProductDtoBadge = {
+  yangi_keldi: 'yangi_keldi',
+  narxi_barqaror: 'narxi_barqaror',
+} as const;
+
+export interface ProductDto {
+  id: number;
+  categoryId: number;
+  nameUz: string;
+  unit: ProductDtoUnit;
+  /** @nullable */
+  imageUrl: string | null;
+  /** @nullable */
+  badge: ProductDtoBadge;
+  isProductOfDay: boolean;
+  /** @nullable */
+  priceUzs: number | null;
+}
+
+export interface CreateWishDto {
+  /**
+   * @minLength 1
+   * @maxLength 200
+   */
+  text: string;
+}
+
+export interface WishDto {
+  id: number;
+  text: string;
+  createdAt: string;
+}
+
+export type SlotsResponseDtoSlotsItem = {
+  id: number;
+  label: string;
+  capacity: number;
+  takenCount: number;
+  isOpen: boolean;
+  isFull: boolean;
+  isMostChosen: boolean;
+};
+
+export interface SlotsResponseDto {
+  deliveryDate: string;
+  slots: SlotsResponseDtoSlotsItem[];
+}
+
+export type CreateOrderDtoPaymentMethod = typeof CreateOrderDtoPaymentMethod[keyof typeof CreateOrderDtoPaymentMethod];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CreateOrderDtoPaymentMethod = {
+  cash: 'cash',
+  click: 'click',
+  payme: 'payme',
+} as const;
+
+export type CreateOrderDtoItemsItemFallback = typeof CreateOrderDtoItemsItemFallback[keyof typeof CreateOrderDtoItemsItemFallback];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CreateOrderDtoItemsItemFallback = {
+  substitute: 'substitute',
+  skip: 'skip',
+  call: 'call',
+} as const;
+
+export type CreateOrderDtoItemsItem = {
+  /**
+   * @minimum 0
+   * @exclusiveMinimum
+   */
+  productId: number;
+  qty: unknown;
+  fallback?: CreateOrderDtoItemsItemFallback;
+  /** @maxLength 200 */
+  itemNote?: string;
+};
+
+export interface CreateOrderDto {
+  /**
+   * @minimum 0
+   * @exclusiveMinimum
+   */
+  addressId: number;
+  /**
+   * @minimum 0
+   * @exclusiveMinimum
+   */
+  slotId: number;
+  paymentMethod?: CreateOrderDtoPaymentMethod;
+  /** @maxLength 500 */
+  customerNote?: string;
+  /** @minItems 1 */
+  items: CreateOrderDtoItemsItem[];
+}
+
+export type OrderDetailDtoStatus = typeof OrderDetailDtoStatus[keyof typeof OrderDetailDtoStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OrderDetailDtoStatus = {
+  accepted: 'accepted',
+  shopping: 'shopping',
+  on_the_way: 'on_the_way',
+  delivered: 'delivered',
+  cancelled: 'cancelled',
+} as const;
+
+export type OrderDetailDtoPaymentMethod = typeof OrderDetailDtoPaymentMethod[keyof typeof OrderDetailDtoPaymentMethod];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OrderDetailDtoPaymentMethod = {
+  cash: 'cash',
+  click: 'click',
+  payme: 'payme',
+} as const;
+
+export type OrderDetailDtoPaymentStatus = typeof OrderDetailDtoPaymentStatus[keyof typeof OrderDetailDtoPaymentStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OrderDetailDtoPaymentStatus = {
+  pending: 'pending',
+  paid: 'paid',
+  refunded: 'refunded',
+  failed: 'failed',
+} as const;
+
+/**
+ * @nullable
+ */
+export type OrderDetailDtoSlot = {
+  id: number;
+  date: string;
+  label: string;
+} | null;
+
+/**
+ * @nullable
+ */
+export type OrderDetailDtoAddress = {
+  id: number;
+  mahalla: string;
+  house: string;
+  /** @nullable */
+  landmark: string | null;
+} | null;
+
+export type OrderDetailDtoItemsItemUnit = typeof OrderDetailDtoItemsItemUnit[keyof typeof OrderDetailDtoItemsItemUnit];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OrderDetailDtoItemsItemUnit = {
+  kg: 'kg',
+  dona: 'dona',
+} as const;
+
+export type OrderDetailDtoItemsItemFallback = typeof OrderDetailDtoItemsItemFallback[keyof typeof OrderDetailDtoItemsItemFallback];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OrderDetailDtoItemsItemFallback = {
+  substitute: 'substitute',
+  skip: 'skip',
+  call: 'call',
+} as const;
+
+export type OrderDetailDtoItemsItemItemStatus = typeof OrderDetailDtoItemsItemItemStatus[keyof typeof OrderDetailDtoItemsItemItemStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OrderDetailDtoItemsItemItemStatus = {
+  pending: 'pending',
+  bought: 'bought',
+  substituted: 'substituted',
+  skipped: 'skipped',
+} as const;
+
+export type OrderDetailDtoItemsItem = {
+  id: number;
+  productId: number;
+  nameSnapshot: string;
+  unit: OrderDetailDtoItemsItemUnit;
+  qty: string;
+  priceSnapshotUzs: number;
+  lineTotalUzs: number;
+  fallback: OrderDetailDtoItemsItemFallback;
+  /** @nullable */
+  itemNote: string | null;
+  itemStatus: OrderDetailDtoItemsItemItemStatus;
+  /** @nullable */
+  adjustedPriceUzs: number | null;
+};
+
+/**
+ * @nullable
+ */
+export type OrderDetailDtoRating = {
+  stars: number;
+  /** @nullable */
+  comment: string | null;
+  createdAt: string;
+} | null;
+
+export interface OrderDetailDto {
+  id: number;
+  status: OrderDetailDtoStatus;
+  itemsTotalUzs: number;
+  deliveryFeeUzs: number;
+  grandTotalUzs: number;
+  paymentMethod: OrderDetailDtoPaymentMethod;
+  paymentStatus: OrderDetailDtoPaymentStatus;
+  /** @nullable */
+  customerNote: string | null;
+  createdAt: string;
+  /** @nullable */
+  slot: OrderDetailDtoSlot;
+  /** @nullable */
+  address: OrderDetailDtoAddress;
+  items: OrderDetailDtoItemsItem[];
+  /** @nullable */
+  rating: OrderDetailDtoRating;
+}
+
+export type OrderSummaryDtoStatus = typeof OrderSummaryDtoStatus[keyof typeof OrderSummaryDtoStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OrderSummaryDtoStatus = {
+  accepted: 'accepted',
+  shopping: 'shopping',
+  on_the_way: 'on_the_way',
+  delivered: 'delivered',
+  cancelled: 'cancelled',
+} as const;
+
+export type OrderSummaryDtoPaymentMethod = typeof OrderSummaryDtoPaymentMethod[keyof typeof OrderSummaryDtoPaymentMethod];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OrderSummaryDtoPaymentMethod = {
+  cash: 'cash',
+  click: 'click',
+  payme: 'payme',
+} as const;
+
+export type OrderSummaryDtoPaymentStatus = typeof OrderSummaryDtoPaymentStatus[keyof typeof OrderSummaryDtoPaymentStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OrderSummaryDtoPaymentStatus = {
+  pending: 'pending',
+  paid: 'paid',
+  refunded: 'refunded',
+  failed: 'failed',
+} as const;
+
+/**
+ * @nullable
+ */
+export type OrderSummaryDtoSlot = {
+  id: number;
+  date: string;
+  label: string;
+} | null;
+
+export interface OrderSummaryDto {
+  id: number;
+  status: OrderSummaryDtoStatus;
+  itemsTotalUzs: number;
+  deliveryFeeUzs: number;
+  grandTotalUzs: number;
+  paymentMethod: OrderSummaryDtoPaymentMethod;
+  paymentStatus: OrderSummaryDtoPaymentStatus;
+  /** @nullable */
+  customerNote: string | null;
+  createdAt: string;
+  /** @nullable */
+  slot: OrderSummaryDtoSlot;
+}
+
+export type ReorderPreviewDtoItemsItemUnit = typeof ReorderPreviewDtoItemsItemUnit[keyof typeof ReorderPreviewDtoItemsItemUnit];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ReorderPreviewDtoItemsItemUnit = {
+  kg: 'kg',
+  dona: 'dona',
+} as const;
+
+export type ReorderPreviewDtoItemsItem = {
+  productId: number;
+  nameSnapshot: string;
+  unit: ReorderPreviewDtoItemsItemUnit;
+  qty: string;
+  previousPriceUzs: number;
+  /** @nullable */
+  todayPriceUzs: number | null;
+  available: boolean;
+  priceChanged: boolean;
+};
+
+export interface ReorderPreviewDto {
+  items: ReorderPreviewDtoItemsItem[];
+}
+
+export interface RateOrderDto {
+  /**
+   * @minimum 1
+   * @maximum 5
+   */
+  stars: number;
+  /** @maxLength 500 */
+  comment?: string;
+}
+
+export interface RatingDto {
+  stars: number;
+  /** @nullable */
+  comment: string | null;
+  createdAt: string;
+}
+
+export type AdminOrderSummaryDtoStatus = typeof AdminOrderSummaryDtoStatus[keyof typeof AdminOrderSummaryDtoStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AdminOrderSummaryDtoStatus = {
+  accepted: 'accepted',
+  shopping: 'shopping',
+  on_the_way: 'on_the_way',
+  delivered: 'delivered',
+  cancelled: 'cancelled',
+} as const;
+
+export type AdminOrderSummaryDtoPaymentMethod = typeof AdminOrderSummaryDtoPaymentMethod[keyof typeof AdminOrderSummaryDtoPaymentMethod];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AdminOrderSummaryDtoPaymentMethod = {
+  cash: 'cash',
+  click: 'click',
+  payme: 'payme',
+} as const;
+
+export type AdminOrderSummaryDtoPaymentStatus = typeof AdminOrderSummaryDtoPaymentStatus[keyof typeof AdminOrderSummaryDtoPaymentStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AdminOrderSummaryDtoPaymentStatus = {
+  pending: 'pending',
+  paid: 'paid',
+  refunded: 'refunded',
+  failed: 'failed',
+} as const;
+
+/**
+ * @nullable
+ */
+export type AdminOrderSummaryDtoSlot = {
+  id: number;
+  date: string;
+  label: string;
+} | null;
+
+export type AdminOrderSummaryDtoCustomer = {
+  id: number;
+  /** @nullable */
+  name: string | null;
+  /** @nullable */
+  phone: string | null;
+};
+
+/**
+ * @nullable
+ */
+export type AdminOrderSummaryDtoAddress = {
+  id: number;
+  mahalla: string;
+  house: string;
+  /** @nullable */
+  landmark: string | null;
+} | null;
+
+export type AdminOrderSummaryDtoRecalc = {
+  adjustedItemsTotalUzs: number;
+  adjustedGrandTotalUzs: number;
+  refundDeltaUzs: number;
+  cashToCollectUzs: number;
+  overageUzs: number;
+};
+
+export type AdminOrderSummaryDtoAllowedTransitionsItem = typeof AdminOrderSummaryDtoAllowedTransitionsItem[keyof typeof AdminOrderSummaryDtoAllowedTransitionsItem];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AdminOrderSummaryDtoAllowedTransitionsItem = {
+  accepted: 'accepted',
+  shopping: 'shopping',
+  on_the_way: 'on_the_way',
+  delivered: 'delivered',
+  cancelled: 'cancelled',
+} as const;
+
+export interface AdminOrderSummaryDto {
+  id: number;
+  status: AdminOrderSummaryDtoStatus;
+  paymentMethod: AdminOrderSummaryDtoPaymentMethod;
+  paymentStatus: AdminOrderSummaryDtoPaymentStatus;
+  itemsTotalUzs: number;
+  deliveryFeeUzs: number;
+  grandTotalUzs: number;
+  /** @nullable */
+  customerNote: string | null;
+  createdAt: string;
+  /** @nullable */
+  slot: AdminOrderSummaryDtoSlot;
+  customer: AdminOrderSummaryDtoCustomer;
+  /** @nullable */
+  address: AdminOrderSummaryDtoAddress;
+  itemCount: number;
+  recalc: AdminOrderSummaryDtoRecalc;
+  allowedTransitions: AdminOrderSummaryDtoAllowedTransitionsItem[];
+}
+
+export type AdminOrderDetailDtoStatus = typeof AdminOrderDetailDtoStatus[keyof typeof AdminOrderDetailDtoStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AdminOrderDetailDtoStatus = {
+  accepted: 'accepted',
+  shopping: 'shopping',
+  on_the_way: 'on_the_way',
+  delivered: 'delivered',
+  cancelled: 'cancelled',
+} as const;
+
+export type AdminOrderDetailDtoPaymentMethod = typeof AdminOrderDetailDtoPaymentMethod[keyof typeof AdminOrderDetailDtoPaymentMethod];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AdminOrderDetailDtoPaymentMethod = {
+  cash: 'cash',
+  click: 'click',
+  payme: 'payme',
+} as const;
+
+export type AdminOrderDetailDtoPaymentStatus = typeof AdminOrderDetailDtoPaymentStatus[keyof typeof AdminOrderDetailDtoPaymentStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AdminOrderDetailDtoPaymentStatus = {
+  pending: 'pending',
+  paid: 'paid',
+  refunded: 'refunded',
+  failed: 'failed',
+} as const;
+
+/**
+ * @nullable
+ */
+export type AdminOrderDetailDtoSlot = {
+  id: number;
+  date: string;
+  label: string;
+} | null;
+
+export type AdminOrderDetailDtoCustomer = {
+  id: number;
+  /** @nullable */
+  name: string | null;
+  /** @nullable */
+  phone: string | null;
+};
+
+/**
+ * @nullable
+ */
+export type AdminOrderDetailDtoAddress = {
+  id: number;
+  mahalla: string;
+  house: string;
+  /** @nullable */
+  landmark: string | null;
+} | null;
+
+export type AdminOrderDetailDtoRecalc = {
+  adjustedItemsTotalUzs: number;
+  adjustedGrandTotalUzs: number;
+  refundDeltaUzs: number;
+  cashToCollectUzs: number;
+  overageUzs: number;
+};
+
+export type AdminOrderDetailDtoAllowedTransitionsItem = typeof AdminOrderDetailDtoAllowedTransitionsItem[keyof typeof AdminOrderDetailDtoAllowedTransitionsItem];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AdminOrderDetailDtoAllowedTransitionsItem = {
+  accepted: 'accepted',
+  shopping: 'shopping',
+  on_the_way: 'on_the_way',
+  delivered: 'delivered',
+  cancelled: 'cancelled',
+} as const;
+
+export type AdminOrderDetailDtoItemsItemUnit = typeof AdminOrderDetailDtoItemsItemUnit[keyof typeof AdminOrderDetailDtoItemsItemUnit];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AdminOrderDetailDtoItemsItemUnit = {
+  kg: 'kg',
+  dona: 'dona',
+} as const;
+
+export type AdminOrderDetailDtoItemsItemFallback = typeof AdminOrderDetailDtoItemsItemFallback[keyof typeof AdminOrderDetailDtoItemsItemFallback];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AdminOrderDetailDtoItemsItemFallback = {
+  substitute: 'substitute',
+  skip: 'skip',
+  call: 'call',
+} as const;
+
+export type AdminOrderDetailDtoItemsItemItemStatus = typeof AdminOrderDetailDtoItemsItemItemStatus[keyof typeof AdminOrderDetailDtoItemsItemItemStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AdminOrderDetailDtoItemsItemItemStatus = {
+  pending: 'pending',
+  bought: 'bought',
+  substituted: 'substituted',
+  skipped: 'skipped',
+} as const;
+
+export type AdminOrderDetailDtoItemsItem = {
+  id: number;
+  productId: number;
+  nameSnapshot: string;
+  unit: AdminOrderDetailDtoItemsItemUnit;
+  qty: string;
+  priceSnapshotUzs: number;
+  lineTotalUzs: number;
+  fallback: AdminOrderDetailDtoItemsItemFallback;
+  /** @nullable */
+  itemNote: string | null;
+  itemStatus: AdminOrderDetailDtoItemsItemItemStatus;
+  /** @nullable */
+  adjustedPriceUzs: number | null;
+  effectiveLineTotalUzs: number;
+};
+
+export type AdminOrderDetailDtoStatusEventsItemFromStatus = typeof AdminOrderDetailDtoStatusEventsItemFromStatus[keyof typeof AdminOrderDetailDtoStatusEventsItemFromStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AdminOrderDetailDtoStatusEventsItemFromStatus = {
+  accepted: 'accepted',
+  shopping: 'shopping',
+  on_the_way: 'on_the_way',
+  delivered: 'delivered',
+  cancelled: 'cancelled',
+} as const;
+
+export type AdminOrderDetailDtoStatusEventsItemToStatus = typeof AdminOrderDetailDtoStatusEventsItemToStatus[keyof typeof AdminOrderDetailDtoStatusEventsItemToStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AdminOrderDetailDtoStatusEventsItemToStatus = {
+  accepted: 'accepted',
+  shopping: 'shopping',
+  on_the_way: 'on_the_way',
+  delivered: 'delivered',
+  cancelled: 'cancelled',
+} as const;
+
+export type AdminOrderDetailDtoStatusEventsItem = {
+  fromStatus: AdminOrderDetailDtoStatusEventsItemFromStatus;
+  toStatus: AdminOrderDetailDtoStatusEventsItemToStatus;
+  /** @nullable */
+  adminUsername: string | null;
+  /** @nullable */
+  note: string | null;
+  createdAt: string;
+};
+
+export interface AdminOrderDetailDto {
+  id: number;
+  status: AdminOrderDetailDtoStatus;
+  paymentMethod: AdminOrderDetailDtoPaymentMethod;
+  paymentStatus: AdminOrderDetailDtoPaymentStatus;
+  itemsTotalUzs: number;
+  deliveryFeeUzs: number;
+  grandTotalUzs: number;
+  /** @nullable */
+  customerNote: string | null;
+  createdAt: string;
+  /** @nullable */
+  slot: AdminOrderDetailDtoSlot;
+  customer: AdminOrderDetailDtoCustomer;
+  /** @nullable */
+  address: AdminOrderDetailDtoAddress;
+  itemCount: number;
+  recalc: AdminOrderDetailDtoRecalc;
+  allowedTransitions: AdminOrderDetailDtoAllowedTransitionsItem[];
+  items: AdminOrderDetailDtoItemsItem[];
+  statusEvents: AdminOrderDetailDtoStatusEventsItem[];
+}
+
+export type UpdateOrderStatusDtoStatus = typeof UpdateOrderStatusDtoStatus[keyof typeof UpdateOrderStatusDtoStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UpdateOrderStatusDtoStatus = {
+  accepted: 'accepted',
+  shopping: 'shopping',
+  on_the_way: 'on_the_way',
+  delivered: 'delivered',
+  cancelled: 'cancelled',
+} as const;
+
+export interface UpdateOrderStatusDto {
+  status: UpdateOrderStatusDtoStatus;
+  /** @maxLength 300 */
+  note?: string;
+}
+
+export type UpdateOrderItemDtoItemStatus = typeof UpdateOrderItemDtoItemStatus[keyof typeof UpdateOrderItemDtoItemStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UpdateOrderItemDtoItemStatus = {
+  pending: 'pending',
+  bought: 'bought',
+  substituted: 'substituted',
+  skipped: 'skipped',
+} as const;
+
+export interface UpdateOrderItemDto {
+  itemStatus?: UpdateOrderItemDtoItemStatus;
+  /**
+   * @minimum 0
+   * @maximum 100000000
+   * @nullable
+   */
+  adjustedPriceUzs?: number | null;
+}
+
+export type DailyPriceBoardDtoRowsItemUnit = typeof DailyPriceBoardDtoRowsItemUnit[keyof typeof DailyPriceBoardDtoRowsItemUnit];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DailyPriceBoardDtoRowsItemUnit = {
+  kg: 'kg',
+  dona: 'dona',
+} as const;
+
+export type DailyPriceBoardDtoRowsItem = {
+  productId: number;
+  nameUz: string;
+  unit: DailyPriceBoardDtoRowsItemUnit;
+  categoryId: number;
+  categoryNameUz: string;
+  sortOrder: number;
+  /** @nullable */
+  priceUzs: number | null;
+};
+
+export interface DailyPriceBoardDto {
+  date: string;
+  rows: DailyPriceBoardDtoRowsItem[];
+}
+
+export type BulkDailyPriceDtoPricesItem = {
+  /**
+   * @minimum 0
+   * @exclusiveMinimum
+   */
+  productId: number;
+  /**
+   * @minimum 0
+   * @maximum 100000000
+   */
+  priceUzs: number;
+};
+
+export interface BulkDailyPriceDto {
+  /** @pattern ^\d{4}-\d{2}-\d{2}$ */
+  date: string;
+  /**
+   * @minItems 1
+   * @maxItems 500
+   */
+  prices: BulkDailyPriceDtoPricesItem[];
+}
+
+export type AdminProductDtoUnit = typeof AdminProductDtoUnit[keyof typeof AdminProductDtoUnit];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AdminProductDtoUnit = {
+  kg: 'kg',
+  dona: 'dona',
+} as const;
+
+/**
+ * @nullable
+ */
+export type AdminProductDtoBadge = typeof AdminProductDtoBadge[keyof typeof AdminProductDtoBadge] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AdminProductDtoBadge = {
+  yangi_keldi: 'yangi_keldi',
+  narxi_barqaror: 'narxi_barqaror',
+} as const;
+
+export interface AdminProductDto {
+  id: number;
+  categoryId: number;
+  categoryNameUz: string;
+  nameUz: string;
+  unit: AdminProductDtoUnit;
+  /** @nullable */
+  imageUrl: string | null;
+  isActive: boolean;
+  /** @nullable */
+  badge: AdminProductDtoBadge;
+  isProductOfDay: boolean;
+  sortOrder: number;
+}
+
+export type CreateProductDtoUnit = typeof CreateProductDtoUnit[keyof typeof CreateProductDtoUnit];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CreateProductDtoUnit = {
+  kg: 'kg',
+  dona: 'dona',
+} as const;
+
+/**
+ * @nullable
+ */
+export type CreateProductDtoBadge = typeof CreateProductDtoBadge[keyof typeof CreateProductDtoBadge] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CreateProductDtoBadge = {
+  yangi_keldi: 'yangi_keldi',
+  narxi_barqaror: 'narxi_barqaror',
+} as const;
+
+export interface CreateProductDto {
+  /**
+   * @minimum 0
+   * @exclusiveMinimum
+   */
+  categoryId: number;
+  /**
+   * @minLength 1
+   * @maxLength 120
+   */
+  nameUz: string;
+  unit: CreateProductDtoUnit;
+  /**
+   * @maxLength 500
+   * @nullable
+   */
+  imageUrl?: string | null;
+  isActive?: boolean;
+  /** @nullable */
+  badge?: CreateProductDtoBadge;
+  isProductOfDay?: boolean;
+  /**
+   * @minimum 0
+   * @maximum 100000
+   */
+  sortOrder?: number;
+}
+
+export type UpdateProductDtoUnit = typeof UpdateProductDtoUnit[keyof typeof UpdateProductDtoUnit];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UpdateProductDtoUnit = {
+  kg: 'kg',
+  dona: 'dona',
+} as const;
+
+/**
+ * @nullable
+ */
+export type UpdateProductDtoBadge = typeof UpdateProductDtoBadge[keyof typeof UpdateProductDtoBadge] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UpdateProductDtoBadge = {
+  yangi_keldi: 'yangi_keldi',
+  narxi_barqaror: 'narxi_barqaror',
+} as const;
+
+export interface UpdateProductDto {
+  /**
+   * @minimum 0
+   * @exclusiveMinimum
+   */
+  categoryId?: number;
+  /**
+   * @minLength 1
+   * @maxLength 120
+   */
+  nameUz?: string;
+  unit?: UpdateProductDtoUnit;
+  /**
+   * @maxLength 500
+   * @nullable
+   */
+  imageUrl?: string | null;
+  isActive?: boolean;
+  /** @nullable */
+  badge?: UpdateProductDtoBadge;
+  isProductOfDay?: boolean;
+  /**
+   * @minimum 0
+   * @maximum 100000
+   */
+  sortOrder?: number;
+}
+
+export interface AdminCategoryDto {
+  id: number;
+  slug: string;
+  nameUz: string;
+  sortOrder: number;
+}
+
+export interface CreateCategoryDto {
+  /**
+   * @minLength 1
+   * @maxLength 40
+   * @pattern ^[a-z0-9-]+$
+   */
+  slug: string;
+  /**
+   * @minLength 1
+   * @maxLength 80
+   */
+  nameUz: string;
+  /**
+   * @minimum 0
+   * @maximum 1000
+   */
+  sortOrder?: number;
+}
+
+export interface UpdateCategoryDto {
+  /**
+   * @minLength 1
+   * @maxLength 40
+   * @pattern ^[a-z0-9-]+$
+   */
+  slug?: string;
+  /**
+   * @minLength 1
+   * @maxLength 80
+   */
+  nameUz?: string;
+  /**
+   * @minimum 0
+   * @maximum 1000
+   */
+  sortOrder?: number;
+}
+
+export interface AdminSlotDto {
+  id: number;
+  date: string;
+  label: string;
+  capacity: number;
+  takenCount: number;
+  isOpen: boolean;
+}
+
+export type CreateSlotDtoLabel = typeof CreateSlotDtoLabel[keyof typeof CreateSlotDtoLabel];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CreateSlotDtoLabel = {
+  '09:00–11:00': '09:00–11:00',
+  '11:00–13:00': '11:00–13:00',
+} as const;
+
+export interface CreateSlotDto {
+  /** @pattern ^\d{4}-\d{2}-\d{2}$ */
+  date: string;
+  label: CreateSlotDtoLabel;
+  /**
+   * @minimum 0
+   * @maximum 10000
+   */
+  capacity: number;
+  isOpen?: boolean;
+}
+
+export type UpdateSlotDtoLabel = typeof UpdateSlotDtoLabel[keyof typeof UpdateSlotDtoLabel];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UpdateSlotDtoLabel = {
+  '09:00–11:00': '09:00–11:00',
+  '11:00–13:00': '11:00–13:00',
+} as const;
+
+export interface UpdateSlotDto {
+  /** @pattern ^\d{4}-\d{2}-\d{2}$ */
+  date?: string;
+  label?: UpdateSlotDtoLabel;
+  /**
+   * @minimum 0
+   * @maximum 10000
+   */
+  capacity?: number;
+  isOpen?: boolean;
+}
+
+export type RouteBoardDtoSlotsItemOrdersItemStatus = typeof RouteBoardDtoSlotsItemOrdersItemStatus[keyof typeof RouteBoardDtoSlotsItemOrdersItemStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RouteBoardDtoSlotsItemOrdersItemStatus = {
+  accepted: 'accepted',
+  shopping: 'shopping',
+  on_the_way: 'on_the_way',
+  delivered: 'delivered',
+  cancelled: 'cancelled',
+} as const;
+
+/**
+ * @nullable
+ */
+export type RouteBoardDtoSlotsItemOrdersItemCustomer = {
+  /** @nullable */
+  name: string | null;
+  /** @nullable */
+  phone: string | null;
+} | null;
+
+/**
+ * @nullable
+ */
+export type RouteBoardDtoSlotsItemOrdersItemAddress = {
+  mahalla: string;
+  house: string;
+  /** @nullable */
+  landmark: string | null;
+} | null;
+
+export type RouteBoardDtoSlotsItemOrdersItemItemsItemUnit = typeof RouteBoardDtoSlotsItemOrdersItemItemsItemUnit[keyof typeof RouteBoardDtoSlotsItemOrdersItemItemsItemUnit];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RouteBoardDtoSlotsItemOrdersItemItemsItemUnit = {
+  kg: 'kg',
+  dona: 'dona',
+} as const;
+
+export type RouteBoardDtoSlotsItemOrdersItemItemsItemFallback = typeof RouteBoardDtoSlotsItemOrdersItemItemsItemFallback[keyof typeof RouteBoardDtoSlotsItemOrdersItemItemsItemFallback];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RouteBoardDtoSlotsItemOrdersItemItemsItemFallback = {
+  substitute: 'substitute',
+  skip: 'skip',
+  call: 'call',
+} as const;
+
+export type RouteBoardDtoSlotsItemOrdersItemItemsItemItemStatus = typeof RouteBoardDtoSlotsItemOrdersItemItemsItemItemStatus[keyof typeof RouteBoardDtoSlotsItemOrdersItemItemsItemItemStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RouteBoardDtoSlotsItemOrdersItemItemsItemItemStatus = {
+  pending: 'pending',
+  bought: 'bought',
+  substituted: 'substituted',
+  skipped: 'skipped',
+} as const;
+
+export type RouteBoardDtoSlotsItemOrdersItemItemsItem = {
+  id: number;
+  nameSnapshot: string;
+  unit: RouteBoardDtoSlotsItemOrdersItemItemsItemUnit;
+  qty: string;
+  fallback: RouteBoardDtoSlotsItemOrdersItemItemsItemFallback;
+  /** @nullable */
+  itemNote: string | null;
+  itemStatus: RouteBoardDtoSlotsItemOrdersItemItemsItemItemStatus;
+};
+
+export type RouteBoardDtoSlotsItemOrdersItemAllowedTransitionsItem = typeof RouteBoardDtoSlotsItemOrdersItemAllowedTransitionsItem[keyof typeof RouteBoardDtoSlotsItemOrdersItemAllowedTransitionsItem];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RouteBoardDtoSlotsItemOrdersItemAllowedTransitionsItem = {
+  accepted: 'accepted',
+  shopping: 'shopping',
+  on_the_way: 'on_the_way',
+  delivered: 'delivered',
+  cancelled: 'cancelled',
+} as const;
+
+export type RouteBoardDtoSlotsItemOrdersItem = {
+  id: number;
+  status: RouteBoardDtoSlotsItemOrdersItemStatus;
+  createdAt: string;
+  /** @nullable */
+  customer: RouteBoardDtoSlotsItemOrdersItemCustomer;
+  /** @nullable */
+  address: RouteBoardDtoSlotsItemOrdersItemAddress;
+  items: RouteBoardDtoSlotsItemOrdersItemItemsItem[];
+  grandTotalUzs: number;
+  cashToCollectUzs: number;
+  refundDeltaUzs: number;
+  allowedTransitions: RouteBoardDtoSlotsItemOrdersItemAllowedTransitionsItem[];
+};
+
+export type RouteBoardDtoSlotsItem = {
+  id: number;
+  label: string;
+  capacity: number;
+  takenCount: number;
+  orders: RouteBoardDtoSlotsItemOrdersItem[];
+};
+
+export interface RouteBoardDto {
+  date: string;
+  slots: RouteBoardDtoSlotsItem[];
+}
+
+export interface UploadResultDto {
+  url: string;
+}
+
+export type AdminUploadsControllerUploadBody = {
+  file: Blob;
+};
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
@@ -106,3 +1298,4269 @@ export function useHealthControllerCheck<TData = Awaited<ReturnType<typeof healt
 
   return query;
 }
+
+
+
+
+
+/**
+ * @summary Current customer profile
+ */
+export type meControllerGetMeResponse200 = {
+  data: ProfileDto
+  status: 200
+}
+
+export type meControllerGetMeResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type meControllerGetMeResponseSuccess = (meControllerGetMeResponse200) & {
+  headers: Headers;
+};
+export type meControllerGetMeResponseError = (meControllerGetMeResponse401) & {
+  headers: Headers;
+};
+
+export type meControllerGetMeResponse = (meControllerGetMeResponseSuccess | meControllerGetMeResponseError)
+
+export const getMeControllerGetMeUrl = () => {
+
+
+  
+
+  return `/api/me`
+}
+
+export const meControllerGetMe = async ( options?: RequestInit): Promise<meControllerGetMeResponse> => {
+  
+  return customFetch<meControllerGetMeResponse>(getMeControllerGetMeUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getMeControllerGetMeQueryKey = () => {
+    return [
+    `/api/me`
+    ] as const;
+    }
+
+    
+export const getMeControllerGetMeQueryOptions = <TData = Awaited<ReturnType<typeof meControllerGetMe>>, TError = void>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof meControllerGetMe>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getMeControllerGetMeQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof meControllerGetMe>>> = ({ signal }) => meControllerGetMe({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof meControllerGetMe>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type MeControllerGetMeQueryResult = NonNullable<Awaited<ReturnType<typeof meControllerGetMe>>>
+export type MeControllerGetMeQueryError = void
+
+
+/**
+ * @summary Current customer profile
+ */
+
+export function useMeControllerGetMe<TData = Awaited<ReturnType<typeof meControllerGetMe>>, TError = void>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof meControllerGetMe>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getMeControllerGetMeQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary Update name / phone (onboarding)
+ */
+export type meControllerUpdateMeResponse200 = {
+  data: ProfileDto
+  status: 200
+}
+
+export type meControllerUpdateMeResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type meControllerUpdateMeResponseSuccess = (meControllerUpdateMeResponse200) & {
+  headers: Headers;
+};
+export type meControllerUpdateMeResponseError = (meControllerUpdateMeResponse401) & {
+  headers: Headers;
+};
+
+export type meControllerUpdateMeResponse = (meControllerUpdateMeResponseSuccess | meControllerUpdateMeResponseError)
+
+export const getMeControllerUpdateMeUrl = () => {
+
+
+  
+
+  return `/api/me`
+}
+
+export const meControllerUpdateMe = async (updateProfileDto: UpdateProfileDto, options?: RequestInit): Promise<meControllerUpdateMeResponse> => {
+  
+  return customFetch<meControllerUpdateMeResponse>(getMeControllerUpdateMeUrl(),
+  {      
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      updateProfileDto,)
+  }
+);}
+
+
+
+
+export const getMeControllerUpdateMeMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof meControllerUpdateMe>>, TError,{data: UpdateProfileDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof meControllerUpdateMe>>, TError,{data: UpdateProfileDto}, TContext> => {
+
+const mutationKey = ['meControllerUpdateMe'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof meControllerUpdateMe>>, {data: UpdateProfileDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  meControllerUpdateMe(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type MeControllerUpdateMeMutationResult = NonNullable<Awaited<ReturnType<typeof meControllerUpdateMe>>>
+    export type MeControllerUpdateMeMutationBody = UpdateProfileDto
+    export type MeControllerUpdateMeMutationError = void
+
+    /**
+ * @summary Update name / phone (onboarding)
+ */
+export const useMeControllerUpdateMe = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof meControllerUpdateMe>>, TError,{data: UpdateProfileDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof meControllerUpdateMe>>,
+        TError,
+        {data: UpdateProfileDto},
+        TContext
+      > => {
+
+      const mutationOptions = getMeControllerUpdateMeMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export type meControllerListAddressesResponse200 = {
+  data: AddressDto[]
+  status: 200
+}
+
+export type meControllerListAddressesResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type meControllerListAddressesResponseSuccess = (meControllerListAddressesResponse200) & {
+  headers: Headers;
+};
+export type meControllerListAddressesResponseError = (meControllerListAddressesResponse401) & {
+  headers: Headers;
+};
+
+export type meControllerListAddressesResponse = (meControllerListAddressesResponseSuccess | meControllerListAddressesResponseError)
+
+export const getMeControllerListAddressesUrl = () => {
+
+
+  
+
+  return `/api/me/addresses`
+}
+
+export const meControllerListAddresses = async ( options?: RequestInit): Promise<meControllerListAddressesResponse> => {
+  
+  return customFetch<meControllerListAddressesResponse>(getMeControllerListAddressesUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getMeControllerListAddressesQueryKey = () => {
+    return [
+    `/api/me/addresses`
+    ] as const;
+    }
+
+    
+export const getMeControllerListAddressesQueryOptions = <TData = Awaited<ReturnType<typeof meControllerListAddresses>>, TError = void>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof meControllerListAddresses>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getMeControllerListAddressesQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof meControllerListAddresses>>> = ({ signal }) => meControllerListAddresses({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof meControllerListAddresses>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type MeControllerListAddressesQueryResult = NonNullable<Awaited<ReturnType<typeof meControllerListAddresses>>>
+export type MeControllerListAddressesQueryError = void
+
+
+
+export function useMeControllerListAddresses<TData = Awaited<ReturnType<typeof meControllerListAddresses>>, TError = void>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof meControllerListAddresses>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getMeControllerListAddressesQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export type meControllerCreateAddressResponse200 = {
+  data: AddressDto
+  status: 200
+}
+
+export type meControllerCreateAddressResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type meControllerCreateAddressResponseSuccess = (meControllerCreateAddressResponse200) & {
+  headers: Headers;
+};
+export type meControllerCreateAddressResponseError = (meControllerCreateAddressResponse401) & {
+  headers: Headers;
+};
+
+export type meControllerCreateAddressResponse = (meControllerCreateAddressResponseSuccess | meControllerCreateAddressResponseError)
+
+export const getMeControllerCreateAddressUrl = () => {
+
+
+  
+
+  return `/api/me/addresses`
+}
+
+export const meControllerCreateAddress = async (createAddressDto: CreateAddressDto, options?: RequestInit): Promise<meControllerCreateAddressResponse> => {
+  
+  return customFetch<meControllerCreateAddressResponse>(getMeControllerCreateAddressUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      createAddressDto,)
+  }
+);}
+
+
+
+
+export const getMeControllerCreateAddressMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof meControllerCreateAddress>>, TError,{data: CreateAddressDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof meControllerCreateAddress>>, TError,{data: CreateAddressDto}, TContext> => {
+
+const mutationKey = ['meControllerCreateAddress'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof meControllerCreateAddress>>, {data: CreateAddressDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  meControllerCreateAddress(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type MeControllerCreateAddressMutationResult = NonNullable<Awaited<ReturnType<typeof meControllerCreateAddress>>>
+    export type MeControllerCreateAddressMutationBody = CreateAddressDto
+    export type MeControllerCreateAddressMutationError = void
+
+    export const useMeControllerCreateAddress = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof meControllerCreateAddress>>, TError,{data: CreateAddressDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof meControllerCreateAddress>>,
+        TError,
+        {data: CreateAddressDto},
+        TContext
+      > => {
+
+      const mutationOptions = getMeControllerCreateAddressMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export type meControllerUpdateAddressResponse200 = {
+  data: AddressDto
+  status: 200
+}
+
+export type meControllerUpdateAddressResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type meControllerUpdateAddressResponseSuccess = (meControllerUpdateAddressResponse200) & {
+  headers: Headers;
+};
+export type meControllerUpdateAddressResponseError = (meControllerUpdateAddressResponse401) & {
+  headers: Headers;
+};
+
+export type meControllerUpdateAddressResponse = (meControllerUpdateAddressResponseSuccess | meControllerUpdateAddressResponseError)
+
+export const getMeControllerUpdateAddressUrl = (id: number,) => {
+
+
+  
+
+  return `/api/me/addresses/${id}`
+}
+
+export const meControllerUpdateAddress = async (id: number,
+    updateAddressDto: UpdateAddressDto, options?: RequestInit): Promise<meControllerUpdateAddressResponse> => {
+  
+  return customFetch<meControllerUpdateAddressResponse>(getMeControllerUpdateAddressUrl(id),
+  {      
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      updateAddressDto,)
+  }
+);}
+
+
+
+
+export const getMeControllerUpdateAddressMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof meControllerUpdateAddress>>, TError,{id: number;data: UpdateAddressDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof meControllerUpdateAddress>>, TError,{id: number;data: UpdateAddressDto}, TContext> => {
+
+const mutationKey = ['meControllerUpdateAddress'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof meControllerUpdateAddress>>, {id: number;data: UpdateAddressDto}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  meControllerUpdateAddress(id,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type MeControllerUpdateAddressMutationResult = NonNullable<Awaited<ReturnType<typeof meControllerUpdateAddress>>>
+    export type MeControllerUpdateAddressMutationBody = UpdateAddressDto
+    export type MeControllerUpdateAddressMutationError = void
+
+    export const useMeControllerUpdateAddress = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof meControllerUpdateAddress>>, TError,{id: number;data: UpdateAddressDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof meControllerUpdateAddress>>,
+        TError,
+        {id: number;data: UpdateAddressDto},
+        TContext
+      > => {
+
+      const mutationOptions = getMeControllerUpdateAddressMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export type meControllerDeleteAddressResponse204 = {
+  data: void
+  status: 204
+}
+
+export type meControllerDeleteAddressResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type meControllerDeleteAddressResponseSuccess = (meControllerDeleteAddressResponse204) & {
+  headers: Headers;
+};
+export type meControllerDeleteAddressResponseError = (meControllerDeleteAddressResponse401) & {
+  headers: Headers;
+};
+
+export type meControllerDeleteAddressResponse = (meControllerDeleteAddressResponseSuccess | meControllerDeleteAddressResponseError)
+
+export const getMeControllerDeleteAddressUrl = (id: number,) => {
+
+
+  
+
+  return `/api/me/addresses/${id}`
+}
+
+export const meControllerDeleteAddress = async (id: number, options?: RequestInit): Promise<meControllerDeleteAddressResponse> => {
+  
+  return customFetch<meControllerDeleteAddressResponse>(getMeControllerDeleteAddressUrl(id),
+  {      
+    ...options,
+    method: 'DELETE'
+    
+    
+  }
+);}
+
+
+
+
+export const getMeControllerDeleteAddressMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof meControllerDeleteAddress>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof meControllerDeleteAddress>>, TError,{id: number}, TContext> => {
+
+const mutationKey = ['meControllerDeleteAddress'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof meControllerDeleteAddress>>, {id: number}> = (props) => {
+          const {id} = props ?? {};
+
+          return  meControllerDeleteAddress(id,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type MeControllerDeleteAddressMutationResult = NonNullable<Awaited<ReturnType<typeof meControllerDeleteAddress>>>
+    
+    export type MeControllerDeleteAddressMutationError = void
+
+    export const useMeControllerDeleteAddress = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof meControllerDeleteAddress>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof meControllerDeleteAddress>>,
+        TError,
+        {id: number},
+        TContext
+      > => {
+
+      const mutationOptions = getMeControllerDeleteAddressMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * @summary Doimiy ro'yxatim — saved staples with today's price
+ */
+export type meControllerListFavoritesResponse200 = {
+  data: FavoriteDto[]
+  status: 200
+}
+
+export type meControllerListFavoritesResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type meControllerListFavoritesResponseSuccess = (meControllerListFavoritesResponse200) & {
+  headers: Headers;
+};
+export type meControllerListFavoritesResponseError = (meControllerListFavoritesResponse401) & {
+  headers: Headers;
+};
+
+export type meControllerListFavoritesResponse = (meControllerListFavoritesResponseSuccess | meControllerListFavoritesResponseError)
+
+export const getMeControllerListFavoritesUrl = () => {
+
+
+  
+
+  return `/api/me/favorites`
+}
+
+export const meControllerListFavorites = async ( options?: RequestInit): Promise<meControllerListFavoritesResponse> => {
+  
+  return customFetch<meControllerListFavoritesResponse>(getMeControllerListFavoritesUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getMeControllerListFavoritesQueryKey = () => {
+    return [
+    `/api/me/favorites`
+    ] as const;
+    }
+
+    
+export const getMeControllerListFavoritesQueryOptions = <TData = Awaited<ReturnType<typeof meControllerListFavorites>>, TError = void>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof meControllerListFavorites>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getMeControllerListFavoritesQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof meControllerListFavorites>>> = ({ signal }) => meControllerListFavorites({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof meControllerListFavorites>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type MeControllerListFavoritesQueryResult = NonNullable<Awaited<ReturnType<typeof meControllerListFavorites>>>
+export type MeControllerListFavoritesQueryError = void
+
+
+/**
+ * @summary Doimiy ro'yxatim — saved staples with today's price
+ */
+
+export function useMeControllerListFavorites<TData = Awaited<ReturnType<typeof meControllerListFavorites>>, TError = void>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof meControllerListFavorites>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getMeControllerListFavoritesQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export type meControllerAddFavoriteResponse204 = {
+  data: void
+  status: 204
+}
+
+export type meControllerAddFavoriteResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type meControllerAddFavoriteResponseSuccess = (meControllerAddFavoriteResponse204) & {
+  headers: Headers;
+};
+export type meControllerAddFavoriteResponseError = (meControllerAddFavoriteResponse401) & {
+  headers: Headers;
+};
+
+export type meControllerAddFavoriteResponse = (meControllerAddFavoriteResponseSuccess | meControllerAddFavoriteResponseError)
+
+export const getMeControllerAddFavoriteUrl = () => {
+
+
+  
+
+  return `/api/me/favorites`
+}
+
+export const meControllerAddFavorite = async (addFavoriteDto: AddFavoriteDto, options?: RequestInit): Promise<meControllerAddFavoriteResponse> => {
+  
+  return customFetch<meControllerAddFavoriteResponse>(getMeControllerAddFavoriteUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      addFavoriteDto,)
+  }
+);}
+
+
+
+
+export const getMeControllerAddFavoriteMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof meControllerAddFavorite>>, TError,{data: AddFavoriteDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof meControllerAddFavorite>>, TError,{data: AddFavoriteDto}, TContext> => {
+
+const mutationKey = ['meControllerAddFavorite'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof meControllerAddFavorite>>, {data: AddFavoriteDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  meControllerAddFavorite(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type MeControllerAddFavoriteMutationResult = NonNullable<Awaited<ReturnType<typeof meControllerAddFavorite>>>
+    export type MeControllerAddFavoriteMutationBody = AddFavoriteDto
+    export type MeControllerAddFavoriteMutationError = void
+
+    export const useMeControllerAddFavorite = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof meControllerAddFavorite>>, TError,{data: AddFavoriteDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof meControllerAddFavorite>>,
+        TError,
+        {data: AddFavoriteDto},
+        TContext
+      > => {
+
+      const mutationOptions = getMeControllerAddFavoriteMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export type meControllerRemoveFavoriteResponse204 = {
+  data: void
+  status: 204
+}
+
+export type meControllerRemoveFavoriteResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type meControllerRemoveFavoriteResponseSuccess = (meControllerRemoveFavoriteResponse204) & {
+  headers: Headers;
+};
+export type meControllerRemoveFavoriteResponseError = (meControllerRemoveFavoriteResponse401) & {
+  headers: Headers;
+};
+
+export type meControllerRemoveFavoriteResponse = (meControllerRemoveFavoriteResponseSuccess | meControllerRemoveFavoriteResponseError)
+
+export const getMeControllerRemoveFavoriteUrl = (productId: number,) => {
+
+
+  
+
+  return `/api/me/favorites/${productId}`
+}
+
+export const meControllerRemoveFavorite = async (productId: number, options?: RequestInit): Promise<meControllerRemoveFavoriteResponse> => {
+  
+  return customFetch<meControllerRemoveFavoriteResponse>(getMeControllerRemoveFavoriteUrl(productId),
+  {      
+    ...options,
+    method: 'DELETE'
+    
+    
+  }
+);}
+
+
+
+
+export const getMeControllerRemoveFavoriteMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof meControllerRemoveFavorite>>, TError,{productId: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof meControllerRemoveFavorite>>, TError,{productId: number}, TContext> => {
+
+const mutationKey = ['meControllerRemoveFavorite'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof meControllerRemoveFavorite>>, {productId: number}> = (props) => {
+          const {productId} = props ?? {};
+
+          return  meControllerRemoveFavorite(productId,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type MeControllerRemoveFavoriteMutationResult = NonNullable<Awaited<ReturnType<typeof meControllerRemoveFavorite>>>
+    
+    export type MeControllerRemoveFavoriteMutationError = void
+
+    export const useMeControllerRemoveFavorite = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof meControllerRemoveFavorite>>, TError,{productId: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof meControllerRemoveFavorite>>,
+        TError,
+        {productId: number},
+        TContext
+      > => {
+
+      const mutationOptions = getMeControllerRemoveFavoriteMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * @summary Admin login → access token (refresh set as an httpOnly cookie)
+ */
+export type adminAuthControllerLoginResponse200 = {
+  data: AccessTokenDto
+  status: 200
+}
+    
+export type adminAuthControllerLoginResponseSuccess = (adminAuthControllerLoginResponse200) & {
+  headers: Headers;
+};
+;
+
+export type adminAuthControllerLoginResponse = (adminAuthControllerLoginResponseSuccess)
+
+export const getAdminAuthControllerLoginUrl = () => {
+
+
+  
+
+  return `/api/admin/auth/login`
+}
+
+export const adminAuthControllerLogin = async (adminLoginDto: AdminLoginDto, options?: RequestInit): Promise<adminAuthControllerLoginResponse> => {
+  
+  return customFetch<adminAuthControllerLoginResponse>(getAdminAuthControllerLoginUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      adminLoginDto,)
+  }
+);}
+
+
+
+
+export const getAdminAuthControllerLoginMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminAuthControllerLogin>>, TError,{data: AdminLoginDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminAuthControllerLogin>>, TError,{data: AdminLoginDto}, TContext> => {
+
+const mutationKey = ['adminAuthControllerLogin'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminAuthControllerLogin>>, {data: AdminLoginDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  adminAuthControllerLogin(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminAuthControllerLoginMutationResult = NonNullable<Awaited<ReturnType<typeof adminAuthControllerLogin>>>
+    export type AdminAuthControllerLoginMutationBody = AdminLoginDto
+    export type AdminAuthControllerLoginMutationError = unknown
+
+    /**
+ * @summary Admin login → access token (refresh set as an httpOnly cookie)
+ */
+export const useAdminAuthControllerLogin = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminAuthControllerLogin>>, TError,{data: AdminLoginDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof adminAuthControllerLogin>>,
+        TError,
+        {data: AdminLoginDto},
+        TContext
+      > => {
+
+      const mutationOptions = getAdminAuthControllerLoginMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * @summary Rotate the refresh cookie → new access token
+ */
+export type adminAuthControllerRefreshResponse200 = {
+  data: AccessTokenDto
+  status: 200
+}
+    
+export type adminAuthControllerRefreshResponseSuccess = (adminAuthControllerRefreshResponse200) & {
+  headers: Headers;
+};
+;
+
+export type adminAuthControllerRefreshResponse = (adminAuthControllerRefreshResponseSuccess)
+
+export const getAdminAuthControllerRefreshUrl = () => {
+
+
+  
+
+  return `/api/admin/auth/refresh`
+}
+
+export const adminAuthControllerRefresh = async ( options?: RequestInit): Promise<adminAuthControllerRefreshResponse> => {
+  
+  return customFetch<adminAuthControllerRefreshResponse>(getAdminAuthControllerRefreshUrl(),
+  {      
+    ...options,
+    method: 'POST'
+    
+    
+  }
+);}
+
+
+
+
+export const getAdminAuthControllerRefreshMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminAuthControllerRefresh>>, TError,void, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminAuthControllerRefresh>>, TError,void, TContext> => {
+
+const mutationKey = ['adminAuthControllerRefresh'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminAuthControllerRefresh>>, void> = () => {
+          
+
+          return  adminAuthControllerRefresh(requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminAuthControllerRefreshMutationResult = NonNullable<Awaited<ReturnType<typeof adminAuthControllerRefresh>>>
+    
+    export type AdminAuthControllerRefreshMutationError = unknown
+
+    /**
+ * @summary Rotate the refresh cookie → new access token
+ */
+export const useAdminAuthControllerRefresh = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminAuthControllerRefresh>>, TError,void, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof adminAuthControllerRefresh>>,
+        TError,
+        void,
+        TContext
+      > => {
+
+      const mutationOptions = getAdminAuthControllerRefreshMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * @summary Revoke the refresh token and clear the cookie
+ */
+export type adminAuthControllerLogoutResponse204 = {
+  data: void
+  status: 204
+}
+    
+export type adminAuthControllerLogoutResponseSuccess = (adminAuthControllerLogoutResponse204) & {
+  headers: Headers;
+};
+;
+
+export type adminAuthControllerLogoutResponse = (adminAuthControllerLogoutResponseSuccess)
+
+export const getAdminAuthControllerLogoutUrl = () => {
+
+
+  
+
+  return `/api/admin/auth/logout`
+}
+
+export const adminAuthControllerLogout = async ( options?: RequestInit): Promise<adminAuthControllerLogoutResponse> => {
+  
+  return customFetch<adminAuthControllerLogoutResponse>(getAdminAuthControllerLogoutUrl(),
+  {      
+    ...options,
+    method: 'POST'
+    
+    
+  }
+);}
+
+
+
+
+export const getAdminAuthControllerLogoutMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminAuthControllerLogout>>, TError,void, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminAuthControllerLogout>>, TError,void, TContext> => {
+
+const mutationKey = ['adminAuthControllerLogout'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminAuthControllerLogout>>, void> = () => {
+          
+
+          return  adminAuthControllerLogout(requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminAuthControllerLogoutMutationResult = NonNullable<Awaited<ReturnType<typeof adminAuthControllerLogout>>>
+    
+    export type AdminAuthControllerLogoutMutationError = unknown
+
+    /**
+ * @summary Revoke the refresh token and clear the cookie
+ */
+export const useAdminAuthControllerLogout = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminAuthControllerLogout>>, TError,void, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof adminAuthControllerLogout>>,
+        TError,
+        void,
+        TContext
+      > => {
+
+      const mutationOptions = getAdminAuthControllerLogoutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * @summary Current admin
+ */
+export type adminAuthControllerMeResponse200 = {
+  data: AdminMeDto
+  status: 200
+}
+
+export type adminAuthControllerMeResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminAuthControllerMeResponseSuccess = (adminAuthControllerMeResponse200) & {
+  headers: Headers;
+};
+export type adminAuthControllerMeResponseError = (adminAuthControllerMeResponse401) & {
+  headers: Headers;
+};
+
+export type adminAuthControllerMeResponse = (adminAuthControllerMeResponseSuccess | adminAuthControllerMeResponseError)
+
+export const getAdminAuthControllerMeUrl = () => {
+
+
+  
+
+  return `/api/admin/auth/me`
+}
+
+export const adminAuthControllerMe = async ( options?: RequestInit): Promise<adminAuthControllerMeResponse> => {
+  
+  return customFetch<adminAuthControllerMeResponse>(getAdminAuthControllerMeUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getAdminAuthControllerMeQueryKey = () => {
+    return [
+    `/api/admin/auth/me`
+    ] as const;
+    }
+
+    
+export const getAdminAuthControllerMeQueryOptions = <TData = Awaited<ReturnType<typeof adminAuthControllerMe>>, TError = void>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminAuthControllerMe>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAdminAuthControllerMeQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof adminAuthControllerMe>>> = ({ signal }) => adminAuthControllerMe({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof adminAuthControllerMe>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type AdminAuthControllerMeQueryResult = NonNullable<Awaited<ReturnType<typeof adminAuthControllerMe>>>
+export type AdminAuthControllerMeQueryError = void
+
+
+/**
+ * @summary Current admin
+ */
+
+export function useAdminAuthControllerMe<TData = Awaited<ReturnType<typeof adminAuthControllerMe>>, TError = void>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminAuthControllerMe>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getAdminAuthControllerMeQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary List categories
+ */
+export type catalogControllerCategoriesResponse200 = {
+  data: CategoryDto[]
+  status: 200
+}
+
+export type catalogControllerCategoriesResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type catalogControllerCategoriesResponseSuccess = (catalogControllerCategoriesResponse200) & {
+  headers: Headers;
+};
+export type catalogControllerCategoriesResponseError = (catalogControllerCategoriesResponse401) & {
+  headers: Headers;
+};
+
+export type catalogControllerCategoriesResponse = (catalogControllerCategoriesResponseSuccess | catalogControllerCategoriesResponseError)
+
+export const getCatalogControllerCategoriesUrl = () => {
+
+
+  
+
+  return `/api/categories`
+}
+
+export const catalogControllerCategories = async ( options?: RequestInit): Promise<catalogControllerCategoriesResponse> => {
+  
+  return customFetch<catalogControllerCategoriesResponse>(getCatalogControllerCategoriesUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getCatalogControllerCategoriesQueryKey = () => {
+    return [
+    `/api/categories`
+    ] as const;
+    }
+
+    
+export const getCatalogControllerCategoriesQueryOptions = <TData = Awaited<ReturnType<typeof catalogControllerCategories>>, TError = void>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof catalogControllerCategories>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getCatalogControllerCategoriesQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof catalogControllerCategories>>> = ({ signal }) => catalogControllerCategories({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof catalogControllerCategories>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type CatalogControllerCategoriesQueryResult = NonNullable<Awaited<ReturnType<typeof catalogControllerCategories>>>
+export type CatalogControllerCategoriesQueryError = void
+
+
+/**
+ * @summary List categories
+ */
+
+export function useCatalogControllerCategories<TData = Awaited<ReturnType<typeof catalogControllerCategories>>, TError = void>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof catalogControllerCategories>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getCatalogControllerCategoriesQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary Products with today's price (filter by category / search / cheapest-first)
+ */
+export type catalogControllerProductsResponse200 = {
+  data: ProductDto[]
+  status: 200
+}
+
+export type catalogControllerProductsResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type catalogControllerProductsResponseSuccess = (catalogControllerProductsResponse200) & {
+  headers: Headers;
+};
+export type catalogControllerProductsResponseError = (catalogControllerProductsResponse401) & {
+  headers: Headers;
+};
+
+export type catalogControllerProductsResponse = (catalogControllerProductsResponseSuccess | catalogControllerProductsResponseError)
+
+export const getCatalogControllerProductsUrl = () => {
+
+
+  
+
+  return `/api/products`
+}
+
+export const catalogControllerProducts = async ( options?: RequestInit): Promise<catalogControllerProductsResponse> => {
+  
+  return customFetch<catalogControllerProductsResponse>(getCatalogControllerProductsUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getCatalogControllerProductsQueryKey = () => {
+    return [
+    `/api/products`
+    ] as const;
+    }
+
+    
+export const getCatalogControllerProductsQueryOptions = <TData = Awaited<ReturnType<typeof catalogControllerProducts>>, TError = void>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof catalogControllerProducts>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getCatalogControllerProductsQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof catalogControllerProducts>>> = ({ signal }) => catalogControllerProducts({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof catalogControllerProducts>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type CatalogControllerProductsQueryResult = NonNullable<Awaited<ReturnType<typeof catalogControllerProducts>>>
+export type CatalogControllerProductsQueryError = void
+
+
+/**
+ * @summary Products with today's price (filter by category / search / cheapest-first)
+ */
+
+export function useCatalogControllerProducts<TData = Awaited<ReturnType<typeof catalogControllerProducts>>, TError = void>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof catalogControllerProducts>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getCatalogControllerProductsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary Product detail
+ */
+export type catalogControllerProductResponse200 = {
+  data: ProductDto
+  status: 200
+}
+
+export type catalogControllerProductResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type catalogControllerProductResponseSuccess = (catalogControllerProductResponse200) & {
+  headers: Headers;
+};
+export type catalogControllerProductResponseError = (catalogControllerProductResponse401) & {
+  headers: Headers;
+};
+
+export type catalogControllerProductResponse = (catalogControllerProductResponseSuccess | catalogControllerProductResponseError)
+
+export const getCatalogControllerProductUrl = (id: number,) => {
+
+
+  
+
+  return `/api/products/${id}`
+}
+
+export const catalogControllerProduct = async (id: number, options?: RequestInit): Promise<catalogControllerProductResponse> => {
+  
+  return customFetch<catalogControllerProductResponse>(getCatalogControllerProductUrl(id),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getCatalogControllerProductQueryKey = (id?: number,) => {
+    return [
+    `/api/products/${id}`
+    ] as const;
+    }
+
+    
+export const getCatalogControllerProductQueryOptions = <TData = Awaited<ReturnType<typeof catalogControllerProduct>>, TError = void>(id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof catalogControllerProduct>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getCatalogControllerProductQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof catalogControllerProduct>>> = ({ signal }) => catalogControllerProduct(id, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof catalogControllerProduct>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type CatalogControllerProductQueryResult = NonNullable<Awaited<ReturnType<typeof catalogControllerProduct>>>
+export type CatalogControllerProductQueryError = void
+
+
+/**
+ * @summary Product detail
+ */
+
+export function useCatalogControllerProduct<TData = Awaited<ReturnType<typeof catalogControllerProduct>>, TError = void>(
+ id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof catalogControllerProduct>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getCatalogControllerProductQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary Search products by name
+ */
+export type catalogControllerSearchResponse200 = {
+  data: ProductDto[]
+  status: 200
+}
+
+export type catalogControllerSearchResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type catalogControllerSearchResponseSuccess = (catalogControllerSearchResponse200) & {
+  headers: Headers;
+};
+export type catalogControllerSearchResponseError = (catalogControllerSearchResponse401) & {
+  headers: Headers;
+};
+
+export type catalogControllerSearchResponse = (catalogControllerSearchResponseSuccess | catalogControllerSearchResponseError)
+
+export const getCatalogControllerSearchUrl = () => {
+
+
+  
+
+  return `/api/search`
+}
+
+export const catalogControllerSearch = async ( options?: RequestInit): Promise<catalogControllerSearchResponse> => {
+  
+  return customFetch<catalogControllerSearchResponse>(getCatalogControllerSearchUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getCatalogControllerSearchQueryKey = () => {
+    return [
+    `/api/search`
+    ] as const;
+    }
+
+    
+export const getCatalogControllerSearchQueryOptions = <TData = Awaited<ReturnType<typeof catalogControllerSearch>>, TError = void>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof catalogControllerSearch>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getCatalogControllerSearchQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof catalogControllerSearch>>> = ({ signal }) => catalogControllerSearch({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof catalogControllerSearch>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type CatalogControllerSearchQueryResult = NonNullable<Awaited<ReturnType<typeof catalogControllerSearch>>>
+export type CatalogControllerSearchQueryError = void
+
+
+/**
+ * @summary Search products by name
+ */
+
+export function useCatalogControllerSearch<TData = Awaited<ReturnType<typeof catalogControllerSearch>>, TError = void>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof catalogControllerSearch>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getCatalogControllerSearchQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary Record an unmatched search (demand research)
+ */
+export type catalogControllerWishResponse200 = {
+  data: WishDto
+  status: 200
+}
+
+export type catalogControllerWishResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type catalogControllerWishResponseSuccess = (catalogControllerWishResponse200) & {
+  headers: Headers;
+};
+export type catalogControllerWishResponseError = (catalogControllerWishResponse401) & {
+  headers: Headers;
+};
+
+export type catalogControllerWishResponse = (catalogControllerWishResponseSuccess | catalogControllerWishResponseError)
+
+export const getCatalogControllerWishUrl = () => {
+
+
+  
+
+  return `/api/wishes`
+}
+
+export const catalogControllerWish = async (createWishDto: CreateWishDto, options?: RequestInit): Promise<catalogControllerWishResponse> => {
+  
+  return customFetch<catalogControllerWishResponse>(getCatalogControllerWishUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      createWishDto,)
+  }
+);}
+
+
+
+
+export const getCatalogControllerWishMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof catalogControllerWish>>, TError,{data: CreateWishDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof catalogControllerWish>>, TError,{data: CreateWishDto}, TContext> => {
+
+const mutationKey = ['catalogControllerWish'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof catalogControllerWish>>, {data: CreateWishDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  catalogControllerWish(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CatalogControllerWishMutationResult = NonNullable<Awaited<ReturnType<typeof catalogControllerWish>>>
+    export type CatalogControllerWishMutationBody = CreateWishDto
+    export type CatalogControllerWishMutationError = void
+
+    /**
+ * @summary Record an unmatched search (demand research)
+ */
+export const useCatalogControllerWish = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof catalogControllerWish>>, TError,{data: CreateWishDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof catalogControllerWish>>,
+        TError,
+        {data: CreateWishDto},
+        TContext
+      > => {
+
+      const mutationOptions = getCatalogControllerWishMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * @summary Delivery slots for the current delivery date (post-21:00 aware)
+ */
+export type slotsControllerListResponse200 = {
+  data: SlotsResponseDto
+  status: 200
+}
+
+export type slotsControllerListResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type slotsControllerListResponseSuccess = (slotsControllerListResponse200) & {
+  headers: Headers;
+};
+export type slotsControllerListResponseError = (slotsControllerListResponse401) & {
+  headers: Headers;
+};
+
+export type slotsControllerListResponse = (slotsControllerListResponseSuccess | slotsControllerListResponseError)
+
+export const getSlotsControllerListUrl = () => {
+
+
+  
+
+  return `/api/slots`
+}
+
+export const slotsControllerList = async ( options?: RequestInit): Promise<slotsControllerListResponse> => {
+  
+  return customFetch<slotsControllerListResponse>(getSlotsControllerListUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getSlotsControllerListQueryKey = () => {
+    return [
+    `/api/slots`
+    ] as const;
+    }
+
+    
+export const getSlotsControllerListQueryOptions = <TData = Awaited<ReturnType<typeof slotsControllerList>>, TError = void>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof slotsControllerList>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getSlotsControllerListQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof slotsControllerList>>> = ({ signal }) => slotsControllerList({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof slotsControllerList>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type SlotsControllerListQueryResult = NonNullable<Awaited<ReturnType<typeof slotsControllerList>>>
+export type SlotsControllerListQueryError = void
+
+
+/**
+ * @summary Delivery slots for the current delivery date (post-21:00 aware)
+ */
+
+export function useSlotsControllerList<TData = Awaited<ReturnType<typeof slotsControllerList>>, TError = void>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof slotsControllerList>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getSlotsControllerListQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary Place an order (server recomputes money; atomic slot reservation)
+ */
+export type ordersControllerCreateResponse201 = {
+  data: OrderDetailDto
+  status: 201
+}
+
+export type ordersControllerCreateResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type ordersControllerCreateResponseSuccess = (ordersControllerCreateResponse201) & {
+  headers: Headers;
+};
+export type ordersControllerCreateResponseError = (ordersControllerCreateResponse401) & {
+  headers: Headers;
+};
+
+export type ordersControllerCreateResponse = (ordersControllerCreateResponseSuccess | ordersControllerCreateResponseError)
+
+export const getOrdersControllerCreateUrl = () => {
+
+
+  
+
+  return `/api/orders`
+}
+
+export const ordersControllerCreate = async (createOrderDto: CreateOrderDto, options?: RequestInit): Promise<ordersControllerCreateResponse> => {
+  
+  return customFetch<ordersControllerCreateResponse>(getOrdersControllerCreateUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      createOrderDto,)
+  }
+);}
+
+
+
+
+export const getOrdersControllerCreateMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof ordersControllerCreate>>, TError,{data: CreateOrderDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof ordersControllerCreate>>, TError,{data: CreateOrderDto}, TContext> => {
+
+const mutationKey = ['ordersControllerCreate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof ordersControllerCreate>>, {data: CreateOrderDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  ordersControllerCreate(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type OrdersControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof ordersControllerCreate>>>
+    export type OrdersControllerCreateMutationBody = CreateOrderDto
+    export type OrdersControllerCreateMutationError = void
+
+    /**
+ * @summary Place an order (server recomputes money; atomic slot reservation)
+ */
+export const useOrdersControllerCreate = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof ordersControllerCreate>>, TError,{data: CreateOrderDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof ordersControllerCreate>>,
+        TError,
+        {data: CreateOrderDto},
+        TContext
+      > => {
+
+      const mutationOptions = getOrdersControllerCreateMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * @summary Customer's orders (newest first)
+ */
+export type ordersControllerListResponse200 = {
+  data: OrderSummaryDto[]
+  status: 200
+}
+
+export type ordersControllerListResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type ordersControllerListResponseSuccess = (ordersControllerListResponse200) & {
+  headers: Headers;
+};
+export type ordersControllerListResponseError = (ordersControllerListResponse401) & {
+  headers: Headers;
+};
+
+export type ordersControllerListResponse = (ordersControllerListResponseSuccess | ordersControllerListResponseError)
+
+export const getOrdersControllerListUrl = () => {
+
+
+  
+
+  return `/api/orders`
+}
+
+export const ordersControllerList = async ( options?: RequestInit): Promise<ordersControllerListResponse> => {
+  
+  return customFetch<ordersControllerListResponse>(getOrdersControllerListUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getOrdersControllerListQueryKey = () => {
+    return [
+    `/api/orders`
+    ] as const;
+    }
+
+    
+export const getOrdersControllerListQueryOptions = <TData = Awaited<ReturnType<typeof ordersControllerList>>, TError = void>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof ordersControllerList>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getOrdersControllerListQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof ordersControllerList>>> = ({ signal }) => ordersControllerList({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof ordersControllerList>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type OrdersControllerListQueryResult = NonNullable<Awaited<ReturnType<typeof ordersControllerList>>>
+export type OrdersControllerListQueryError = void
+
+
+/**
+ * @summary Customer's orders (newest first)
+ */
+
+export function useOrdersControllerList<TData = Awaited<ReturnType<typeof ordersControllerList>>, TError = void>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof ordersControllerList>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getOrdersControllerListQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary Order detail with items, slot, address, rating
+ */
+export type ordersControllerGetResponse200 = {
+  data: OrderDetailDto
+  status: 200
+}
+
+export type ordersControllerGetResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type ordersControllerGetResponseSuccess = (ordersControllerGetResponse200) & {
+  headers: Headers;
+};
+export type ordersControllerGetResponseError = (ordersControllerGetResponse401) & {
+  headers: Headers;
+};
+
+export type ordersControllerGetResponse = (ordersControllerGetResponseSuccess | ordersControllerGetResponseError)
+
+export const getOrdersControllerGetUrl = (id: number,) => {
+
+
+  
+
+  return `/api/orders/${id}`
+}
+
+export const ordersControllerGet = async (id: number, options?: RequestInit): Promise<ordersControllerGetResponse> => {
+  
+  return customFetch<ordersControllerGetResponse>(getOrdersControllerGetUrl(id),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getOrdersControllerGetQueryKey = (id?: number,) => {
+    return [
+    `/api/orders/${id}`
+    ] as const;
+    }
+
+    
+export const getOrdersControllerGetQueryOptions = <TData = Awaited<ReturnType<typeof ordersControllerGet>>, TError = void>(id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof ordersControllerGet>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getOrdersControllerGetQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof ordersControllerGet>>> = ({ signal }) => ordersControllerGet(id, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof ordersControllerGet>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type OrdersControllerGetQueryResult = NonNullable<Awaited<ReturnType<typeof ordersControllerGet>>>
+export type OrdersControllerGetQueryError = void
+
+
+/**
+ * @summary Order detail with items, slot, address, rating
+ */
+
+export function useOrdersControllerGet<TData = Awaited<ReturnType<typeof ordersControllerGet>>, TError = void>(
+ id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof ordersControllerGet>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getOrdersControllerGetQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary Re-priced cart preview for "Qayta buyurtma berish" (price drift flagged)
+ */
+export type ordersControllerReorderResponse200 = {
+  data: ReorderPreviewDto
+  status: 200
+}
+
+export type ordersControllerReorderResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type ordersControllerReorderResponseSuccess = (ordersControllerReorderResponse200) & {
+  headers: Headers;
+};
+export type ordersControllerReorderResponseError = (ordersControllerReorderResponse401) & {
+  headers: Headers;
+};
+
+export type ordersControllerReorderResponse = (ordersControllerReorderResponseSuccess | ordersControllerReorderResponseError)
+
+export const getOrdersControllerReorderUrl = (id: number,) => {
+
+
+  
+
+  return `/api/orders/${id}/reorder`
+}
+
+export const ordersControllerReorder = async (id: number, options?: RequestInit): Promise<ordersControllerReorderResponse> => {
+  
+  return customFetch<ordersControllerReorderResponse>(getOrdersControllerReorderUrl(id),
+  {      
+    ...options,
+    method: 'POST'
+    
+    
+  }
+);}
+
+
+
+
+export const getOrdersControllerReorderMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof ordersControllerReorder>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof ordersControllerReorder>>, TError,{id: number}, TContext> => {
+
+const mutationKey = ['ordersControllerReorder'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof ordersControllerReorder>>, {id: number}> = (props) => {
+          const {id} = props ?? {};
+
+          return  ordersControllerReorder(id,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type OrdersControllerReorderMutationResult = NonNullable<Awaited<ReturnType<typeof ordersControllerReorder>>>
+    
+    export type OrdersControllerReorderMutationError = void
+
+    /**
+ * @summary Re-priced cart preview for "Qayta buyurtma berish" (price drift flagged)
+ */
+export const useOrdersControllerReorder = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof ordersControllerReorder>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof ordersControllerReorder>>,
+        TError,
+        {id: number},
+        TContext
+      > => {
+
+      const mutationOptions = getOrdersControllerReorderMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * @summary Rate a delivered order (1–5 stars)
+ */
+export type ordersControllerRateResponse201 = {
+  data: RatingDto
+  status: 201
+}
+
+export type ordersControllerRateResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type ordersControllerRateResponseSuccess = (ordersControllerRateResponse201) & {
+  headers: Headers;
+};
+export type ordersControllerRateResponseError = (ordersControllerRateResponse401) & {
+  headers: Headers;
+};
+
+export type ordersControllerRateResponse = (ordersControllerRateResponseSuccess | ordersControllerRateResponseError)
+
+export const getOrdersControllerRateUrl = (id: number,) => {
+
+
+  
+
+  return `/api/orders/${id}/rating`
+}
+
+export const ordersControllerRate = async (id: number,
+    rateOrderDto: RateOrderDto, options?: RequestInit): Promise<ordersControllerRateResponse> => {
+  
+  return customFetch<ordersControllerRateResponse>(getOrdersControllerRateUrl(id),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      rateOrderDto,)
+  }
+);}
+
+
+
+
+export const getOrdersControllerRateMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof ordersControllerRate>>, TError,{id: number;data: RateOrderDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof ordersControllerRate>>, TError,{id: number;data: RateOrderDto}, TContext> => {
+
+const mutationKey = ['ordersControllerRate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof ordersControllerRate>>, {id: number;data: RateOrderDto}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  ordersControllerRate(id,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type OrdersControllerRateMutationResult = NonNullable<Awaited<ReturnType<typeof ordersControllerRate>>>
+    export type OrdersControllerRateMutationBody = RateOrderDto
+    export type OrdersControllerRateMutationError = void
+
+    /**
+ * @summary Rate a delivered order (1–5 stars)
+ */
+export const useOrdersControllerRate = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof ordersControllerRate>>, TError,{id: number;data: RateOrderDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof ordersControllerRate>>,
+        TError,
+        {id: number;data: RateOrderDto},
+        TContext
+      > => {
+
+      const mutationOptions = getOrdersControllerRateMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * @summary List orders (filter by delivery date / status / slot; newest first)
+ */
+export type adminOrdersControllerListResponse200 = {
+  data: AdminOrderSummaryDto[]
+  status: 200
+}
+
+export type adminOrdersControllerListResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminOrdersControllerListResponseSuccess = (adminOrdersControllerListResponse200) & {
+  headers: Headers;
+};
+export type adminOrdersControllerListResponseError = (adminOrdersControllerListResponse401) & {
+  headers: Headers;
+};
+
+export type adminOrdersControllerListResponse = (adminOrdersControllerListResponseSuccess | adminOrdersControllerListResponseError)
+
+export const getAdminOrdersControllerListUrl = () => {
+
+
+  
+
+  return `/api/admin/orders`
+}
+
+export const adminOrdersControllerList = async ( options?: RequestInit): Promise<adminOrdersControllerListResponse> => {
+  
+  return customFetch<adminOrdersControllerListResponse>(getAdminOrdersControllerListUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getAdminOrdersControllerListQueryKey = () => {
+    return [
+    `/api/admin/orders`
+    ] as const;
+    }
+
+    
+export const getAdminOrdersControllerListQueryOptions = <TData = Awaited<ReturnType<typeof adminOrdersControllerList>>, TError = void>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminOrdersControllerList>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAdminOrdersControllerListQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof adminOrdersControllerList>>> = ({ signal }) => adminOrdersControllerList({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof adminOrdersControllerList>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type AdminOrdersControllerListQueryResult = NonNullable<Awaited<ReturnType<typeof adminOrdersControllerList>>>
+export type AdminOrdersControllerListQueryError = void
+
+
+/**
+ * @summary List orders (filter by delivery date / status / slot; newest first)
+ */
+
+export function useAdminOrdersControllerList<TData = Awaited<ReturnType<typeof adminOrdersControllerList>>, TError = void>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminOrdersControllerList>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getAdminOrdersControllerListQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary Order detail with items, status timeline, and recomputed totals
+ */
+export type adminOrdersControllerGetResponse200 = {
+  data: AdminOrderDetailDto
+  status: 200
+}
+
+export type adminOrdersControllerGetResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminOrdersControllerGetResponseSuccess = (adminOrdersControllerGetResponse200) & {
+  headers: Headers;
+};
+export type adminOrdersControllerGetResponseError = (adminOrdersControllerGetResponse401) & {
+  headers: Headers;
+};
+
+export type adminOrdersControllerGetResponse = (adminOrdersControllerGetResponseSuccess | adminOrdersControllerGetResponseError)
+
+export const getAdminOrdersControllerGetUrl = (id: number,) => {
+
+
+  
+
+  return `/api/admin/orders/${id}`
+}
+
+export const adminOrdersControllerGet = async (id: number, options?: RequestInit): Promise<adminOrdersControllerGetResponse> => {
+  
+  return customFetch<adminOrdersControllerGetResponse>(getAdminOrdersControllerGetUrl(id),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getAdminOrdersControllerGetQueryKey = (id?: number,) => {
+    return [
+    `/api/admin/orders/${id}`
+    ] as const;
+    }
+
+    
+export const getAdminOrdersControllerGetQueryOptions = <TData = Awaited<ReturnType<typeof adminOrdersControllerGet>>, TError = void>(id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminOrdersControllerGet>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAdminOrdersControllerGetQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof adminOrdersControllerGet>>> = ({ signal }) => adminOrdersControllerGet(id, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof adminOrdersControllerGet>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type AdminOrdersControllerGetQueryResult = NonNullable<Awaited<ReturnType<typeof adminOrdersControllerGet>>>
+export type AdminOrdersControllerGetQueryError = void
+
+
+/**
+ * @summary Order detail with items, status timeline, and recomputed totals
+ */
+
+export function useAdminOrdersControllerGet<TData = Awaited<ReturnType<typeof adminOrdersControllerGet>>, TError = void>(
+ id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminOrdersControllerGet>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getAdminOrdersControllerGetQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary Transition order status (enforces the state machine; 409 if illegal)
+ */
+export type adminOrdersControllerUpdateStatusResponse200 = {
+  data: AdminOrderDetailDto
+  status: 200
+}
+
+export type adminOrdersControllerUpdateStatusResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminOrdersControllerUpdateStatusResponseSuccess = (adminOrdersControllerUpdateStatusResponse200) & {
+  headers: Headers;
+};
+export type adminOrdersControllerUpdateStatusResponseError = (adminOrdersControllerUpdateStatusResponse401) & {
+  headers: Headers;
+};
+
+export type adminOrdersControllerUpdateStatusResponse = (adminOrdersControllerUpdateStatusResponseSuccess | adminOrdersControllerUpdateStatusResponseError)
+
+export const getAdminOrdersControllerUpdateStatusUrl = (id: number,) => {
+
+
+  
+
+  return `/api/admin/orders/${id}/status`
+}
+
+export const adminOrdersControllerUpdateStatus = async (id: number,
+    updateOrderStatusDto: UpdateOrderStatusDto, options?: RequestInit): Promise<adminOrdersControllerUpdateStatusResponse> => {
+  
+  return customFetch<adminOrdersControllerUpdateStatusResponse>(getAdminOrdersControllerUpdateStatusUrl(id),
+  {      
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      updateOrderStatusDto,)
+  }
+);}
+
+
+
+
+export const getAdminOrdersControllerUpdateStatusMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminOrdersControllerUpdateStatus>>, TError,{id: number;data: UpdateOrderStatusDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminOrdersControllerUpdateStatus>>, TError,{id: number;data: UpdateOrderStatusDto}, TContext> => {
+
+const mutationKey = ['adminOrdersControllerUpdateStatus'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminOrdersControllerUpdateStatus>>, {id: number;data: UpdateOrderStatusDto}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  adminOrdersControllerUpdateStatus(id,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminOrdersControllerUpdateStatusMutationResult = NonNullable<Awaited<ReturnType<typeof adminOrdersControllerUpdateStatus>>>
+    export type AdminOrdersControllerUpdateStatusMutationBody = UpdateOrderStatusDto
+    export type AdminOrdersControllerUpdateStatusMutationError = void
+
+    /**
+ * @summary Transition order status (enforces the state machine; 409 if illegal)
+ */
+export const useAdminOrdersControllerUpdateStatus = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminOrdersControllerUpdateStatus>>, TError,{id: number;data: UpdateOrderStatusDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof adminOrdersControllerUpdateStatus>>,
+        TError,
+        {id: number;data: UpdateOrderStatusDto},
+        TContext
+      > => {
+
+      const mutationOptions = getAdminOrdersControllerUpdateStatusMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * @summary Adjust an item (status + adjusted price); server recomputes the total
+ */
+export type adminOrdersControllerUpdateItemResponse200 = {
+  data: AdminOrderDetailDto
+  status: 200
+}
+
+export type adminOrdersControllerUpdateItemResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminOrdersControllerUpdateItemResponseSuccess = (adminOrdersControllerUpdateItemResponse200) & {
+  headers: Headers;
+};
+export type adminOrdersControllerUpdateItemResponseError = (adminOrdersControllerUpdateItemResponse401) & {
+  headers: Headers;
+};
+
+export type adminOrdersControllerUpdateItemResponse = (adminOrdersControllerUpdateItemResponseSuccess | adminOrdersControllerUpdateItemResponseError)
+
+export const getAdminOrdersControllerUpdateItemUrl = (id: number,
+    itemId: number,) => {
+
+
+  
+
+  return `/api/admin/orders/${id}/items/${itemId}`
+}
+
+export const adminOrdersControllerUpdateItem = async (id: number,
+    itemId: number,
+    updateOrderItemDto: UpdateOrderItemDto, options?: RequestInit): Promise<adminOrdersControllerUpdateItemResponse> => {
+  
+  return customFetch<adminOrdersControllerUpdateItemResponse>(getAdminOrdersControllerUpdateItemUrl(id,itemId),
+  {      
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      updateOrderItemDto,)
+  }
+);}
+
+
+
+
+export const getAdminOrdersControllerUpdateItemMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminOrdersControllerUpdateItem>>, TError,{id: number;itemId: number;data: UpdateOrderItemDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminOrdersControllerUpdateItem>>, TError,{id: number;itemId: number;data: UpdateOrderItemDto}, TContext> => {
+
+const mutationKey = ['adminOrdersControllerUpdateItem'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminOrdersControllerUpdateItem>>, {id: number;itemId: number;data: UpdateOrderItemDto}> = (props) => {
+          const {id,itemId,data} = props ?? {};
+
+          return  adminOrdersControllerUpdateItem(id,itemId,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminOrdersControllerUpdateItemMutationResult = NonNullable<Awaited<ReturnType<typeof adminOrdersControllerUpdateItem>>>
+    export type AdminOrdersControllerUpdateItemMutationBody = UpdateOrderItemDto
+    export type AdminOrdersControllerUpdateItemMutationError = void
+
+    /**
+ * @summary Adjust an item (status + adjusted price); server recomputes the total
+ */
+export const useAdminOrdersControllerUpdateItem = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminOrdersControllerUpdateItem>>, TError,{id: number;itemId: number;data: UpdateOrderItemDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof adminOrdersControllerUpdateItem>>,
+        TError,
+        {id: number;itemId: number;data: UpdateOrderItemDto},
+        TContext
+      > => {
+
+      const mutationOptions = getAdminOrdersControllerUpdateItemMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * @summary Pricing board: active products + a date's price (null if unset)
+ */
+export type adminPricingControllerBoardResponse200 = {
+  data: DailyPriceBoardDto
+  status: 200
+}
+
+export type adminPricingControllerBoardResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminPricingControllerBoardResponseSuccess = (adminPricingControllerBoardResponse200) & {
+  headers: Headers;
+};
+export type adminPricingControllerBoardResponseError = (adminPricingControllerBoardResponse401) & {
+  headers: Headers;
+};
+
+export type adminPricingControllerBoardResponse = (adminPricingControllerBoardResponseSuccess | adminPricingControllerBoardResponseError)
+
+export const getAdminPricingControllerBoardUrl = () => {
+
+
+  
+
+  return `/api/admin/daily-prices`
+}
+
+export const adminPricingControllerBoard = async ( options?: RequestInit): Promise<adminPricingControllerBoardResponse> => {
+  
+  return customFetch<adminPricingControllerBoardResponse>(getAdminPricingControllerBoardUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getAdminPricingControllerBoardQueryKey = () => {
+    return [
+    `/api/admin/daily-prices`
+    ] as const;
+    }
+
+    
+export const getAdminPricingControllerBoardQueryOptions = <TData = Awaited<ReturnType<typeof adminPricingControllerBoard>>, TError = void>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminPricingControllerBoard>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAdminPricingControllerBoardQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof adminPricingControllerBoard>>> = ({ signal }) => adminPricingControllerBoard({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof adminPricingControllerBoard>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type AdminPricingControllerBoardQueryResult = NonNullable<Awaited<ReturnType<typeof adminPricingControllerBoard>>>
+export type AdminPricingControllerBoardQueryError = void
+
+
+/**
+ * @summary Pricing board: active products + a date's price (null if unset)
+ */
+
+export function useAdminPricingControllerBoard<TData = Awaited<ReturnType<typeof adminPricingControllerBoard>>, TError = void>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminPricingControllerBoard>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getAdminPricingControllerBoardQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary Bulk upsert prices for a date (idempotent on product+date)
+ */
+export type adminPricingControllerBulkUpsertResponse200 = {
+  data: DailyPriceBoardDto
+  status: 200
+}
+
+export type adminPricingControllerBulkUpsertResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminPricingControllerBulkUpsertResponseSuccess = (adminPricingControllerBulkUpsertResponse200) & {
+  headers: Headers;
+};
+export type adminPricingControllerBulkUpsertResponseError = (adminPricingControllerBulkUpsertResponse401) & {
+  headers: Headers;
+};
+
+export type adminPricingControllerBulkUpsertResponse = (adminPricingControllerBulkUpsertResponseSuccess | adminPricingControllerBulkUpsertResponseError)
+
+export const getAdminPricingControllerBulkUpsertUrl = () => {
+
+
+  
+
+  return `/api/admin/daily-prices`
+}
+
+export const adminPricingControllerBulkUpsert = async (bulkDailyPriceDto: BulkDailyPriceDto, options?: RequestInit): Promise<adminPricingControllerBulkUpsertResponse> => {
+  
+  return customFetch<adminPricingControllerBulkUpsertResponse>(getAdminPricingControllerBulkUpsertUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      bulkDailyPriceDto,)
+  }
+);}
+
+
+
+
+export const getAdminPricingControllerBulkUpsertMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminPricingControllerBulkUpsert>>, TError,{data: BulkDailyPriceDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminPricingControllerBulkUpsert>>, TError,{data: BulkDailyPriceDto}, TContext> => {
+
+const mutationKey = ['adminPricingControllerBulkUpsert'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminPricingControllerBulkUpsert>>, {data: BulkDailyPriceDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  adminPricingControllerBulkUpsert(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminPricingControllerBulkUpsertMutationResult = NonNullable<Awaited<ReturnType<typeof adminPricingControllerBulkUpsert>>>
+    export type AdminPricingControllerBulkUpsertMutationBody = BulkDailyPriceDto
+    export type AdminPricingControllerBulkUpsertMutationError = void
+
+    /**
+ * @summary Bulk upsert prices for a date (idempotent on product+date)
+ */
+export const useAdminPricingControllerBulkUpsert = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminPricingControllerBulkUpsert>>, TError,{data: BulkDailyPriceDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof adminPricingControllerBulkUpsert>>,
+        TError,
+        {data: BulkDailyPriceDto},
+        TContext
+      > => {
+
+      const mutationOptions = getAdminPricingControllerBulkUpsertMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * @summary List products (active and inactive) with category name
+ */
+export type adminProductsControllerListResponse200 = {
+  data: AdminProductDto[]
+  status: 200
+}
+
+export type adminProductsControllerListResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminProductsControllerListResponseSuccess = (adminProductsControllerListResponse200) & {
+  headers: Headers;
+};
+export type adminProductsControllerListResponseError = (adminProductsControllerListResponse401) & {
+  headers: Headers;
+};
+
+export type adminProductsControllerListResponse = (adminProductsControllerListResponseSuccess | adminProductsControllerListResponseError)
+
+export const getAdminProductsControllerListUrl = () => {
+
+
+  
+
+  return `/api/admin/products`
+}
+
+export const adminProductsControllerList = async ( options?: RequestInit): Promise<adminProductsControllerListResponse> => {
+  
+  return customFetch<adminProductsControllerListResponse>(getAdminProductsControllerListUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getAdminProductsControllerListQueryKey = () => {
+    return [
+    `/api/admin/products`
+    ] as const;
+    }
+
+    
+export const getAdminProductsControllerListQueryOptions = <TData = Awaited<ReturnType<typeof adminProductsControllerList>>, TError = void>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminProductsControllerList>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAdminProductsControllerListQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof adminProductsControllerList>>> = ({ signal }) => adminProductsControllerList({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof adminProductsControllerList>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type AdminProductsControllerListQueryResult = NonNullable<Awaited<ReturnType<typeof adminProductsControllerList>>>
+export type AdminProductsControllerListQueryError = void
+
+
+/**
+ * @summary List products (active and inactive) with category name
+ */
+
+export function useAdminProductsControllerList<TData = Awaited<ReturnType<typeof adminProductsControllerList>>, TError = void>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminProductsControllerList>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getAdminProductsControllerListQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export type adminProductsControllerCreateResponse200 = {
+  data: AdminProductDto
+  status: 200
+}
+
+export type adminProductsControllerCreateResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminProductsControllerCreateResponseSuccess = (adminProductsControllerCreateResponse200) & {
+  headers: Headers;
+};
+export type adminProductsControllerCreateResponseError = (adminProductsControllerCreateResponse401) & {
+  headers: Headers;
+};
+
+export type adminProductsControllerCreateResponse = (adminProductsControllerCreateResponseSuccess | adminProductsControllerCreateResponseError)
+
+export const getAdminProductsControllerCreateUrl = () => {
+
+
+  
+
+  return `/api/admin/products`
+}
+
+export const adminProductsControllerCreate = async (createProductDto: CreateProductDto, options?: RequestInit): Promise<adminProductsControllerCreateResponse> => {
+  
+  return customFetch<adminProductsControllerCreateResponse>(getAdminProductsControllerCreateUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      createProductDto,)
+  }
+);}
+
+
+
+
+export const getAdminProductsControllerCreateMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminProductsControllerCreate>>, TError,{data: CreateProductDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminProductsControllerCreate>>, TError,{data: CreateProductDto}, TContext> => {
+
+const mutationKey = ['adminProductsControllerCreate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminProductsControllerCreate>>, {data: CreateProductDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  adminProductsControllerCreate(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminProductsControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof adminProductsControllerCreate>>>
+    export type AdminProductsControllerCreateMutationBody = CreateProductDto
+    export type AdminProductsControllerCreateMutationError = void
+
+    export const useAdminProductsControllerCreate = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminProductsControllerCreate>>, TError,{data: CreateProductDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof adminProductsControllerCreate>>,
+        TError,
+        {data: CreateProductDto},
+        TContext
+      > => {
+
+      const mutationOptions = getAdminProductsControllerCreateMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export type adminProductsControllerGetResponse200 = {
+  data: AdminProductDto
+  status: 200
+}
+
+export type adminProductsControllerGetResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminProductsControllerGetResponseSuccess = (adminProductsControllerGetResponse200) & {
+  headers: Headers;
+};
+export type adminProductsControllerGetResponseError = (adminProductsControllerGetResponse401) & {
+  headers: Headers;
+};
+
+export type adminProductsControllerGetResponse = (adminProductsControllerGetResponseSuccess | adminProductsControllerGetResponseError)
+
+export const getAdminProductsControllerGetUrl = (id: number,) => {
+
+
+  
+
+  return `/api/admin/products/${id}`
+}
+
+export const adminProductsControllerGet = async (id: number, options?: RequestInit): Promise<adminProductsControllerGetResponse> => {
+  
+  return customFetch<adminProductsControllerGetResponse>(getAdminProductsControllerGetUrl(id),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getAdminProductsControllerGetQueryKey = (id?: number,) => {
+    return [
+    `/api/admin/products/${id}`
+    ] as const;
+    }
+
+    
+export const getAdminProductsControllerGetQueryOptions = <TData = Awaited<ReturnType<typeof adminProductsControllerGet>>, TError = void>(id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminProductsControllerGet>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAdminProductsControllerGetQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof adminProductsControllerGet>>> = ({ signal }) => adminProductsControllerGet(id, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof adminProductsControllerGet>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type AdminProductsControllerGetQueryResult = NonNullable<Awaited<ReturnType<typeof adminProductsControllerGet>>>
+export type AdminProductsControllerGetQueryError = void
+
+
+
+export function useAdminProductsControllerGet<TData = Awaited<ReturnType<typeof adminProductsControllerGet>>, TError = void>(
+ id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminProductsControllerGet>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getAdminProductsControllerGetQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export type adminProductsControllerUpdateResponse200 = {
+  data: AdminProductDto
+  status: 200
+}
+
+export type adminProductsControllerUpdateResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminProductsControllerUpdateResponseSuccess = (adminProductsControllerUpdateResponse200) & {
+  headers: Headers;
+};
+export type adminProductsControllerUpdateResponseError = (adminProductsControllerUpdateResponse401) & {
+  headers: Headers;
+};
+
+export type adminProductsControllerUpdateResponse = (adminProductsControllerUpdateResponseSuccess | adminProductsControllerUpdateResponseError)
+
+export const getAdminProductsControllerUpdateUrl = (id: number,) => {
+
+
+  
+
+  return `/api/admin/products/${id}`
+}
+
+export const adminProductsControllerUpdate = async (id: number,
+    updateProductDto: UpdateProductDto, options?: RequestInit): Promise<adminProductsControllerUpdateResponse> => {
+  
+  return customFetch<adminProductsControllerUpdateResponse>(getAdminProductsControllerUpdateUrl(id),
+  {      
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      updateProductDto,)
+  }
+);}
+
+
+
+
+export const getAdminProductsControllerUpdateMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminProductsControllerUpdate>>, TError,{id: number;data: UpdateProductDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminProductsControllerUpdate>>, TError,{id: number;data: UpdateProductDto}, TContext> => {
+
+const mutationKey = ['adminProductsControllerUpdate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminProductsControllerUpdate>>, {id: number;data: UpdateProductDto}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  adminProductsControllerUpdate(id,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminProductsControllerUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof adminProductsControllerUpdate>>>
+    export type AdminProductsControllerUpdateMutationBody = UpdateProductDto
+    export type AdminProductsControllerUpdateMutationError = void
+
+    export const useAdminProductsControllerUpdate = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminProductsControllerUpdate>>, TError,{id: number;data: UpdateProductDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof adminProductsControllerUpdate>>,
+        TError,
+        {id: number;data: UpdateProductDto},
+        TContext
+      > => {
+
+      const mutationOptions = getAdminProductsControllerUpdateMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export type adminProductsControllerRemoveResponse204 = {
+  data: void
+  status: 204
+}
+
+export type adminProductsControllerRemoveResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminProductsControllerRemoveResponseSuccess = (adminProductsControllerRemoveResponse204) & {
+  headers: Headers;
+};
+export type adminProductsControllerRemoveResponseError = (adminProductsControllerRemoveResponse401) & {
+  headers: Headers;
+};
+
+export type adminProductsControllerRemoveResponse = (adminProductsControllerRemoveResponseSuccess | adminProductsControllerRemoveResponseError)
+
+export const getAdminProductsControllerRemoveUrl = (id: number,) => {
+
+
+  
+
+  return `/api/admin/products/${id}`
+}
+
+export const adminProductsControllerRemove = async (id: number, options?: RequestInit): Promise<adminProductsControllerRemoveResponse> => {
+  
+  return customFetch<adminProductsControllerRemoveResponse>(getAdminProductsControllerRemoveUrl(id),
+  {      
+    ...options,
+    method: 'DELETE'
+    
+    
+  }
+);}
+
+
+
+
+export const getAdminProductsControllerRemoveMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminProductsControllerRemove>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminProductsControllerRemove>>, TError,{id: number}, TContext> => {
+
+const mutationKey = ['adminProductsControllerRemove'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminProductsControllerRemove>>, {id: number}> = (props) => {
+          const {id} = props ?? {};
+
+          return  adminProductsControllerRemove(id,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminProductsControllerRemoveMutationResult = NonNullable<Awaited<ReturnType<typeof adminProductsControllerRemove>>>
+    
+    export type AdminProductsControllerRemoveMutationError = void
+
+    export const useAdminProductsControllerRemove = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminProductsControllerRemove>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof adminProductsControllerRemove>>,
+        TError,
+        {id: number},
+        TContext
+      > => {
+
+      const mutationOptions = getAdminProductsControllerRemoveMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * @summary List categories
+ */
+export type adminCategoriesControllerListResponse200 = {
+  data: AdminCategoryDto[]
+  status: 200
+}
+
+export type adminCategoriesControllerListResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminCategoriesControllerListResponseSuccess = (adminCategoriesControllerListResponse200) & {
+  headers: Headers;
+};
+export type adminCategoriesControllerListResponseError = (adminCategoriesControllerListResponse401) & {
+  headers: Headers;
+};
+
+export type adminCategoriesControllerListResponse = (adminCategoriesControllerListResponseSuccess | adminCategoriesControllerListResponseError)
+
+export const getAdminCategoriesControllerListUrl = () => {
+
+
+  
+
+  return `/api/admin/categories`
+}
+
+export const adminCategoriesControllerList = async ( options?: RequestInit): Promise<adminCategoriesControllerListResponse> => {
+  
+  return customFetch<adminCategoriesControllerListResponse>(getAdminCategoriesControllerListUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getAdminCategoriesControllerListQueryKey = () => {
+    return [
+    `/api/admin/categories`
+    ] as const;
+    }
+
+    
+export const getAdminCategoriesControllerListQueryOptions = <TData = Awaited<ReturnType<typeof adminCategoriesControllerList>>, TError = void>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminCategoriesControllerList>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAdminCategoriesControllerListQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof adminCategoriesControllerList>>> = ({ signal }) => adminCategoriesControllerList({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof adminCategoriesControllerList>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type AdminCategoriesControllerListQueryResult = NonNullable<Awaited<ReturnType<typeof adminCategoriesControllerList>>>
+export type AdminCategoriesControllerListQueryError = void
+
+
+/**
+ * @summary List categories
+ */
+
+export function useAdminCategoriesControllerList<TData = Awaited<ReturnType<typeof adminCategoriesControllerList>>, TError = void>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminCategoriesControllerList>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getAdminCategoriesControllerListQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export type adminCategoriesControllerCreateResponse200 = {
+  data: AdminCategoryDto
+  status: 200
+}
+
+export type adminCategoriesControllerCreateResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminCategoriesControllerCreateResponseSuccess = (adminCategoriesControllerCreateResponse200) & {
+  headers: Headers;
+};
+export type adminCategoriesControllerCreateResponseError = (adminCategoriesControllerCreateResponse401) & {
+  headers: Headers;
+};
+
+export type adminCategoriesControllerCreateResponse = (adminCategoriesControllerCreateResponseSuccess | adminCategoriesControllerCreateResponseError)
+
+export const getAdminCategoriesControllerCreateUrl = () => {
+
+
+  
+
+  return `/api/admin/categories`
+}
+
+export const adminCategoriesControllerCreate = async (createCategoryDto: CreateCategoryDto, options?: RequestInit): Promise<adminCategoriesControllerCreateResponse> => {
+  
+  return customFetch<adminCategoriesControllerCreateResponse>(getAdminCategoriesControllerCreateUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      createCategoryDto,)
+  }
+);}
+
+
+
+
+export const getAdminCategoriesControllerCreateMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminCategoriesControllerCreate>>, TError,{data: CreateCategoryDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminCategoriesControllerCreate>>, TError,{data: CreateCategoryDto}, TContext> => {
+
+const mutationKey = ['adminCategoriesControllerCreate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminCategoriesControllerCreate>>, {data: CreateCategoryDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  adminCategoriesControllerCreate(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminCategoriesControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof adminCategoriesControllerCreate>>>
+    export type AdminCategoriesControllerCreateMutationBody = CreateCategoryDto
+    export type AdminCategoriesControllerCreateMutationError = void
+
+    export const useAdminCategoriesControllerCreate = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminCategoriesControllerCreate>>, TError,{data: CreateCategoryDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof adminCategoriesControllerCreate>>,
+        TError,
+        {data: CreateCategoryDto},
+        TContext
+      > => {
+
+      const mutationOptions = getAdminCategoriesControllerCreateMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export type adminCategoriesControllerGetResponse200 = {
+  data: AdminCategoryDto
+  status: 200
+}
+
+export type adminCategoriesControllerGetResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminCategoriesControllerGetResponseSuccess = (adminCategoriesControllerGetResponse200) & {
+  headers: Headers;
+};
+export type adminCategoriesControllerGetResponseError = (adminCategoriesControllerGetResponse401) & {
+  headers: Headers;
+};
+
+export type adminCategoriesControllerGetResponse = (adminCategoriesControllerGetResponseSuccess | adminCategoriesControllerGetResponseError)
+
+export const getAdminCategoriesControllerGetUrl = (id: number,) => {
+
+
+  
+
+  return `/api/admin/categories/${id}`
+}
+
+export const adminCategoriesControllerGet = async (id: number, options?: RequestInit): Promise<adminCategoriesControllerGetResponse> => {
+  
+  return customFetch<adminCategoriesControllerGetResponse>(getAdminCategoriesControllerGetUrl(id),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getAdminCategoriesControllerGetQueryKey = (id?: number,) => {
+    return [
+    `/api/admin/categories/${id}`
+    ] as const;
+    }
+
+    
+export const getAdminCategoriesControllerGetQueryOptions = <TData = Awaited<ReturnType<typeof adminCategoriesControllerGet>>, TError = void>(id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminCategoriesControllerGet>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAdminCategoriesControllerGetQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof adminCategoriesControllerGet>>> = ({ signal }) => adminCategoriesControllerGet(id, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof adminCategoriesControllerGet>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type AdminCategoriesControllerGetQueryResult = NonNullable<Awaited<ReturnType<typeof adminCategoriesControllerGet>>>
+export type AdminCategoriesControllerGetQueryError = void
+
+
+
+export function useAdminCategoriesControllerGet<TData = Awaited<ReturnType<typeof adminCategoriesControllerGet>>, TError = void>(
+ id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminCategoriesControllerGet>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getAdminCategoriesControllerGetQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export type adminCategoriesControllerUpdateResponse200 = {
+  data: AdminCategoryDto
+  status: 200
+}
+
+export type adminCategoriesControllerUpdateResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminCategoriesControllerUpdateResponseSuccess = (adminCategoriesControllerUpdateResponse200) & {
+  headers: Headers;
+};
+export type adminCategoriesControllerUpdateResponseError = (adminCategoriesControllerUpdateResponse401) & {
+  headers: Headers;
+};
+
+export type adminCategoriesControllerUpdateResponse = (adminCategoriesControllerUpdateResponseSuccess | adminCategoriesControllerUpdateResponseError)
+
+export const getAdminCategoriesControllerUpdateUrl = (id: number,) => {
+
+
+  
+
+  return `/api/admin/categories/${id}`
+}
+
+export const adminCategoriesControllerUpdate = async (id: number,
+    updateCategoryDto: UpdateCategoryDto, options?: RequestInit): Promise<adminCategoriesControllerUpdateResponse> => {
+  
+  return customFetch<adminCategoriesControllerUpdateResponse>(getAdminCategoriesControllerUpdateUrl(id),
+  {      
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      updateCategoryDto,)
+  }
+);}
+
+
+
+
+export const getAdminCategoriesControllerUpdateMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminCategoriesControllerUpdate>>, TError,{id: number;data: UpdateCategoryDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminCategoriesControllerUpdate>>, TError,{id: number;data: UpdateCategoryDto}, TContext> => {
+
+const mutationKey = ['adminCategoriesControllerUpdate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminCategoriesControllerUpdate>>, {id: number;data: UpdateCategoryDto}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  adminCategoriesControllerUpdate(id,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminCategoriesControllerUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof adminCategoriesControllerUpdate>>>
+    export type AdminCategoriesControllerUpdateMutationBody = UpdateCategoryDto
+    export type AdminCategoriesControllerUpdateMutationError = void
+
+    export const useAdminCategoriesControllerUpdate = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminCategoriesControllerUpdate>>, TError,{id: number;data: UpdateCategoryDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof adminCategoriesControllerUpdate>>,
+        TError,
+        {id: number;data: UpdateCategoryDto},
+        TContext
+      > => {
+
+      const mutationOptions = getAdminCategoriesControllerUpdateMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export type adminCategoriesControllerRemoveResponse204 = {
+  data: void
+  status: 204
+}
+
+export type adminCategoriesControllerRemoveResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminCategoriesControllerRemoveResponseSuccess = (adminCategoriesControllerRemoveResponse204) & {
+  headers: Headers;
+};
+export type adminCategoriesControllerRemoveResponseError = (adminCategoriesControllerRemoveResponse401) & {
+  headers: Headers;
+};
+
+export type adminCategoriesControllerRemoveResponse = (adminCategoriesControllerRemoveResponseSuccess | adminCategoriesControllerRemoveResponseError)
+
+export const getAdminCategoriesControllerRemoveUrl = (id: number,) => {
+
+
+  
+
+  return `/api/admin/categories/${id}`
+}
+
+export const adminCategoriesControllerRemove = async (id: number, options?: RequestInit): Promise<adminCategoriesControllerRemoveResponse> => {
+  
+  return customFetch<adminCategoriesControllerRemoveResponse>(getAdminCategoriesControllerRemoveUrl(id),
+  {      
+    ...options,
+    method: 'DELETE'
+    
+    
+  }
+);}
+
+
+
+
+export const getAdminCategoriesControllerRemoveMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminCategoriesControllerRemove>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminCategoriesControllerRemove>>, TError,{id: number}, TContext> => {
+
+const mutationKey = ['adminCategoriesControllerRemove'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminCategoriesControllerRemove>>, {id: number}> = (props) => {
+          const {id} = props ?? {};
+
+          return  adminCategoriesControllerRemove(id,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminCategoriesControllerRemoveMutationResult = NonNullable<Awaited<ReturnType<typeof adminCategoriesControllerRemove>>>
+    
+    export type AdminCategoriesControllerRemoveMutationError = void
+
+    export const useAdminCategoriesControllerRemove = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminCategoriesControllerRemove>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof adminCategoriesControllerRemove>>,
+        TError,
+        {id: number},
+        TContext
+      > => {
+
+      const mutationOptions = getAdminCategoriesControllerRemoveMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * @summary List delivery slots (optionally by date)
+ */
+export type adminSlotsControllerListResponse200 = {
+  data: AdminSlotDto[]
+  status: 200
+}
+
+export type adminSlotsControllerListResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminSlotsControllerListResponseSuccess = (adminSlotsControllerListResponse200) & {
+  headers: Headers;
+};
+export type adminSlotsControllerListResponseError = (adminSlotsControllerListResponse401) & {
+  headers: Headers;
+};
+
+export type adminSlotsControllerListResponse = (adminSlotsControllerListResponseSuccess | adminSlotsControllerListResponseError)
+
+export const getAdminSlotsControllerListUrl = () => {
+
+
+  
+
+  return `/api/admin/slots`
+}
+
+export const adminSlotsControllerList = async ( options?: RequestInit): Promise<adminSlotsControllerListResponse> => {
+  
+  return customFetch<adminSlotsControllerListResponse>(getAdminSlotsControllerListUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getAdminSlotsControllerListQueryKey = () => {
+    return [
+    `/api/admin/slots`
+    ] as const;
+    }
+
+    
+export const getAdminSlotsControllerListQueryOptions = <TData = Awaited<ReturnType<typeof adminSlotsControllerList>>, TError = void>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminSlotsControllerList>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAdminSlotsControllerListQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof adminSlotsControllerList>>> = ({ signal }) => adminSlotsControllerList({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof adminSlotsControllerList>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type AdminSlotsControllerListQueryResult = NonNullable<Awaited<ReturnType<typeof adminSlotsControllerList>>>
+export type AdminSlotsControllerListQueryError = void
+
+
+/**
+ * @summary List delivery slots (optionally by date)
+ */
+
+export function useAdminSlotsControllerList<TData = Awaited<ReturnType<typeof adminSlotsControllerList>>, TError = void>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminSlotsControllerList>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getAdminSlotsControllerListQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary Create a slot (only the two contract labels are accepted)
+ */
+export type adminSlotsControllerCreateResponse200 = {
+  data: AdminSlotDto
+  status: 200
+}
+
+export type adminSlotsControllerCreateResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminSlotsControllerCreateResponseSuccess = (adminSlotsControllerCreateResponse200) & {
+  headers: Headers;
+};
+export type adminSlotsControllerCreateResponseError = (adminSlotsControllerCreateResponse401) & {
+  headers: Headers;
+};
+
+export type adminSlotsControllerCreateResponse = (adminSlotsControllerCreateResponseSuccess | adminSlotsControllerCreateResponseError)
+
+export const getAdminSlotsControllerCreateUrl = () => {
+
+
+  
+
+  return `/api/admin/slots`
+}
+
+export const adminSlotsControllerCreate = async (createSlotDto: CreateSlotDto, options?: RequestInit): Promise<adminSlotsControllerCreateResponse> => {
+  
+  return customFetch<adminSlotsControllerCreateResponse>(getAdminSlotsControllerCreateUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      createSlotDto,)
+  }
+);}
+
+
+
+
+export const getAdminSlotsControllerCreateMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminSlotsControllerCreate>>, TError,{data: CreateSlotDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminSlotsControllerCreate>>, TError,{data: CreateSlotDto}, TContext> => {
+
+const mutationKey = ['adminSlotsControllerCreate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminSlotsControllerCreate>>, {data: CreateSlotDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  adminSlotsControllerCreate(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminSlotsControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof adminSlotsControllerCreate>>>
+    export type AdminSlotsControllerCreateMutationBody = CreateSlotDto
+    export type AdminSlotsControllerCreateMutationError = void
+
+    /**
+ * @summary Create a slot (only the two contract labels are accepted)
+ */
+export const useAdminSlotsControllerCreate = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminSlotsControllerCreate>>, TError,{data: CreateSlotDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof adminSlotsControllerCreate>>,
+        TError,
+        {data: CreateSlotDto},
+        TContext
+      > => {
+
+      const mutationOptions = getAdminSlotsControllerCreateMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export type adminSlotsControllerGetResponse200 = {
+  data: AdminSlotDto
+  status: 200
+}
+
+export type adminSlotsControllerGetResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminSlotsControllerGetResponseSuccess = (adminSlotsControllerGetResponse200) & {
+  headers: Headers;
+};
+export type adminSlotsControllerGetResponseError = (adminSlotsControllerGetResponse401) & {
+  headers: Headers;
+};
+
+export type adminSlotsControllerGetResponse = (adminSlotsControllerGetResponseSuccess | adminSlotsControllerGetResponseError)
+
+export const getAdminSlotsControllerGetUrl = (id: number,) => {
+
+
+  
+
+  return `/api/admin/slots/${id}`
+}
+
+export const adminSlotsControllerGet = async (id: number, options?: RequestInit): Promise<adminSlotsControllerGetResponse> => {
+  
+  return customFetch<adminSlotsControllerGetResponse>(getAdminSlotsControllerGetUrl(id),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getAdminSlotsControllerGetQueryKey = (id?: number,) => {
+    return [
+    `/api/admin/slots/${id}`
+    ] as const;
+    }
+
+    
+export const getAdminSlotsControllerGetQueryOptions = <TData = Awaited<ReturnType<typeof adminSlotsControllerGet>>, TError = void>(id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminSlotsControllerGet>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAdminSlotsControllerGetQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof adminSlotsControllerGet>>> = ({ signal }) => adminSlotsControllerGet(id, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof adminSlotsControllerGet>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type AdminSlotsControllerGetQueryResult = NonNullable<Awaited<ReturnType<typeof adminSlotsControllerGet>>>
+export type AdminSlotsControllerGetQueryError = void
+
+
+
+export function useAdminSlotsControllerGet<TData = Awaited<ReturnType<typeof adminSlotsControllerGet>>, TError = void>(
+ id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminSlotsControllerGet>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getAdminSlotsControllerGetQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export type adminSlotsControllerUpdateResponse200 = {
+  data: AdminSlotDto
+  status: 200
+}
+
+export type adminSlotsControllerUpdateResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminSlotsControllerUpdateResponseSuccess = (adminSlotsControllerUpdateResponse200) & {
+  headers: Headers;
+};
+export type adminSlotsControllerUpdateResponseError = (adminSlotsControllerUpdateResponse401) & {
+  headers: Headers;
+};
+
+export type adminSlotsControllerUpdateResponse = (adminSlotsControllerUpdateResponseSuccess | adminSlotsControllerUpdateResponseError)
+
+export const getAdminSlotsControllerUpdateUrl = (id: number,) => {
+
+
+  
+
+  return `/api/admin/slots/${id}`
+}
+
+export const adminSlotsControllerUpdate = async (id: number,
+    updateSlotDto: UpdateSlotDto, options?: RequestInit): Promise<adminSlotsControllerUpdateResponse> => {
+  
+  return customFetch<adminSlotsControllerUpdateResponse>(getAdminSlotsControllerUpdateUrl(id),
+  {      
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      updateSlotDto,)
+  }
+);}
+
+
+
+
+export const getAdminSlotsControllerUpdateMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminSlotsControllerUpdate>>, TError,{id: number;data: UpdateSlotDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminSlotsControllerUpdate>>, TError,{id: number;data: UpdateSlotDto}, TContext> => {
+
+const mutationKey = ['adminSlotsControllerUpdate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminSlotsControllerUpdate>>, {id: number;data: UpdateSlotDto}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  adminSlotsControllerUpdate(id,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminSlotsControllerUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof adminSlotsControllerUpdate>>>
+    export type AdminSlotsControllerUpdateMutationBody = UpdateSlotDto
+    export type AdminSlotsControllerUpdateMutationError = void
+
+    export const useAdminSlotsControllerUpdate = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminSlotsControllerUpdate>>, TError,{id: number;data: UpdateSlotDto}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof adminSlotsControllerUpdate>>,
+        TError,
+        {id: number;data: UpdateSlotDto},
+        TContext
+      > => {
+
+      const mutationOptions = getAdminSlotsControllerUpdateMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export type adminSlotsControllerRemoveResponse204 = {
+  data: void
+  status: 204
+}
+
+export type adminSlotsControllerRemoveResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminSlotsControllerRemoveResponseSuccess = (adminSlotsControllerRemoveResponse204) & {
+  headers: Headers;
+};
+export type adminSlotsControllerRemoveResponseError = (adminSlotsControllerRemoveResponse401) & {
+  headers: Headers;
+};
+
+export type adminSlotsControllerRemoveResponse = (adminSlotsControllerRemoveResponseSuccess | adminSlotsControllerRemoveResponseError)
+
+export const getAdminSlotsControllerRemoveUrl = (id: number,) => {
+
+
+  
+
+  return `/api/admin/slots/${id}`
+}
+
+export const adminSlotsControllerRemove = async (id: number, options?: RequestInit): Promise<adminSlotsControllerRemoveResponse> => {
+  
+  return customFetch<adminSlotsControllerRemoveResponse>(getAdminSlotsControllerRemoveUrl(id),
+  {      
+    ...options,
+    method: 'DELETE'
+    
+    
+  }
+);}
+
+
+
+
+export const getAdminSlotsControllerRemoveMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminSlotsControllerRemove>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminSlotsControllerRemove>>, TError,{id: number}, TContext> => {
+
+const mutationKey = ['adminSlotsControllerRemove'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminSlotsControllerRemove>>, {id: number}> = (props) => {
+          const {id} = props ?? {};
+
+          return  adminSlotsControllerRemove(id,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminSlotsControllerRemoveMutationResult = NonNullable<Awaited<ReturnType<typeof adminSlotsControllerRemove>>>
+    
+    export type AdminSlotsControllerRemoveMutationError = void
+
+    export const useAdminSlotsControllerRemove = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminSlotsControllerRemove>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof adminSlotsControllerRemove>>,
+        TError,
+        {id: number},
+        TContext
+      > => {
+
+      const mutationOptions = getAdminSlotsControllerRemoveMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * @summary Delivery route: a date's orders grouped by slot (defaults to today)
+ */
+export type adminRouteControllerRouteResponse200 = {
+  data: RouteBoardDto
+  status: 200
+}
+
+export type adminRouteControllerRouteResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminRouteControllerRouteResponseSuccess = (adminRouteControllerRouteResponse200) & {
+  headers: Headers;
+};
+export type adminRouteControllerRouteResponseError = (adminRouteControllerRouteResponse401) & {
+  headers: Headers;
+};
+
+export type adminRouteControllerRouteResponse = (adminRouteControllerRouteResponseSuccess | adminRouteControllerRouteResponseError)
+
+export const getAdminRouteControllerRouteUrl = () => {
+
+
+  
+
+  return `/api/admin/route`
+}
+
+export const adminRouteControllerRoute = async ( options?: RequestInit): Promise<adminRouteControllerRouteResponse> => {
+  
+  return customFetch<adminRouteControllerRouteResponse>(getAdminRouteControllerRouteUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+
+
+
+
+
+export const getAdminRouteControllerRouteQueryKey = () => {
+    return [
+    `/api/admin/route`
+    ] as const;
+    }
+
+    
+export const getAdminRouteControllerRouteQueryOptions = <TData = Awaited<ReturnType<typeof adminRouteControllerRoute>>, TError = void>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminRouteControllerRoute>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAdminRouteControllerRouteQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof adminRouteControllerRoute>>> = ({ signal }) => adminRouteControllerRoute({ signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof adminRouteControllerRoute>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type AdminRouteControllerRouteQueryResult = NonNullable<Awaited<ReturnType<typeof adminRouteControllerRoute>>>
+export type AdminRouteControllerRouteQueryError = void
+
+
+/**
+ * @summary Delivery route: a date's orders grouped by slot (defaults to today)
+ */
+
+export function useAdminRouteControllerRoute<TData = Awaited<ReturnType<typeof adminRouteControllerRoute>>, TError = void>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof adminRouteControllerRoute>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getAdminRouteControllerRouteQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary Upload a product image (multipart field "file") → public URL
+ */
+export type adminUploadsControllerUploadResponse200 = {
+  data: UploadResultDto
+  status: 200
+}
+
+export type adminUploadsControllerUploadResponse401 = {
+  data: void
+  status: 401
+}
+    
+export type adminUploadsControllerUploadResponseSuccess = (adminUploadsControllerUploadResponse200) & {
+  headers: Headers;
+};
+export type adminUploadsControllerUploadResponseError = (adminUploadsControllerUploadResponse401) & {
+  headers: Headers;
+};
+
+export type adminUploadsControllerUploadResponse = (adminUploadsControllerUploadResponseSuccess | adminUploadsControllerUploadResponseError)
+
+export const getAdminUploadsControllerUploadUrl = () => {
+
+
+  
+
+  return `/api/admin/uploads`
+}
+
+export const adminUploadsControllerUpload = async (adminUploadsControllerUploadBody: AdminUploadsControllerUploadBody, options?: RequestInit): Promise<adminUploadsControllerUploadResponse> => {
+    const formData = new FormData();
+formData.append(`file`, adminUploadsControllerUploadBody.file)
+
+  return customFetch<adminUploadsControllerUploadResponse>(getAdminUploadsControllerUploadUrl(),
+  {      
+    ...options,
+    method: 'POST'
+    ,
+    body: 
+      formData,
+  }
+);}
+
+
+
+
+export const getAdminUploadsControllerUploadMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminUploadsControllerUpload>>, TError,{data: AdminUploadsControllerUploadBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminUploadsControllerUpload>>, TError,{data: AdminUploadsControllerUploadBody}, TContext> => {
+
+const mutationKey = ['adminUploadsControllerUpload'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminUploadsControllerUpload>>, {data: AdminUploadsControllerUploadBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  adminUploadsControllerUpload(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminUploadsControllerUploadMutationResult = NonNullable<Awaited<ReturnType<typeof adminUploadsControllerUpload>>>
+    export type AdminUploadsControllerUploadMutationBody = AdminUploadsControllerUploadBody
+    export type AdminUploadsControllerUploadMutationError = void
+
+    /**
+ * @summary Upload a product image (multipart field "file") → public URL
+ */
+export const useAdminUploadsControllerUpload = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminUploadsControllerUpload>>, TError,{data: AdminUploadsControllerUploadBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof adminUploadsControllerUpload>>,
+        TError,
+        {data: AdminUploadsControllerUploadBody},
+        TContext
+      > => {
+
+      const mutationOptions = getAdminUploadsControllerUploadMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }

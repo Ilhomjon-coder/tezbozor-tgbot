@@ -2,9 +2,12 @@
 //
 // orval's fetch client expects the mutator to resolve to a { status, data,
 // headers } envelope (that is the generated `*Response` type), NOT the bare
-// body. It prepends the API base URL (from the mini app's Vite env) and parses
-// the response. Only ever runs in the browser (mini app); the bot never imports
-// the generated client.
+// body. It prepends the API base URL (from the mini app's Vite env), attaches
+// the Telegram `initData` auth header on every request (docs/contracts.md ->
+// Auth), and parses the response. Only ever runs in the browser (mini app); the
+// bot never imports the generated client.
+
+import { getInitData } from './auth';
 
 const getBaseUrl = (): string => import.meta.env.VITE_API_BASE_URL ?? '';
 
@@ -18,7 +21,13 @@ async function parseBody(response: Response): Promise<unknown> {
 }
 
 export const customFetch = async <T>(url: string, options?: RequestInit): Promise<T> => {
-  const response = await fetch(`${getBaseUrl()}${url}`, options);
+  // Merge the Telegram initData header in without clobbering caller headers
+  // (e.g. Content-Type set by the generated client for JSON bodies).
+  const headers = new Headers(options?.headers);
+  const initData = getInitData();
+  if (initData) headers.set('x-telegram-init-data', initData);
+
+  const response = await fetch(`${getBaseUrl()}${url}`, { ...options, headers });
   const data = await parseBody(response);
 
   return {

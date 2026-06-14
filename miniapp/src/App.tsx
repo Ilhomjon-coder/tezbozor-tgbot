@@ -13,7 +13,7 @@ import { initTelegram, getStartParam, IN_TELEGRAM } from './telegram';
 import { ToastProvider } from './components/Toast';
 import { AppLayout } from './components/AppLayout';
 import { LoadingScreen } from './components/states';
-import { useAddresses, useProfile } from './api/hooks';
+import { useProfile } from './api/hooks';
 import { Onboarding } from './pages/Onboarding';
 import { Home } from './pages/Home';
 import { Catalog } from './pages/Catalog';
@@ -52,19 +52,17 @@ function DeepLinkHandler() {
 }
 
 /**
- * Force first-time users through onboarding (phone + name + address). Only
- * enforced inside Telegram, where initData lets /me resolve; in a plain browser
- * the routes stay open for development.
+ * Force first-time users through onboarding (name + phone). The delivery address
+ * is collected later, at checkout. Only enforced inside Telegram, where initData
+ * lets /me resolve; in a plain browser the routes stay open for development.
  */
 function OnboardingGate() {
   const { data: profile, isLoading: profileLoading } = useProfile();
-  const { data: addresses, isLoading: addressesLoading } = useAddresses();
 
   if (!IN_TELEGRAM) return <Outlet />;
-  if (profileLoading || addressesLoading) return <LoadingScreen />;
+  if (profileLoading) return <LoadingScreen />;
 
-  const onboarded =
-    !!profile?.name && !!profile?.phone && (addresses?.length ?? 0) > 0;
+  const onboarded = !!profile?.name && !!profile?.phone;
   if (!onboarded) return <Navigate to="/onboarding" replace />;
 
   return <Outlet />;

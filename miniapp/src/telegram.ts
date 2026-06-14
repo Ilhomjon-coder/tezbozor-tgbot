@@ -93,6 +93,24 @@ export function initTelegram(): void {
   });
 }
 
+/** The Telegram user's display name from initData, or null outside Telegram. */
+export function getTelegramUser(): { name: string } | null {
+  try {
+    // The launch-params user object is snake_case; tolerate camelCase too.
+    const lp = retrieveLaunchParams() as {
+      tgWebAppData?: {
+        user?: { first_name?: string; last_name?: string; firstName?: string; lastName?: string };
+      };
+    };
+    const u = lp?.tgWebAppData?.user;
+    if (!u) return null;
+    const name = `${u.first_name ?? u.firstName ?? ''} ${u.last_name ?? u.lastName ?? ''}`.trim();
+    return name ? { name } : null;
+  } catch {
+    return null;
+  }
+}
+
 /** The Telegram start_param (deep link payload), or undefined. */
 export function getStartParam(): string | undefined {
   try {

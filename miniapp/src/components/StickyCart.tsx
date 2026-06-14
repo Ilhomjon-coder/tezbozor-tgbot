@@ -14,7 +14,7 @@ export function StickyCart() {
   return (
     <div
       className="fixed inset-x-0 z-30 mx-auto max-w-content px-gutter"
-      style={{ bottom: 'calc(64px + var(--safe-bottom))' }}
+      style={{ bottom: 'calc(12px + var(--safe-bottom))' }}
     >
       <button
         onClick={() => {

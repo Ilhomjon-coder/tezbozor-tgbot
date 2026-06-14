@@ -2,15 +2,13 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { texts } from '@tezbozor/shared';
 import { useBackButton } from '../lib/telegramButtons';
 import { useOnline } from '../lib/useOnline';
-import { BottomNav } from './BottomNav';
 import { StickyCart } from './StickyCart';
 
 // App shell: Telegram BackButton (every route except / and onboarding), the
-// offline banner, the bottom tab bar and the sticky cart button. Focused flows
-// (product sheet, cart, checkout, order) hide the tab bar and manage their own
-// bottom CTA spacing.
+// offline banner, and the sticky cart button. There is NO bottom tab bar — the
+// design navigates via the home header avatar (→ profile), category chips, and
+// the sticky cart button; everything else returns via the Telegram BackButton.
 
-const FOCUSED_PREFIXES = ['/onboarding', '/product', '/cart', '/checkout', '/order'];
 const BROWSE_PREFIXES = ['/catalog', '/category', '/search'];
 
 function startsWithAny(path: string, prefixes: string[]): boolean {
@@ -22,14 +20,13 @@ export function AppLayout() {
   const navigate = useNavigate();
   const online = useOnline();
 
-  const focused = startsWithAny(pathname, FOCUSED_PREFIXES);
-  const showNav = !focused;
+  // Sticky cart appears only on browse screens (home/catalog/category/search).
   const showCart = pathname === '/' || startsWithAny(pathname, BROWSE_PREFIXES);
   const backEnabled = pathname !== '/' && pathname !== '/onboarding';
 
   useBackButton(() => navigate(-1), backEnabled);
 
-  const paddingBottom = `calc(${(showNav ? 72 : 8) + (showCart ? 56 : 0)}px + var(--safe-bottom))`;
+  const paddingBottom = `calc(${showCart ? 76 : 12}px + var(--safe-bottom))`;
 
   return (
     <div className="mx-auto flex min-h-screen max-w-content flex-col bg-paper">
@@ -44,7 +41,6 @@ export function AppLayout() {
       </main>
 
       {showCart ? <StickyCart /> : null}
-      {showNav ? <BottomNav /> : null}
     </div>
   );
 }

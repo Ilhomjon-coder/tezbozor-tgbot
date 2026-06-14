@@ -104,7 +104,7 @@ export function Home() {
         <span className="font-body text-base">{texts.home.searchPlaceholder}</span>
       </button>
 
-      {/* Category chips */}
+      {/* Category chips (+ "Barchasi" → full catalog, since there's no tab bar) */}
       {categories && categories.length > 0 ? (
         <div className="no-scrollbar -mx-gutter flex gap-2 overflow-x-auto px-gutter">
           {categories.map((c) => (
@@ -116,6 +116,12 @@ export function Home() {
               {c.nameUz}
             </button>
           ))}
+          <button
+            onClick={() => navigate('/catalog')}
+            className="press shrink-0 rounded-pill bg-brand-green-light px-4 py-2 font-body text-sm font-semibold text-brand-green-dark"
+          >
+            {texts.home.allCategories} →
+          </button>
         </div>
       ) : null}
 

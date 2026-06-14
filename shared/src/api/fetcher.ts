@@ -9,7 +9,13 @@
 
 import { getInitData } from './auth';
 
-const getBaseUrl = (): string => import.meta.env.VITE_API_BASE_URL ?? '';
+// The orval-generated request paths already include the `/api` prefix (e.g.
+// `/api/me`), so the base URL must be the bare origin. The deployed
+// VITE_API_BASE_URL is baked as `https://…/api`, so strip a trailing `/api`
+// (and any trailing slash) to avoid building `/api/api/…` (404). Works whether
+// the env is set to the origin or to `…/api`, or left empty for same-origin.
+const getBaseUrl = (): string =>
+  (import.meta.env.VITE_API_BASE_URL ?? '').trim().replace(/\/+$/, '').replace(/\/api$/, '');
 
 async function parseBody(response: Response): Promise<unknown> {
   const contentType = response.headers.get('content-type') ?? '';

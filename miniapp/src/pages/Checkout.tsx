@@ -148,7 +148,7 @@ export function Checkout() {
               <p className="mb-2 font-body text-sm text-ink-600">
                 📅 {deliveryDate ? texts.checkout.slotDate(relDay, formatUzDate(toParts(deliveryDate))) : texts.checkout.slotPickHint}
               </p>
-              <div className="grid grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-2 gap-3">
                 {(slotsQuery.data?.slots ?? []).map((s) => (
                   <SlotCard key={s.id} slot={s} selected={slotId === s.id} onSelect={() => setSlotId(s.id)} />
                 ))}
@@ -160,7 +160,7 @@ export function Checkout() {
         {/* 3. Payment */}
         <section>
           <SectionLabel n={3} title={texts.checkout.paymentSection} />
-          <div className="flex flex-col gap-2.5">
+          <div className="flex flex-col gap-3">
             {PAYMENT_METHODS.map((m) => {
               const active = ACTIVE_PAYMENT_METHODS.includes(m);
               const selected = payment === m;
@@ -168,7 +168,7 @@ export function Checkout() {
                 <div
                   key={m}
                   className={[
-                    'flex items-center justify-between rounded-lg border bg-card p-3.5',
+                    'flex items-center justify-between rounded-lg border bg-card p-4',
                     selected ? 'border-brand-green' : 'border-ink-200',
                     active ? '' : 'opacity-50',
                   ].join(' ')}
@@ -267,9 +267,9 @@ function SectionLabel({ n, title }: { n: number; title: string }) {
 
 function Row({ k, v, green }: { k: string; v: string; green?: boolean }) {
   return (
-    <div className="mt-2 flex items-center justify-between font-body text-base first:mt-0">
-      <span className="text-ink-600">{k}</span>
-      <span className={green ? 'font-semibold text-brand-green' : 'font-semibold text-ink-900'}>{v}</span>
+    <div className="mt-2 flex items-center justify-between gap-3 font-body text-base first:mt-0">
+      <span className="shrink-0 text-ink-600">{k}</span>
+      <span className={`text-right ${green ? 'font-semibold text-brand-green' : 'font-semibold text-ink-900'}`}>{v}</span>
     </div>
   );
 }
@@ -419,7 +419,7 @@ function AddressBlock({
             <RadioDot selected={selectedId === a.id} />
           </button>
         ))}
-        <button onClick={() => setMode('new')} className="press py-2 text-left font-body text-sm font-semibold text-brand-green">
+        <button onClick={() => setMode('new')} className="press inline-flex min-h-tap items-center font-body text-sm font-semibold text-brand-green">
           {texts.checkout.addAddress}
         </button>
       </Card>
@@ -431,7 +431,7 @@ function AddressBlock({
     return (
       <Card className="flex items-center justify-between p-4">
         <p className="font-body text-sm text-ink-600">{texts.checkout.noAddress}</p>
-        <button onClick={() => setMode('new')} className="press font-body text-sm font-semibold text-brand-green">
+        <button onClick={() => setMode('new')} className="press inline-flex min-h-tap items-center font-body text-sm font-semibold text-brand-green">
           {texts.checkout.addAddress}
         </button>
       </Card>
@@ -444,7 +444,7 @@ function AddressBlock({
         <p className="font-body text-base font-semibold text-ink-900">{selected.mahalla}</p>
         <p className="mt-0.5 font-body text-sm text-ink-600">{addressLine(selected)}</p>
       </div>
-      <button onClick={() => setMode('pick')} className="press font-body text-sm font-semibold text-brand-green">
+      <button onClick={() => setMode('pick')} className="press inline-flex min-h-tap shrink-0 items-center font-body text-sm font-semibold text-brand-green">
         {texts.common.change}
       </button>
     </Card>

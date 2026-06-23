@@ -65,7 +65,7 @@ export function FavoritesList() {
       <h1 className="mb-1 font-heading text-h1 text-ink-900">{texts.favorites.title}</h1>
       <p className="mb-4 font-body text-sm text-ink-600">{texts.favorites.intro}</p>
 
-      <div className="flex flex-col gap-2.5">
+      <div className="flex flex-col gap-3">
         {favorites!.map((f) => (
           <FavoriteRow key={f.productId} fav={f} onRemove={() => removeFavorite.remove(f.productId)} />
         ))}
@@ -84,7 +84,7 @@ function FavoriteRow({ fav, onRemove }: { fav: FavoriteDto; onRemove: () => void
   const navigate = useNavigate();
   const unavailable = !fav.isActive || fav.todayPriceUzs == null;
   return (
-    <div className="flex items-center gap-3 rounded-lg bg-card p-3 shadow-sm">
+    <div className="flex items-center gap-3 rounded-lg bg-card p-4 shadow-sm">
       <button onClick={() => navigate(`/product/${fav.productId}`)} className="press shrink-0">
         <ProductImage src={fav.imageUrl} alt={fav.nameUz} className="h-12 w-12 rounded-md" />
       </button>
@@ -93,10 +93,14 @@ function FavoriteRow({ fav, onRemove }: { fav: FavoriteDto; onRemove: () => void
         {unavailable ? (
           <p className="font-body text-xs font-medium text-danger">{texts.favorites.unavailableToday}</p>
         ) : (
-          <p className="font-body text-sm text-ink-600">{texts.common.priceLine(fav.todayPriceUzs as number, fav.unit)}</p>
+          <p className="font-body text-base font-semibold text-ink-900">{texts.common.priceLine(fav.todayPriceUzs as number, fav.unit)}</p>
         )}
       </div>
-      <button onClick={onRemove} aria-label={texts.favorites.remove} className="press p-1 text-ink-400">
+      <button
+        onClick={onRemove}
+        aria-label={texts.favorites.remove}
+        className="press -mr-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-pill text-ink-400 active:bg-ink-100"
+      >
         <TrashIcon size={18} />
       </button>
     </div>

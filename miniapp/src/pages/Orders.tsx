@@ -49,9 +49,9 @@ export function Orders() {
       <h1 className="mb-4 font-heading text-h1 text-ink-900">{texts.orders.title}</h1>
 
       {active.length > 0 ? (
-        <section className="mb-5">
+        <section className="mb-6">
           <p className="mb-2 font-body text-sm font-semibold text-ink-600">{texts.orders.activePinned}</p>
-          <div className="flex flex-col gap-2.5">
+          <div className="flex flex-col gap-3">
             {active.map((o) => (
               <OrderCard key={o.id} order={o} />
             ))}
@@ -62,7 +62,7 @@ export function Orders() {
       {past.length > 0 ? (
         <section>
           <p className="mb-2 font-body text-sm font-semibold text-ink-600">{texts.orders.history}</p>
-          <div className="flex flex-col gap-2.5">
+          <div className="flex flex-col gap-3">
             {past.map((o) => (
               <OrderCard key={o.id} order={o} />
             ))}
@@ -87,15 +87,16 @@ function OrderCard({ order }: { order: OrderSummaryDto }) {
         </span>
         <Badge tone={statusTone(status)}>{texts.labels.status[status]}</Badge>
       </div>
-      <p className="mt-1 font-heading text-base font-bold text-ink-900">
-        {texts.success.orderNo(order.id)} · {formatSom(order.grandTotalUzs)}
+      <p className="mt-1 font-heading text-lg font-bold text-ink-900">
+        {formatSom(order.grandTotalUzs)}
+        <span className="ml-2 font-body text-sm font-normal text-ink-400">{texts.success.orderNo(order.id)}</span>
       </p>
 
       <div className="mt-3 border-t border-ink-100 pt-3">
         {isActive ? (
           <button
             onClick={() => navigate(`/order/${order.id}`)}
-            className="press flex w-full items-center justify-between font-body text-sm font-semibold text-brand-green"
+            className="press flex min-h-tap w-full items-center justify-between font-body text-sm font-semibold text-brand-green"
           >
             {texts.orders.viewStatus}
             <ChevronRight size={18} />

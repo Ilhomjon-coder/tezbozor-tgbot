@@ -36,7 +36,7 @@ export function OrderSuccess() {
       </div>
 
       <h1 className="font-heading text-h1 text-ink-900">{texts.success.title}</h1>
-      <p className="max-w-[20rem] font-body text-base text-ink-600">{texts.success.body(relDay, slot)}</p>
+      <p className="max-w-xs font-body text-base text-ink-600">{texts.success.body(relDay, slot)}</p>
 
       {order ? (
         <div className="rounded-lg bg-card px-6 py-3 shadow-sm">
@@ -49,7 +49,7 @@ export function OrderSuccess() {
 
       <button
         onClick={() => navigate(`/order/${orderId}`, { replace: true })}
-        className="press font-body text-base font-semibold text-brand-green"
+        className="press inline-flex min-h-tap items-center px-4 font-body text-base font-semibold text-brand-green"
       >
         {texts.success.viewStatus}
       </button>

@@ -23,7 +23,7 @@ export function Catalog() {
       <h1 className="mb-1 font-heading text-h1 text-ink-900">{texts.catalog.title}</h1>
       <p className="mb-4 font-body text-sm text-ink-600">{texts.catalog.subtitle}</p>
 
-      <div className="flex flex-col gap-2.5">
+      <div className="flex flex-col gap-3">
         {(categories ?? []).map((c) => (
           <button
             key={c.id}

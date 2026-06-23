@@ -130,7 +130,7 @@ export function Home() {
 
       {/* Today's prices grid */}
       <section>
-        <div className="mb-2 flex items-center justify-between">
+        <div className="mb-3 flex items-center justify-between">
           <h2 className="font-heading text-h3 text-ink-900">{texts.home.todaysPricesTitle}</h2>
           <span className="flex items-center gap-1.5 font-body text-xs text-brand-green">
             <span className="h-1.5 w-1.5 rounded-full bg-brand-green" />

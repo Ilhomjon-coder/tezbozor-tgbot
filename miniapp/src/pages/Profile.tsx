@@ -58,7 +58,7 @@ export function Profile() {
             <Field label={texts.profile.phoneLabel}>
               <TextInput value={phone} onChange={(e) => setPhone(e.target.value)} inputMode="tel" />
             </Field>
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <Button variant="ghost" onClick={() => setEditing(false)}>
                 {texts.common.cancel}
               </Button>
@@ -80,14 +80,17 @@ export function Profile() {
               <p className="font-heading text-h3 text-ink-900">{profile?.name || '—'}</p>
               <p className="font-body text-sm text-ink-600">{profile?.phone || '—'}</p>
             </div>
-            <button onClick={() => setEditing(true)} className="press font-body text-sm font-semibold text-brand-green">
+            <button
+              onClick={() => setEditing(true)}
+              className="press -my-2 inline-flex min-h-tap shrink-0 items-center px-1 font-body text-sm font-semibold text-brand-green"
+            >
               {texts.profile.editProfile}
             </button>
           </div>
         )}
       </Card>
 
-      <div className="mt-4 flex flex-col gap-2.5">
+      <div className="mt-4 flex flex-col gap-3">
         {menu.map((m) => (
           <button
             key={m.to}

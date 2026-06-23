@@ -28,7 +28,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       {children}
       {message ? (
         <div className="pointer-events-none fixed inset-x-0 z-50 flex justify-center px-4" style={{ bottom: 'calc(80px + var(--safe-bottom))' }}>
-          <div className="pointer-events-auto max-w-content rounded-pill bg-ink-900/95 px-5 py-2.5 text-center font-body text-sm font-medium text-white shadow-lg">
+          <div className="pointer-events-auto max-w-content rounded-pill bg-ink-900/95 px-5 py-3 text-center font-body text-sm font-medium text-white shadow-lg">
             {message}
           </div>
         </div>

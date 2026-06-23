@@ -1,0 +1,110 @@
+/* Tezbozor design tokens — the in-app SINGLE SOURCE OF TRUTH.
+ *
+ * Translated verbatim from designs/design-system/tokens/*.css (colors, radius,
+ * spacing, typography). designs/ is reference-only and must not be a runtime
+ * build dependency (tgbot/CLAUDE.md), so the canonical values live here and the
+ * Tailwind theme (tailwind.config.js) references these variables — no value is
+ * duplicated. Change a token here and the whole app + Tailwind utilities follow.
+ *
+ * Brandbook rules baked in: orange ONLY on CTAs/promo, blue is FORBIDDEN
+ * (reads as Click/Payme), warm-flat over glass. 60-30-10: warm-white / green / orange.
+ *
+ * Each palette colour is defined twice: a hex var (for raw CSS) and an
+ * "R G B" channel var consumed by Tailwind as rgb(var(--x-rgb) / <alpha-value>)
+ * so opacity utilities (bg-brand-green/10) keep working off one source.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* ---- Brand greens ("bozor" — freshness/trust) ---- */
+  --green-500: #1fa055;       --green-500-rgb: 31 160 85;    /* logo, headings, brand */
+  --green-700: #157a40;       --green-700-rgb: 21 122 64;    /* hover/press, on-green */
+  --green-050: #e6f4ec;       --green-050-rgb: 230 244 236;  /* tint — card bg, success */
+
+  /* ---- Accent orange ("tez" — speed/energy) — CTAs & badges only ---- */
+  --orange-500: #ff7a00;      --orange-500-rgb: 255 122 0;   /* CTAs, promo, "new" */
+  --orange-600: #e66e00;      --orange-600-rgb: 230 110 0;   /* orange hover/press */
+  --orange-050: #fff1e0;      --orange-050-rgb: 255 241 224; /* promo blocks, warnings */
+
+  /* ---- Neutrals / ink ---- */
+  --ink-900: #1e2a32;         --ink-900-rgb: 30 42 50;       /* primary text */
+  --ink-600: #51616b;         --ink-600-rgb: 81 97 107;      /* secondary text */
+  --ink-400: #8a98a0;         --ink-400-rgb: 138 152 160;    /* muted / placeholder */
+  --ink-200: #d8dee2;         --ink-200-rgb: 216 222 226;    /* hairline borders */
+  --ink-100: #eceff1;         --ink-100-rgb: 236 239 241;    /* subtle fills, tracks */
+
+  /* ---- Surfaces ---- */
+  --paper: #faf7f2;           --paper-rgb: 250 247 242;      /* page background */
+  --card: #ffffff;            --card-rgb: 255 255 255;       /* card / sheet surface */
+
+  /* ---- Status ---- */
+  --danger-500: #d64545;      --danger-500-rgb: 214 69 69;   /* errors — warm red, never blue */
+  --danger-050: #fbeaea;      --danger-050-rgb: 251 234 234;
+
+  /* ---- Semantic aliases ---- */
+  --surface-page: var(--paper);
+  --text-primary: var(--ink-900);
+  --text-secondary: var(--ink-600);
+  --text-muted: var(--ink-400);
+
+  /* ================= Radius & elevation ================= */
+  --radius-sm: 8px;
+  --radius-md: 12px;   /* inputs, small cards */
+  --radius-lg: 16px;   /* cards, sheets */
+  --radius-xl: 20px;   /* hero blocks, bottom sheets */
+  --radius-pill: 999px;
+
+  /* Warm-tinted soft shadows — depth without blur/glass. */
+  --shadow-xs: 0 1px 2px rgba(30, 42, 50, 0.06);
+  --shadow-sm: 0 2px 8px rgba(30, 42, 50, 0.07);
+  --shadow-md: 0 6px 18px rgba(30, 42, 50, 0.09);
+  --shadow-lg: 0 12px 32px rgba(30, 42, 50, 0.12);
+  --shadow-green: 0 6px 16px rgba(31, 160, 85, 0.22);   /* green CTA lift */
+  --shadow-orange: 0 6px 16px rgba(255, 122, 0, 0.26);  /* orange CTA lift */
+
+  /* ================= Spacing (4px grid, airy mobile-first) ================= */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;   /* default gutter */
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --page-gutter: 16px;   /* side padding on 390px mobile */
+  --content-max: 420px;  /* single-column max width */
+  --touch-min: 44px;     /* minimum interactive target (48px ideal) */
+  --stack-gap: 12px;     /* default gap between stacked cards */
+
+  /* ================= Typography ================= */
+  --font-heading: 'Montserrat', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+  --weight-black: 900;
+
+  --text-h1: 28px;   /* Montserrat 800 — page titles */
+  --text-h2: 20px;   /* Montserrat 700 — section heads */
+  --text-h3: 18px;   /* Montserrat 700 — card titles */
+  --text-lg: 17px;   /* Inter — prominent body / prices */
+  --text-base: 16px; /* Inter 400 — body, CTA labels (600) */
+  --text-sm: 15px;   /* Inter — dense body */
+  --text-xs: 13px;   /* Inter — captions */
+
+  --leading-tight: 1.15;   /* headings */
+  --leading-snug: 1.35;    /* sub-heads, captions */
+  --leading-relaxed: 1.5;  /* dense body (text-sm) */
+  --leading-normal: 1.55;  /* body copy */
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+}

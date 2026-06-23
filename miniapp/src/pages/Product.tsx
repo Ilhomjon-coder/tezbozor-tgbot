@@ -96,13 +96,13 @@ export function Product() {
             <div>
               <h1 className="font-heading text-h2 text-ink-900">{product.nameUz}</h1>
               {product.priceUzs != null ? (
-                <p className="mt-1 font-body text-lg font-bold text-ink-900">
+                <p className="mt-1 font-body text-h3 font-extrabold text-ink-900">
                   {texts.common.priceLine(product.priceUzs, product.unit)}
                 </p>
               ) : (
                 <p className="mt-1 font-body text-sm text-ink-400">Narx tez orada</p>
               )}
-              <p className="mt-0.5 font-body text-xs text-ink-400">🔄 {texts.product.priceNote}</p>
+              <p className="mt-1 font-body text-xs text-ink-400">🔄 {texts.product.priceNote}</p>
             </div>
 
             {canAdd ? (

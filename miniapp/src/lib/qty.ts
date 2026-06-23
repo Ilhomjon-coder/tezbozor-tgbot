@@ -31,6 +31,12 @@ export function formatQty(qty: number, unit: Unit): string {
   return `${round2(qty)} ${unit}`;
 }
 
+/** Number only ("1.5", "3") — used in the space-tight product-card stepper,
+ * where the unit is already shown on the price line above it. */
+export function formatQtyShort(qty: number): string {
+  return String(round2(qty));
+}
+
 /** Quantity as the string the backend expects (fixed-point decimal). */
 export function qtyToApiString(qty: number): string {
   return String(round2(qty));

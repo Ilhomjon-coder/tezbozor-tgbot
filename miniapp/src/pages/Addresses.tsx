@@ -91,7 +91,7 @@ export function Addresses() {
           <Field label={`${texts.addresses.landmarkLabel} — ${texts.common.optional}`}>
             <TextInput value={landmark} onChange={(e) => setLandmark(e.target.value)} placeholder={texts.addresses.landmarkPlaceholder} />
           </Field>
-          <label className="flex items-center gap-2.5 py-1">
+          <label className="flex min-h-tap items-center gap-3 py-1">
             <input
               type="checkbox"
               checked={isDefault}
@@ -100,7 +100,7 @@ export function Addresses() {
             />
             <span className="font-body text-sm text-ink-900">{texts.addresses.makeDefault}</span>
           </label>
-          <div className="mt-2 flex gap-2">
+          <div className="mt-2 flex gap-3">
             <Button variant="ghost" onClick={() => setForm(null)}>
               {texts.common.cancel}
             </Button>
@@ -136,7 +136,7 @@ export function Addresses() {
         />
       ) : (
         <>
-          <div className="flex flex-col gap-2.5">
+          <div className="flex flex-col gap-3">
             {addresses!.map((a) => (
               <Card key={a.id} className="p-4">
                 <div className="flex items-start gap-3">
@@ -153,21 +153,21 @@ export function Addresses() {
                   </div>
                 </div>
                 <div className="mt-3 flex items-center gap-4 border-t border-ink-100 pt-3">
-                  <button onClick={() => openEdit(a)} className="press font-body text-sm font-semibold text-brand-green">
+                  <button onClick={() => openEdit(a)} className="press inline-flex min-h-tap items-center font-body text-sm font-semibold text-brand-green">
                     {texts.common.edit}
                   </button>
                   {confirmId === a.id ? (
                     <span className="ml-auto flex items-center gap-3">
                       <span className="font-body text-sm text-ink-600">{texts.addresses.deleteConfirm}</span>
-                      <button onClick={() => remove(a.id)} className="press font-body text-sm font-semibold text-danger">
+                      <button onClick={() => remove(a.id)} className="press inline-flex min-h-tap items-center px-3 font-body text-sm font-semibold text-danger">
                         {texts.common.yes}
                       </button>
-                      <button onClick={() => setConfirmId(null)} className="press font-body text-sm text-ink-400">
+                      <button onClick={() => setConfirmId(null)} className="press inline-flex min-h-tap items-center px-3 font-body text-sm text-ink-400">
                         {texts.common.no}
                       </button>
                     </span>
                   ) : (
-                    <button onClick={() => setConfirmId(a.id)} className="press ml-auto font-body text-sm font-semibold text-danger">
+                    <button onClick={() => setConfirmId(a.id)} className="press ml-auto inline-flex min-h-tap items-center font-body text-sm font-semibold text-danger">
                       {texts.common.delete}
                     </button>
                   )}

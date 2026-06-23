@@ -1,5 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode, TextareaHTMLAttributes, InputHTMLAttributes, SelectHTMLAttributes } from 'react';
-import { formatQty } from '../lib/qty';
+import { formatQty, formatQtyShort } from '../lib/qty';
 import type { Unit } from '@tezbozor/shared';
 import { MinusIcon, PlusIcon, BasketIcon, ChevronDown } from './icons';
 
@@ -89,7 +89,7 @@ export function IconButton({
   return (
     <button
       {...props}
-      className={`press flex h-10 w-10 items-center justify-center rounded-pill text-ink-600 active:bg-ink-100 ${className}`}
+      className={`press flex h-11 w-11 items-center justify-center rounded-pill text-ink-600 active:bg-ink-100 ${className}`}
     >
       {children}
     </button>
@@ -120,39 +120,54 @@ export function AddButton({ onClick, label }: { onClick: () => void; label?: str
   );
 }
 
-/** − qty + control. */
+/** − qty + control. 44px hit areas everywhere (low-end Android, big targets).
+ * `full` spans the width as a contained pill (product-card grid, where the unit
+ * already sits on the price line, so the qty shows the number only and never
+ * overflows the ~134px card). Inline (default) keeps the unit, e.g. "1.5 kg". */
 export function Stepper({
   qty,
   unit,
   onDec,
   onInc,
   compact,
+  full,
 }: {
   qty: number;
   unit: Unit;
   onDec: () => void;
   onInc: () => void;
   compact?: boolean;
+  full?: boolean;
 }) {
+  const btn = 'press flex h-11 w-11 shrink-0 items-center justify-center rounded-pill';
+  if (full) {
+    return (
+      <div className="flex w-full items-center rounded-pill bg-ink-100 p-1">
+        <button onClick={onDec} aria-label="Kamaytirish" className={`${btn} bg-card text-ink-900 shadow-xs active:bg-ink-200`}>
+          <MinusIcon size={18} />
+        </button>
+        {/* flex-1 + min-w-0 so the qty fills the middle and the 44px buttons can
+            never be pushed past the narrow card edge (truncates only at absurd qty). */}
+        <span className="min-w-0 flex-1 truncate px-1 text-center font-body text-sm font-bold tabular-nums text-ink-900">
+          {formatQtyShort(qty)}
+        </span>
+        <button onClick={onInc} aria-label="Ko‘paytirish" className={`${btn} bg-brand-green text-white active:bg-brand-green-dark`}>
+          <PlusIcon size={18} />
+        </button>
+      </div>
+    );
+  }
   return (
     <div className="inline-flex items-center gap-2">
-      <button
-        onClick={onDec}
-        aria-label="Kamaytirish"
-        className="press flex h-9 w-9 items-center justify-center rounded-pill border border-ink-200 text-ink-900 active:bg-ink-100"
-      >
+      <button onClick={onDec} aria-label="Kamaytirish" className={`${btn} border border-ink-200 text-ink-900 active:bg-ink-100`}>
         <MinusIcon size={18} />
       </button>
       <span
-        className={`min-w-[3.5rem] text-center font-body font-semibold text-ink-900 ${compact ? 'text-sm' : 'text-base'}`}
+        className={`min-w-14 text-center font-body font-semibold tabular-nums text-ink-900 ${compact ? 'text-sm' : 'text-base'}`}
       >
         {formatQty(qty, unit)}
       </span>
-      <button
-        onClick={onInc}
-        aria-label="Ko‘paytirish"
-        className="press flex h-9 w-9 items-center justify-center rounded-pill bg-brand-green text-white active:bg-brand-green-dark"
-      >
+      <button onClick={onInc} aria-label="Ko‘paytirish" className={`${btn} bg-brand-green text-white active:bg-brand-green-dark`}>
         <PlusIcon size={18} />
       </button>
     </div>

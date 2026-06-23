@@ -20,7 +20,7 @@ export function HomeBanner({ bannerKey, promo }: { bannerKey: BannerKey; promo?:
   const text = promo ? texts.banner.promoBozor : texts.banner[bannerKey];
   const style = promo ? styleByKey.market_day : styleByKey[bannerKey];
   return (
-    <div className={`rounded-lg px-4 py-3.5 font-body text-base font-semibold leading-snug ${style}`}>
+    <div className={`rounded-lg px-4 py-3 font-body text-base font-semibold leading-snug ${style}`}>
       {text}
     </div>
   );

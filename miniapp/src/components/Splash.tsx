@@ -5,7 +5,7 @@ import { texts } from '@tezbozor/shared';
 export function Splash() {
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-brand-green px-gutter text-center">
-      <div className="flex h-24 w-24 items-center justify-center rounded-xl bg-white/15 backdrop-blur-sm">
+      <div className="flex h-24 w-24 items-center justify-center rounded-xl bg-brand-green-dark shadow-md">
         <img src="/tezbozor-mark.svg" alt={texts.appName} className="h-14 w-14" />
       </div>
       <h1 className="mt-6 font-heading text-h1 font-extrabold text-white">{texts.appName}</h1>

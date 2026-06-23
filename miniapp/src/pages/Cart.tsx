@@ -61,7 +61,7 @@ export function Cart() {
               clear();
               haptic.tap();
             }}
-            className="press flex items-center gap-1 font-body text-sm text-ink-400"
+            className="press -my-2 inline-flex min-h-tap items-center gap-1 px-1 font-body text-sm text-ink-400"
           >
             <TrashIcon size={18} />
             {texts.cart.clear}
@@ -92,7 +92,7 @@ export function Cart() {
           <Divider className="my-3" />
           <div className="flex items-center justify-between font-body">
             <span className="text-base font-semibold text-ink-900">{texts.cart.totalRow}</span>
-            <span className="text-h3 font-bold text-ink-900">{formatSom(preview.grandTotalUzs)}</span>
+            <span className="font-heading text-h2 font-extrabold text-ink-900">{formatSom(preview.grandTotalUzs)}</span>
           </div>
         </div>
       </div>
@@ -154,7 +154,7 @@ function CartRow({ pl }: { pl: PricedLine }) {
   const name = pl.product?.nameUz ?? line.nameAtAdd;
 
   return (
-    <div className="rounded-lg bg-card p-3.5 shadow-sm">
+    <div className="rounded-lg bg-card p-4 shadow-sm">
       <div className="flex gap-3">
         <ProductImage src={pl.product?.imageUrl ?? line.imageAtAdd} alt={name} className="h-14 w-14 shrink-0 rounded-md" />
         <div className="flex-1">
@@ -163,7 +163,7 @@ function CartRow({ pl }: { pl: PricedLine }) {
             <button
               onClick={() => remove(line.productId)}
               aria-label={texts.common.delete}
-              className="press -mr-1 -mt-1 p-1 text-ink-400"
+              className="press -mr-2 -mt-2 flex h-11 w-11 shrink-0 items-center justify-center rounded-pill text-ink-400 active:bg-ink-100"
             >
               <TrashIcon size={18} />
             </button>
@@ -213,7 +213,7 @@ function CartRow({ pl }: { pl: PricedLine }) {
                   haptic.select();
                 }}
                 className={[
-                  'press inline-flex items-center gap-1 rounded-pill border px-3 py-1.5 font-body text-xs font-semibold',
+                  'press inline-flex min-h-tap items-center gap-1 rounded-pill border px-3.5 py-2 font-body text-xs font-semibold',
                   active
                     ? 'border-brand-green bg-brand-green text-white'
                     : 'border-ink-200 bg-card text-ink-600',

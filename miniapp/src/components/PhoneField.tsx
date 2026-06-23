@@ -50,7 +50,7 @@ export function PhoneField({
           <button
             type="button"
             onClick={() => setMode('share')}
-            className="press mt-2 font-body text-sm font-semibold text-brand-green"
+            className="press mt-1 inline-flex min-h-tap items-center font-body text-sm font-semibold text-brand-green"
           >
             {texts.onboarding.phoneShareToggle}
           </button>
@@ -70,7 +70,7 @@ export function PhoneField({
           type="button"
           aria-label={texts.onboarding.phoneManual}
           onClick={() => setMode('manual')}
-          className="press flex h-9 w-9 items-center justify-center rounded-pill text-brand-green-dark active:bg-brand-green/10"
+          className="press flex h-11 w-11 items-center justify-center rounded-pill text-brand-green-dark active:bg-brand-green/10"
         >
           <EditIcon size={18} />
         </button>

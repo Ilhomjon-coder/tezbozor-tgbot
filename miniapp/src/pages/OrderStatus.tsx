@@ -168,7 +168,12 @@ function RatingBlock({ orderId, existingStars }: { orderId: number; existingStar
       <p className="font-body text-base font-semibold text-ink-900">{texts.status.rateTitle}</p>
       <div className="mt-2 flex justify-center gap-2 text-brand-orange">
         {[1, 2, 3, 4, 5].map((n) => (
-          <button key={n} onClick={() => { setStars(n); haptic.select(); }} aria-label={`${n}`} className="press">
+          <button
+            key={n}
+            onClick={() => { setStars(n); haptic.select(); }}
+            aria-label={`${n}`}
+            className="press flex h-11 w-11 items-center justify-center"
+          >
             <StarIcon size={32} filled={n <= stars} />
           </button>
         ))}

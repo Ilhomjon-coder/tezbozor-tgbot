@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
-// Tezbozor design tokens translated into the Tailwind theme. Values are copied
-// verbatim from tgbot/designs/design-system/tokens/*.css — the source of truth.
+// Tezbozor Tailwind theme — references the design tokens defined in
+// src/styles/tokens.css (the single source of truth, translated from
+// designs/design-system/tokens/*.css). No literal token value is duplicated
+// here: colours use the rgb-channel vars so opacity utilities (bg-brand-green/10)
+// still work; radius/spacing/type/shadow point straight at the var().
 // Brandbook rule: orange ONLY on CTAs/badges, blue is forbidden.
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
@@ -8,58 +11,58 @@ export default {
     extend: {
       colors: {
         brand: {
-          green: '#1FA055', // green-500
-          'green-dark': '#157A40', // green-700
-          'green-light': '#E6F4EC', // green-050
-          orange: '#FF7A00', // orange-500
-          'orange-dark': '#E66E00', // orange-600
-          'orange-light': '#FFF1E0', // orange-050
+          green: 'rgb(var(--green-500-rgb) / <alpha-value>)',
+          'green-dark': 'rgb(var(--green-700-rgb) / <alpha-value>)',
+          'green-light': 'rgb(var(--green-050-rgb) / <alpha-value>)',
+          orange: 'rgb(var(--orange-500-rgb) / <alpha-value>)',
+          'orange-dark': 'rgb(var(--orange-600-rgb) / <alpha-value>)',
+          'orange-light': 'rgb(var(--orange-050-rgb) / <alpha-value>)',
         },
         ink: {
-          900: '#1E2A32',
-          600: '#51616B',
-          400: '#8A98A0',
-          200: '#D8DEE2',
-          100: '#ECEFF1',
+          900: 'rgb(var(--ink-900-rgb) / <alpha-value>)',
+          600: 'rgb(var(--ink-600-rgb) / <alpha-value>)',
+          400: 'rgb(var(--ink-400-rgb) / <alpha-value>)',
+          200: 'rgb(var(--ink-200-rgb) / <alpha-value>)',
+          100: 'rgb(var(--ink-100-rgb) / <alpha-value>)',
         },
-        paper: '#FAF7F2',
-        card: '#FFFFFF',
-        danger: '#D64545',
-        'danger-light': '#FBEAEA',
+        paper: 'rgb(var(--paper-rgb) / <alpha-value>)',
+        card: 'rgb(var(--card-rgb) / <alpha-value>)',
+        danger: 'rgb(var(--danger-500-rgb) / <alpha-value>)',
+        'danger-light': 'rgb(var(--danger-050-rgb) / <alpha-value>)',
       },
       fontFamily: {
-        heading: ['Montserrat', 'system-ui', '-apple-system', 'sans-serif'],
-        body: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        heading: 'var(--font-heading)',
+        body: 'var(--font-body)',
       },
       fontSize: {
-        h1: ['28px', { lineHeight: '1.15', letterSpacing: '-0.02em', fontWeight: '800' }],
-        h2: ['20px', { lineHeight: '1.15', letterSpacing: '-0.02em', fontWeight: '700' }],
-        h3: ['18px', { lineHeight: '1.15', fontWeight: '700' }],
-        lg: ['17px', { lineHeight: '1.55' }],
-        base: ['16px', { lineHeight: '1.55' }],
-        sm: ['15px', { lineHeight: '1.5' }],
-        xs: ['13px', { lineHeight: '1.35' }],
+        h1: ['var(--text-h1)', { lineHeight: 'var(--leading-tight)', letterSpacing: 'var(--tracking-tight)', fontWeight: 'var(--weight-extrabold)' }],
+        h2: ['var(--text-h2)', { lineHeight: 'var(--leading-tight)', letterSpacing: 'var(--tracking-tight)', fontWeight: 'var(--weight-bold)' }],
+        h3: ['var(--text-h3)', { lineHeight: 'var(--leading-tight)', fontWeight: 'var(--weight-bold)' }],
+        lg: ['var(--text-lg)', { lineHeight: 'var(--leading-normal)' }],
+        base: ['var(--text-base)', { lineHeight: 'var(--leading-normal)' }],
+        sm: ['var(--text-sm)', { lineHeight: 'var(--leading-relaxed)' }],
+        xs: ['var(--text-xs)', { lineHeight: 'var(--leading-snug)' }],
       },
       borderRadius: {
-        sm: '8px',
-        md: '12px',
-        lg: '16px',
-        xl: '20px',
-        pill: '999px',
+        sm: 'var(--radius-sm)',
+        md: 'var(--radius-md)',
+        lg: 'var(--radius-lg)',
+        xl: 'var(--radius-xl)',
+        pill: 'var(--radius-pill)',
       },
       boxShadow: {
-        xs: '0 1px 2px rgba(30, 42, 50, 0.06)',
-        sm: '0 2px 8px rgba(30, 42, 50, 0.07)',
-        md: '0 6px 18px rgba(30, 42, 50, 0.09)',
-        lg: '0 12px 32px rgba(30, 42, 50, 0.12)',
-        green: '0 6px 16px rgba(31, 160, 85, 0.22)',
-        orange: '0 6px 16px rgba(255, 122, 0, 0.26)',
+        xs: 'var(--shadow-xs)',
+        sm: 'var(--shadow-sm)',
+        md: 'var(--shadow-md)',
+        lg: 'var(--shadow-lg)',
+        green: 'var(--shadow-green)',
+        orange: 'var(--shadow-orange)',
       },
       maxWidth: {
-        content: '420px',
+        content: 'var(--content-max)',
       },
       spacing: {
-        gutter: '16px',
+        gutter: 'var(--page-gutter)',
       },
     },
   },

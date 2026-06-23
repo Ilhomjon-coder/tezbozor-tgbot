@@ -75,6 +75,30 @@ export const texts = {
     start: 'Boshlash',
     finishCta: 'Boshlash 🛒',
     saving: 'Saqlanmoqda…',
+    // Intro carousel shown on first launch, before the register form (skippable).
+    introSkip: "O'tkazib yuborish",
+    intro: [
+      {
+        title: 'Bozorni 2 daqiqada bitiring',
+        body: "Bozorga borib 2–3 soat sarflamang. Mahsulotni tanlang — qolganini biz qilamiz. Tezbozorda \"tez\" — bu bozor qilish tezligi.",
+        chips: ['2 daqiqa', '320+ mahsulot'],
+      },
+      {
+        title: 'Bugun buyurtma — ertaga yetkazamiz',
+        body: "Soat 21:00 gacha buyurtma bering, ertaga o'zingiz tanlagan vaqtda eshigingizgacha yetkazamiz.",
+        chips: ['21:00 gacha', 'Ertaga'],
+      },
+      {
+        title: 'Har kuni yangi, bugungi narx',
+        body: 'Narxlar har kuni ertalab bozordan yangilanadi. Bozor kunlari — chorshanba, juma, yakshanba — yanada arzon.',
+        chips: ['Bugungi narx', 'Bozor kuni arzon'],
+      },
+      {
+        title: 'Tayyormisiz?',
+        body: "Birinchi savatingizni to'ldiring — yangi mahsulotlar va bugungi narxlar sizni kutmoqda. 🛒",
+        chips: [],
+      },
+    ],
   },
 
   home: {

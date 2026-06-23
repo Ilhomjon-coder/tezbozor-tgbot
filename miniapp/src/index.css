@@ -65,6 +65,22 @@ body {
   .min-h-tap {
     min-height: var(--touch-min);
   }
+
+  /* Gentle fade-up for slide changes (onboarding intro). Opacity + transform
+     only — cheap on low-end GPUs. */
+  .animate-fade-up {
+    animation: tz-fade-up 0.28s ease-out both;
+  }
+  @keyframes tz-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
 }
 
 /* Top padding that clears the notch + Telegram fullscreen controls. */
